@@ -44,6 +44,14 @@ public class Fraction {
 		return result;
 	}
 
+	public void changeSign() {
+		this.numerator *= -1;
+	}
+
+	public Boolean isPositive() {
+		return numerator > 0;
+	}
+
 	public Fraction substraction(Fraction other) {
 		// a-b=a+(-b)
 		Fraction negother = new Fraction(-other.numerator, other.denominator);
