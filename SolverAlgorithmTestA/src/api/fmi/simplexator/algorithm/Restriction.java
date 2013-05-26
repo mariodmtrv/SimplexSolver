@@ -18,14 +18,20 @@ public class Restriction {
 	public void rightSideToPositive() {
 		if (!(rightSide.isPositive())) {
 			rightSide.changeSign();
-		
+
 			for (Variable var : variables) {
 				var.changeSign();
 			}
-			// traditional *(-1) rule 
-			sign=sign.revert();
-			
+			// traditional *(-1) rule
+			sign = sign.revert();
+
 		}
+	}
+
+	public void bipartizeVariable(int index) {
+		List<Variable> varSigned = variables.get(index).bipartize();
+		variables.remove(index);
+		variables.addAll(index, varSigned);
 	}
 
 }

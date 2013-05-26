@@ -25,6 +25,7 @@ public class Variable {
 		coefficient.changeSign();
 	}
 
+	@SuppressWarnings("null")
 	public List<Variable> bipartize() {
 		List<Variable> result = null;
 		result.add(new Variable(this.coefficient, this.index,

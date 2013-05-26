@@ -21,6 +21,13 @@ public class Fraction {
 		denominator /= gcd;
 	}
 
+	private int compareTo(Fraction other) {
+		Fraction check = this.subtraction(other);
+
+		return check.numerator;
+
+	}
+
 	public Fraction(int num, int denom) {
 		numerator = num;
 		denominator = denom;
@@ -48,11 +55,11 @@ public class Fraction {
 		this.numerator *= -1;
 	}
 
-	public Boolean isPositive() {
+	public boolean isPositive() {
 		return numerator > 0;
 	}
 
-	public Fraction substraction(Fraction other) {
+	public Fraction subtraction(Fraction other) {
 		// a-b=a+(-b)
 		Fraction negother = new Fraction(-other.numerator, other.denominator);
 		Fraction result = this.addition(negother);
@@ -70,11 +77,32 @@ public class Fraction {
 	}
 
 	public Fraction divide(Fraction other) {
-		// (a/b)/(c/d)=(b/a)*(c/d)
-		Fraction result = new Fraction(this.denominator, this.numerator);
-		result = result.multiply(other);
+		// (a/b)/(c/d)=(a/b)*(d/c)
+		Fraction revOther = new Fraction(other.denominator, other.numerator);
+		Fraction result = this.multiply(revOther);
 
 		return result;
+	}
+
+	public boolean isLowerThan(Fraction other) {
+		return (this.compareTo(other) < 0);
+
+	}
+
+	public boolean isLowerOrEqual(Fraction other) {
+		return (this.compareTo(other) <= 0);
+	}
+
+	public boolean isEqualTo(Fraction other) {
+		return (this.compareTo(other) == 0);
+	}
+
+	public boolean isEqualOrHigher(Fraction other) {
+		return (this.compareTo(other) >= 0);
+	}
+
+	public boolean isHigherThan(Fraction other) {
+		return (this.compareTo(other) > 0);
 	}
 
 }

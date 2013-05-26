@@ -12,8 +12,8 @@ public class FractionsCorrectness {
 		Fraction a = new Fraction(3, 7);
 		Fraction b = new Fraction(1);
 		Fraction expected = new Fraction(-4, 7);
-		Fraction actual = a.substraction(b);
-		assertTrue(actual.equals(expected));
+		Fraction actual = a.subtraction(b);
+		assertTrue(actual.isEqualTo(expected));
 	}
 
 	@Test
@@ -23,7 +23,7 @@ public class FractionsCorrectness {
 		Fraction b = new Fraction(9, 5);
 		Fraction expected = new Fraction(5, 12);
 		Fraction actual = a.divide(b);
-		assertTrue(actual.equals(expected));
+		assertTrue(actual.isEqualTo(expected));
 	}
 
 }

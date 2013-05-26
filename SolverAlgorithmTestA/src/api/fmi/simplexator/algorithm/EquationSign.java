@@ -1,20 +1,14 @@
 package api.fmi.simplexator.algorithm;
 
 public enum EquationSign {
-	LOWER, LOREQ, EQUAL, HOREQ, HIGHER;
+	LTE, EQ, GTE;
 	public EquationSign revert() {
 		switch (this) {
-		case LOWER: {
-			return HIGHER;
+		case LTE: {
+			return GTE;
 		}
-		case LOREQ: {
-			return HOREQ;
-		}
-		case HOREQ: {
-			return LOREQ;
-		}
-		case HIGHER: {
-			return LOWER;
+		case GTE: {
+			return LTE;
 		}
 		default: {
 			return this;

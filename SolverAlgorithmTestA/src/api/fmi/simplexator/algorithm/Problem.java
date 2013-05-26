@@ -4,13 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-public class KProblem {
+public class Problem extends AbstractProblem {
 	private Optimum optimum;
-	private int varCount;
-	private int restrictionsCount;
-	private List<Variable> zfunction;
 	private Vector<Boolean> hasNegativePart;
-	private Vector<Restriction> restrictions;
 
 	private void setToMinimum() {
 		if (optimum != Optimum.MINIMUM) {
@@ -28,15 +24,28 @@ public class KProblem {
 	}
 
 	Iterator<Variable> zfuncIter = zfunction.iterator();
-	
+
 	private void processNegativeParts() {
 		for (Boolean hnp : hasNegativePart) {
-			if(hnp==true){
+			if (hnp == true) {
 				varCount++;
-				
+				// add a zfunction variable
+				Variable variable = (Variable) zfuncIter;
+				List<Variable> varSigned = variable.bipartize();
+				int varIndex = 0;
+				zfuncIter.remove();
+				zfunction.addAll(varIndex, varSigned);
+
+				// change the variable in the restrictions
+				for (int restrictionIndex = 0; restrictionIndex < restrictionsCount; restrictionIndex++) {
+					Restriction changedRestriction = restrictions
+							.get(restrictionIndex);
+					changedRestriction.bipartizeVariable(varIndex);
+					restrictions.set(restrictionIndex, changedRestriction);
+				}
 			}
+
 		}
 
 	}
-
 }
