@@ -1,6 +1,6 @@
-package com.fmi.or.simplexator.algorithm.computation;
+package org.fmi.or.simplexator.algorithm.computation;
 
-import com.fmi.or.simplexator.algorithm.tabularproblemconverter.Fraction;
+import org.fmi.or.simplexator.algorithm.converter.Fraction;
 
 public class Table {
 	private Fraction table[][];

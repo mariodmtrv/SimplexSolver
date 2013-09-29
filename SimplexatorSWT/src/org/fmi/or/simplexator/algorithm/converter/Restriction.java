@@ -1,4 +1,4 @@
-package com.fmi.or.simplexator.algorithm.tabularproblemconverter;
+package org.fmi.or.simplexator.algorithm.converter;
 
 import java.util.List;
 import java.util.Vector;

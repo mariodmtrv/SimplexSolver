@@ -1,4 +1,4 @@
-package com.fmi.or.simplexator.algorithm.tabularproblemconverter;
+package org.fmi.or.simplexator.algorithm.converter;
 
 public class MProblem extends AbstractProblem {
 	private void addMVariables() {

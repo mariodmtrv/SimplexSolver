@@ -1,4 +1,4 @@
-package com.fmi.or.simplexator.visualization;
+package org.fmi.or.simplexator.visualization;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;

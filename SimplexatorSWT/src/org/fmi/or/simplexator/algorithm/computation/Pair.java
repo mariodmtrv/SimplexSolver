@@ -1,4 +1,4 @@
-package com.fmi.or.simplexator.algorithm.computation;
+package org.fmi.or.simplexator.algorithm.computation;
 
 public class Pair<A, B> {
 	private A first;

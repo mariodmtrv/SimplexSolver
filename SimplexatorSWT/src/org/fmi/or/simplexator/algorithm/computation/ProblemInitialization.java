@@ -1,4 +1,4 @@
-package com.fmi.or.simplexator.algorithm.computation;
+package org.fmi.or.simplexator.algorithm.computation;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -7,10 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import com.fmi.or.simplexator.algorithm.tabularproblemconverter.Fraction;
-import com.fmi.or.simplexator.algorithm.tabularproblemconverter.MProblem;
-import com.fmi.or.simplexator.algorithm.tabularproblemconverter.Restriction;
-import com.fmi.or.simplexator.algorithm.tabularproblemconverter.Variable;
+import org.fmi.or.simplexator.algorithm.converter.Fraction;
+import org.fmi.or.simplexator.algorithm.converter.MProblem;
+import org.fmi.or.simplexator.algorithm.converter.Restriction;
+import org.fmi.or.simplexator.algorithm.converter.Variable;
+
 
 public class ProblemInitialization {
 	private MProblem problem;
