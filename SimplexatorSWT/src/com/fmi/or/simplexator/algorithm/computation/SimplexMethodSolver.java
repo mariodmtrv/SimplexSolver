@@ -3,60 +3,19 @@ package com.fmi.or.simplexator.algorithm.computation;
 import java.util.List;
 import java.util.Vector;
 
-import javax.management.MXBean;
-
 import com.fmi.or.simplexator.algorithm.tabularproblemconverter.Fraction;
 import com.fmi.or.simplexator.algorithm.tabularproblemconverter.MProblem;
 import com.fmi.or.simplexator.algorithm.tabularproblemconverter.Restriction;
 import com.fmi.or.simplexator.algorithm.tabularproblemconverter.Variable;
 
 public class SimplexMethodSolver {
-	private MProblem problem;
-	private Vector<Vector<Fraction>> table;
-	private Vector<Variable> basis;
-	private Vector<Fraction> zfunctionCoefficients;
 
-	private Vector<Fraction> numCost;
-	private Vector<Fraction> MCost;
+	
+	private Vector<Vector<Fraction>> oldTable;
+	private Vector<Fraction> oldNumCost;
+	private Vector<Fraction> oldMCost;
 
-	private boolean isBasisValid(Vector<Variable> initialBasis) {
-		// TODO checks size and if the vars are eligible
-
-		// Ui.throwTooFewVariablesMessage("You need 3 vars you added 1");
-		// Ui.throwWrongBasisSet("The vars do not form basis");
-		return false;
-	}
-
-	private void setInitialBasis() {
-		basis = getInitialBasis();
-		while ((!isBasisValid(basis))) {
-			basis = getInitialBasis();
-		}
-	}
-
-	private Vector<Variable> getInitialBasis() {
-		// TODO Gets the initial basis from the UI
-		// Ui.getInitialVariables();
-		return null;
-
-	}
-
-	public SimplexMethodSolver(MProblem problem) {
-		this.problem = problem;
-		initializeZfunction();
-		setInitialBasis();
-		table = new Vector<Vector<Fraction>>(basis.size());
-
-		solveProblem();
-	}
-
-	private void initializeZfunction() {
-		zfunctionCoefficients = new Vector<Fraction>(problem.getVarCount());
-		Variable[] vars = problem.getZfunctionVariables();
-		for (int j = 0; j < problem.getVarCount(); j++) {
-			zfunctionCoefficients.add(j, vars[j].getCoefficient());
-		}
-	}
+/*	
 
 	private void solveProblem() {
 		initializeTable();
@@ -64,60 +23,18 @@ public class SimplexMethodSolver {
 		calculateInitialCosts();
 		// Ui.printCosts();
 
-	}
-
-	private void initializeTable() {
-		for (int i = 0; i < problem.getRestrictionsCount(); i++) {
-			Vector<Fraction> tableRow = new Vector<>();
-			Restriction restriction = problem.getRestriction(i);
-			Variable[] vars = restriction.getVariables();
-			for (int j = 0; j < problem.getVarCount(); j++) {
-
-				tableRow.add(j, vars[j].getCoefficient());
-			}
-			tableRow.add(restriction.getRightSide());
-			table.add(i, tableRow);
-		}
-	}
-
-	private void calculateInitialCosts() {
-		for (int j = 0; j < problem.getVarCount(); ++j) {
-			Fraction sumC = Fraction.ZERO;
-			Fraction sumM = Fraction.ZERO;
-			// Ui.highlight(Zcoef[j]);
-			if (zfunctionCoefficients.get(j).isEqualTo(Fraction.M))
-				sumM = sumM.add(zfunctionCoefficients.get(j));
-			else
-				sumC = sumC.add(zfunctionCoefficients.get(j));
-			// Ui.highlight(basisCoefs);
-			// Ui.highlight(table[j]);
-			// Ui.consolelog(zcoef[j] - skalarnoto proziv na
-			// basisCoefs*table[j]);
-			for (int i = 0; i < table.size(); ++i) {// TODO!!! make sure the
-													// basis is in right order
-													// listed (place perhaps in
-													// "initializeTable")
-													// sortirame po dadenite
-													// promenlivi i namirame koq
-													// v koe ograni4enie se
-													// namira, i populvme
-													// tablicata
-													// sprqmo indexa na
-													// promenlivata
-				if (basis.get(i).getCoefficient().isEqualTo(Fraction.M)
-						|| table.get(i).get(j).isEqualTo(Fraction.M))
-					sumM = sumM.subtract(basis.get(i).getCoefficient()
-							.multiply(table.get(i).get(j)));
-				else
-					sumC = sumC.subtract(basis.get(i).getCoefficient()
-							.multiply(table.get(i).get(j)));
-			}
-			numCost.add(j, sumC);
-			MCost.add(j, sumM);
+		int indexOptimal = optimalityCriterion();
+		while (indexOptimal != -1
+				&& unboundednessCriterion(indexOptimal) == false) {
+			changeBasis(indexOptimal);
+			// Ui.animationChangeBasis();
+			reFillTable(indexOptimal);
 		}
 
+		// processAnswer();
 	}
 
+	
 	private boolean unboundednessCriterion(int j) {
 		for (int i = 0; i < basis.size(); ++i) {
 			if (table.get(i).get(j).isEqualOrHigher(Fraction.ZERO))
@@ -146,4 +63,82 @@ public class SimplexMethodSolver {
 		}
 		return index;
 	}
+
+	private Fraction rectangleRule(Pair<Integer, Integer> keyElementCoords,
+			int i, int j, Vector<Vector<Fraction>> table) {
+		int p = keyElementCoords.getFirst();
+		int q = keyElementCoords.getSecond();
+		Fraction keyElement = table.get(p).get(q);
+
+		if (p == i && q == j)
+			return new Fraction(1);
+		else if (p == i)
+			return table.get(i).get(j).divide(table.get(p).get(q));
+		else if (q == j)
+			return new Fraction(0);
+
+		return table
+				.get(i)
+				.get(j)
+				.subtract(
+						table.get(i)
+								.get(q)
+								.multiply(
+										table.get(p).get(j).divide(keyElement)));
+	}
+	
+	private void changeBasis(int indexOptimal) {
+		oldTable = table;
+		oldNumCost = numCost;
+		oldMCost = MCost;
+		
+		int newBaseVar = indexOptimal;
+		int indexOutVar = -1;
+		Fraction minRel = new Fraction(Integer.MAX_VALUE);
+		for(int i=0; i<problem.getVarCount(); ++i)
+		{
+			if(oldTable.get(i).get(newBaseVar).isHigherThan(Fraction.ZERO) && minRel.isHigherThan(oldTable.get(i).get(oldTable.get(i).size()-1).divide(oldTable.get(i).get(newBaseVar))))
+			{
+				minRel = oldTable.get(i).get(oldTable.get(i).size()-1).divide(oldTable.get(i).get(newBaseVar));
+				indexOutVar = i;
+			}
+		}
+		if(indexOutVar == -1) {
+			// Ui.noOptSolutions();
+			// the end!
+		}
+		
+		Pair<Integer,Integer> keyElementCoords(indexOutVar, newBaseVar);
+		Fracton keyElement = oldTable[indexOutVar][newBaseVar];
+		// Ui.highlightKeyElement();
+		// Ui.drawNewTable();
+	}
+
+	private void reFillTable(int indexOptimal) {
+		// !!!!!!!!!!!! fill key element's row
+		for (int j = 0; j < table[keyElementCoords.first].size(); ++j)
+			table[keyElementCoords.first][j] = oldTable[keyElementCoords.first][j]
+					/ keyElement;
+		// Ui.fillRowOfKeyElement();
+
+		// !!!!!!!!!!!! fill base elements' columns
+		for (int i = 0; i < basis.size(); i++) { 
+			for (int j = 0; j < table.get(i).size(); i++) {
+				// ...
+			}
+			// numCost[?] = MCost[?] = 0;
+		}
+		// Ui.fillColumnsOfBaseVariables();
+
+		// !!!!!!!!!!!! fill rest of the table by rectangle rule
+		for (int i = 0; i < table.size(); ++i) {
+			for (int j = 0; j < table.get(i).size(); ++j) {
+				table[i][j] = rectangleRule(keyElementCoords, i, j, oldTable);
+				// Ui.showRectangleRule();
+			}
+		}
+
+		indexOptimal = optimalityCriterion();
+	}
+	*/
 }

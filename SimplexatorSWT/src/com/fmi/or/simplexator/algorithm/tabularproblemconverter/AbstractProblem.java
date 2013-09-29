@@ -1,5 +1,6 @@
 package com.fmi.or.simplexator.algorithm.tabularproblemconverter;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -24,4 +25,19 @@ public abstract class AbstractProblem {
     	vars=zfunction.toArray(vars);
     	return vars;
     }
+	/**
+	 * @return null if the variable was not found,
+	 * index at which it is in the list otherwise 
+	 * */
+	public int getVarIndex(Variable v) {
+		Iterator it=zfunction.iterator();
+		int index = 0;
+		while(it.hasNext()) {
+			if(it==v) {
+				return index;
+			}
+			index++;
+		}
+		return (Integer) null;
+	}
 }
