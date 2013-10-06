@@ -7,8 +7,8 @@ public class Fraction {
 	public static final Fraction M = new Fraction(7_000_003);
 	public static final Fraction ZERO = new Fraction(0);
 	
-	private int gcd() {
-		while (numerator > 1 && denominator > 1) {
+	private int findGCD(int numerator, int denominator) {
+		while (numerator > 0 && denominator > 0) {
 			if (numerator > denominator) {
 				numerator %= denominator;
 			} else
@@ -17,11 +17,14 @@ public class Fraction {
 		return Math.max(numerator, denominator);
 
 	}
-
+    private int toPositive(int num){
+    	if(num<0)return num*(-1);
+    	return num;
+    }
 	private void reduce() {
-		int gcd = gcd();
-		numerator /= gcd;
-		denominator /= gcd;
+		int gcd = findGCD(toPositive(this.numerator),toPositive(this.denominator));
+		this.numerator /= gcd;
+		this.denominator /= gcd;
 	}
 
 	private int compareTo(Fraction other) {
@@ -32,15 +35,25 @@ public class Fraction {
 	}
 
 	public Fraction(int num, int denom) {
-		numerator = num;
-		denominator = denom;
+		
+
+		this.numerator = num;
+		
+		this.denominator = denom;
+		if(denom<0){
+			this.numerator*=(-1);
+			this.denominator*=(-1);
+		}
 		reduce();
 
 	}
-
+public Fraction(Fraction other){
+	this.numerator=other.numerator;
+	this.denominator=other.denominator;
+}
 	public Fraction(int num) {
-		numerator = num;
-		denominator = 1;
+		this.numerator = num;
+		this.denominator = 1;
 	}
 
 	public Fraction add(Fraction other) {
@@ -106,6 +119,9 @@ public class Fraction {
 
 	public boolean isHigherThan(Fraction other) {
 		return (this.compareTo(other) > 0);
+	}
+	public String toString(){
+		return this.numerator+"/"+this.denominator;
 	}
 
 }

@@ -8,6 +8,10 @@ public class Problem extends AbstractProblem {
 	private Optimum optimum;
 	private Vector<Boolean> hasNegativePart;
 
+	public Problem(List<Variable> zfunction,Vector<Restriction> restrictions, Optimum optimum){
+		this.optimum=optimum;
+	}
+	
 	private void setToMinimum() {
 		if (optimum != Optimum.MINIMUM) {
 			optimum = Optimum.MINIMUM;

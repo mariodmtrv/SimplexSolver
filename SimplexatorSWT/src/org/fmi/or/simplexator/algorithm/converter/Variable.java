@@ -1,5 +1,6 @@
 package org.fmi.or.simplexator.algorithm.converter;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Variable implements Comparable {
@@ -27,12 +28,15 @@ public class Variable implements Comparable {
 	}
 
 	public List<Variable> bipartize() {
-		List<Variable> result = null;
-		result.add(new Variable(this.coefficient, this.index,
-				VariableType.POSITIVE));
-		Fraction negativeCoef = this.coefficient;
+		List<Variable> result = new LinkedList<>();
+		Variable positive = new Variable(this.coefficient, this.index,
+				VariableType.POSITIVE);
+		result.add(positive);
+		Fraction negativeCoef = new Fraction(this.coefficient);
 		negativeCoef.changeSign();
-		result.add(new Variable(negativeCoef, this.index, VariableType.NEGATIVE));
+		Variable negative = new Variable(negativeCoef, this.index,
+				VariableType.NEGATIVE);
+		result.add(negative);
 		return result;
 	}
 
@@ -68,9 +72,14 @@ public class Variable implements Comparable {
 		return (this.index == ((Variable) obj).index)
 				&& (this.getTypeIndex() == ((Variable) obj).getTypeIndex());
 	}
+
 	@Override
-	public int hashCode(){
-	final int MAX_INDEX=100;
-		return MAX_INDEX*getTypeIndex()+index; 
+	public int hashCode() {
+		final int MAX_INDEX = 100;
+		return MAX_INDEX * getTypeIndex() + index;
+	}
+
+	public String toString() {
+		return this.coefficient.toString() + " x" + this.index;
 	}
 }

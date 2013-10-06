@@ -1,6 +1,6 @@
 package org.fmi.or.simplexator.algorithm.converter;
 
-public class MProblem extends AbstractProblem {
+public class MProblem extends Problem {
 	private void addMVariables() {
 
 	}
@@ -12,5 +12,5 @@ public class MProblem extends AbstractProblem {
 		restrictions = problem.restrictions;
 
 	}
-	
+
 }
