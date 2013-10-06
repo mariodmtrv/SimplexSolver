@@ -15,13 +15,13 @@ public class SimplexMethodSolver {
 	private Vector<Vector<Fraction>> oldTable;
 	private Vector<Fraction> oldNumCost;
 	private Vector<Fraction> oldMCost;
-
-/*	
+	
 
 	private void solveProblem() {
-		initializeTable();
+		// TODO: fix the 3 parts of the algorithm
+		//initializeTable();
 		// Ui.printTable(table,zfunc);
-		calculateInitialCosts();
+		//calculateInitialCosts();
 		// Ui.printCosts();
 
 		int indexOptimal = optimalityCriterion();
@@ -141,5 +141,5 @@ public class SimplexMethodSolver {
 
 		indexOptimal = optimalityCriterion();
 	}
-	*/
+	
 }

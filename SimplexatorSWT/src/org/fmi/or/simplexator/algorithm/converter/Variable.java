@@ -26,7 +26,9 @@ public class Variable implements Comparable {
 	public void changeSign() {
 		coefficient.changeSign();
 	}
-
+    public int getIndex(){
+    	return this.index;
+    }
 	public List<Variable> bipartize() {
 		List<Variable> result = new LinkedList<>();
 		Variable positive = new Variable(this.coefficient, this.index,

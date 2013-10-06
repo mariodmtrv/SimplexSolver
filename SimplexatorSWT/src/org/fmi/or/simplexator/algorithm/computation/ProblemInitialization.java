@@ -12,10 +12,10 @@ import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 
-
 public class ProblemInitialization {
 	private MProblem problem;
 	private Table table;
+
 	private Vector<Variable> basis;
 	private Vector<Fraction> zfunctionCoefficients;
 
@@ -27,29 +27,47 @@ public class ProblemInitialization {
 			// Ui.throwTooFewVariablesMessage("You need 3 vars you added 1");
 			return false;
 		}
-		
-		Variable[][] restrictionsTable = new Variable[problem.getVarCount()][problem.getRestrictionsCount()];
-		for(int i=0; i<problem.getRestrictionsCount(); i++) {
+
+		Variable[][] restrictionsTable = new Variable[problem
+				.getRestrictionsCount()][problem.getVarCount()];
+		for (int i = 0; i < problem.getRestrictionsCount(); i++) {
 			Restriction currentRestriction = problem.getRestriction(i);
 			restrictionsTable[i] = currentRestriction.getVariables();
 		}
-		
-		for(int i=0; i<restrictionsTable.length; i++) {
-			for(int j=0; j<restrictionsTable[i].length; j++) {
-				for(int b=0; b<initialBasis.size(); b++) {
+
+		Vector<Variable> initialBasisDraft = initialBasis;
+		int initialBasisIndex = 0;
+
+		for (int i = 0; i < restrictionsTable.length; i++) {
+			for (int j = 0; j < restrictionsTable[i].length; j++) {
+				for (int b = 0; b < initialBasisDraft.size(); b++) {
 					boolean foundBasisVarInCurrentRow = false;
-					if(!restrictionsTable[i][j].getCoefficient().isEqualTo(Fraction.ZERO) && restrictionsTable[i][j].equals(initialBasis.get(b))) {
-						if(foundBasisVarInCurrentRow)
+					// TODO: Question: restrictionsTable[i][j].getCoefficient()
+					// > 0 ili ==1 ?????????????
+					if (restrictionsTable[i][j].getCoefficient().isHigherThan(
+							Fraction.ZERO)
+							&& restrictionsTable[i][j].equals(initialBasisDraft
+									.get(b))) {
+						if (!foundBasisVarInCurrentRow)
 							foundBasisVarInCurrentRow = true;
-						else return false;
+						else
+							return false;
+
+						// order basis in proper order
+						// (initialbasis[n] is the variable that comes from the
+						// n-th restriction)
+						initialBasis.set(initialBasisIndex, initialBasisDraft.get(b));
+						initialBasisIndex++;
+
 						// now check the column
 						int nonzeroes = 0;
-						for(int col=0;col<restrictionsTable.length; col++) {
-							if(!restrictionsTable[col][j].getCoefficient().isEqualTo(Fraction.ZERO)) {
+						for (int col = 0; col < restrictionsTable.length; col++) {
+							if (!restrictionsTable[col][j].getCoefficient()
+									.isEqualTo(Fraction.ZERO)) {
 								nonzeroes++;
 							}
 						}
-						if(nonzeroes > 1) {
+						if (nonzeroes > 1) {
 							return false;
 							// Ui.throwWrongBasisSet("The vars do not form basis");
 						}
@@ -82,7 +100,7 @@ public class ProblemInitialization {
 		setInitialBasis();
 		table = new Table(problem.getVarCount(), basis.size());
 
-	//	solveProblem();
+		// solveProblem(); // where to put this function ???????????????
 	}
 
 	private void initializeZfunction() {
@@ -95,7 +113,8 @@ public class ProblemInitialization {
 
 	private void initializeTable() {
 		for (int i = 0; i < problem.getRestrictionsCount(); i++) {
-			Fraction[] tableRow = new Fraction[problem.getVarCount()];
+			Fraction[] tableRow = new Fraction[problem.getVarCount() + 1];
+			// the vars + vector b (right sides)
 			Restriction restriction = problem.getRestriction(i);
 			Variable[] vars = restriction.getVariables();
 			for (int j = 0; j < problem.getVarCount(); j++) {
@@ -107,7 +126,7 @@ public class ProblemInitialization {
 			table.setRow(i, tableRow);
 		}
 	}
-/*
+
 	private void calculateInitialCosts() {
 		for (int j = 0; j < problem.getVarCount(); ++j) {
 			Fraction sumC = Fraction.ZERO;
@@ -122,32 +141,18 @@ public class ProblemInitialization {
 			// Ui.consolelog(zcoef[j] - skalarnoto proziv na
 			// basisCoefs*table[j]);
 			for (int i = 0; i < basis.size(); ++i) {
-				// TODO!!! make sure the
-				// basis is in right order
-				// listed (place perhaps in
-				// "initializeTable")
-				// sortirame po dadenite
-				// promenlivi i namirame koq
-				// v koe ograni4enie se
-				// namira, i populvme
-				// tablicata
-				// sprqmo indexa na
-				// promenlivata
+
 				if (basis.get(i).getCoefficient().isEqualTo(Fraction.M)
-						|| table.get(i).get(j).isEqualTo(Fraction.M))
+						|| table.getElement(i,j).isEqualTo(Fraction.M))
 					sumM = sumM.subtract(basis.get(i).getCoefficient()
-							.multiply(table.get(i).get(j)));
+							.multiply(table.getElement(i,j)));
 				else
 					sumC = sumC.subtract(basis.get(i).getCoefficient()
-							.multiply(table.get(i).get(j)));
+							.multiply(table.getElement(i,j)));
 			}
 			numCost.add(j, sumC);
 			MCost.add(j, sumM);
 		}
 
 	}
-/*
-	public getTable() {
-	}
-*/
 }
