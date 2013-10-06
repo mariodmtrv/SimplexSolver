@@ -14,13 +14,9 @@ import org.fmi.or.simplexator.algorithm.converter.Variable;
 
 public class ProblemInitialization {
 	private MProblem problem;
-	private Table table;
-
-	private Vector<Variable> basis;
-	private Vector<Fraction> zfunctionCoefficients;
-
-	private Vector<Fraction> numCost;
-	private Vector<Fraction> MCost;
+	private SimplexTable simplexTable;
+	
+	
 
 	private boolean isBasisValid(Vector<Variable> initialBasis) {
 		if (initialBasis.size() != problem.getRestrictionsCount()) {
@@ -56,7 +52,8 @@ public class ProblemInitialization {
 						// order basis in proper order
 						// (initialbasis[n] is the variable that comes from the
 						// n-th restriction)
-						initialBasis.set(initialBasisIndex, initialBasisDraft.get(b));
+						initialBasis.set(initialBasisIndex,
+								initialBasisDraft.get(b));
 						initialBasisIndex++;
 
 						// now check the column
@@ -80,9 +77,9 @@ public class ProblemInitialization {
 	}
 
 	private void setInitialBasis() {
-		basis = getInitialBasis();
-		while ((!isBasisValid(basis))) {
-			basis = getInitialBasis();
+		simplexTable.basis = getInitialBasis();
+		while ((!isBasisValid(simplexTable.basis))) {
+			simplexTable.basis = getInitialBasis();
 		}
 	}
 
@@ -98,22 +95,29 @@ public class ProblemInitialization {
 		this.problem = problem;
 		initializeZfunction();
 		setInitialBasis();
-		table = new Table(problem.getVarCount(), basis.size());
-
-		// solveProblem(); // where to put this function ???????????????
+		simplexTable.table = new Table(problem.getVarCount(), simplexTable.basis.size());
 	}
 
+	public Table makeFirstIteration() {
+		initializeTable();
+		// Ui.printTable(table,zfunc);
+		calculateInitialCosts();
+		// Ui.printCosts();
+		
+		return simplexTable.table;
+	}
+	
 	private void initializeZfunction() {
-		zfunctionCoefficients = new Vector<Fraction>(problem.getVarCount());
+		simplexTable.zfunctionCoefficients = new Vector<Fraction>(problem.getVarCount());
 		Variable[] vars = problem.getZfunctionVariables();
 		for (int j = 0; j < problem.getVarCount(); j++) {
-			zfunctionCoefficients.add(j, vars[j].getCoefficient());
+			simplexTable.zfunctionCoefficients.add(j, vars[j].getCoefficient());
 		}
 	}
 
 	private void initializeTable() {
 		for (int i = 0; i < problem.getRestrictionsCount(); i++) {
-			Fraction[] tableRow = new Fraction[problem.getVarCount() + 1];
+			Fraction[] tableRow = new Fraction[problem.getVarCount()];
 			// the vars + vector b (right sides)
 			Restriction restriction = problem.getRestriction(i);
 			Variable[] vars = restriction.getVariables();
@@ -122,8 +126,12 @@ public class ProblemInitialization {
 				tableRow[j] = vars[j].getCoefficient();
 			}
 			// after the vars
-			tableRow[problem.getVarCount()] = restriction.getRightSide();
-			table.setRow(i, tableRow);
+			simplexTable.rightSideValues.set(i, restriction.getRightSide());
+			simplexTable.table.setRow(i, tableRow);
+			
+			// TODO: fill in the formula
+			//resultNumValue = ;
+			//resultMValue = ;
 		}
 	}
 
@@ -132,26 +140,26 @@ public class ProblemInitialization {
 			Fraction sumC = Fraction.ZERO;
 			Fraction sumM = Fraction.ZERO;
 			// Ui.highlight(Zcoef[j]);
-			if (zfunctionCoefficients.get(j).isEqualTo(Fraction.M))
-				sumM = sumM.add(zfunctionCoefficients.get(j));
+			if (simplexTable.zfunctionCoefficients.get(j).isEqualTo(Fraction.M))
+				sumM = sumM.add(simplexTable.zfunctionCoefficients.get(j));
 			else
-				sumC = sumC.add(zfunctionCoefficients.get(j));
+				sumC = sumC.add(simplexTable.zfunctionCoefficients.get(j));
 			// Ui.highlight(basisCoefs);
 			// Ui.highlight(table[j]);
 			// Ui.consolelog(zcoef[j] - skalarnoto proziv na
 			// basisCoefs*table[j]);
-			for (int i = 0; i < basis.size(); ++i) {
+			for (int i = 0; i < simplexTable.basis.size(); ++i) {
 
-				if (basis.get(i).getCoefficient().isEqualTo(Fraction.M)
-						|| table.getElement(i,j).isEqualTo(Fraction.M))
-					sumM = sumM.subtract(basis.get(i).getCoefficient()
-							.multiply(table.getElement(i,j)));
+				if (simplexTable.basis.get(i).getCoefficient().isEqualTo(Fraction.M)
+						|| simplexTable.table.getElement(i, j).isEqualTo(Fraction.M))
+					sumM = sumM.subtract(simplexTable.basis.get(i).getCoefficient()
+							.multiply(simplexTable.table.getElement(i, j)));
 				else
-					sumC = sumC.subtract(basis.get(i).getCoefficient()
-							.multiply(table.getElement(i,j)));
+					sumC = sumC.subtract(simplexTable.basis.get(i).getCoefficient()
+							.multiply(simplexTable.table.getElement(i, j)));
 			}
-			numCost.add(j, sumC);
-			MCost.add(j, sumM);
+			simplexTable.numCost.add(j, sumC);
+			simplexTable.MCost.add(j, sumM);
 		}
 
 	}
