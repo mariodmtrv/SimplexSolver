@@ -10,13 +10,7 @@ import org.fmi.or.simplexator.algorithm.converter.Variable;
 
 
 public class SimplexMethodSolver {
-
 	
-	private Vector<Vector<Fraction>> oldTable;
-	private Vector<Fraction> oldNumCost;
-	private Vector<Fraction> oldMCost;
-	
-
 	private void solveProblem() {
 		/*
 		 * void main()
@@ -26,9 +20,9 @@ public class SimplexMethodSolver {
 		 * 	convertToK;
 		 * 	convertToM;
 		 * 	table = makeFirstIteration(MProblem);
-		 * 	while(!(nextBasis = checkCriteria(table)))
+		 * 	while(!(table = checkCriteriaAndChangeBasis(table)))
 		 * 	{
-		 * 		table = makeIterations(table,nextBasis);
+		 * 		table = makeIteration(table);
 		 * 	}
 		 * 	// now "table" has the first optimal answer
 		 * 	findAllAnswers(table);
