@@ -7,18 +7,25 @@ import java.util.Vector;
 public class Problem extends AbstractProblem {
 	private Optimum optimum;
 	private Vector<Boolean> hasNegativePart;
+	protected Integer maxIndex;
 
 	public Problem(Problem other) {
-		this(other.zfunction, other.restrictions, other.optimum);
+		this(other.zfunction, other.restrictions, other.optimum,
+				other.hasNegativePart);
 	}
 
 	public Problem(List<Variable> zfunction, Vector<Restriction> restrictions,
-			Optimum optimum) {
+			Optimum optimum, Vector<Boolean> hasNegativePart) {
 		this.optimum = optimum;
 		this.zfunction = zfunction;
 		this.restrictions = restrictions;
 		this.restrictionsCount = restrictions.size();
 		this.varCount = zfunction.size();
+		this.hasNegativePart = hasNegativePart;
+		this.maxIndex = zfunction.get(zfunction.size() - 1).getIndex();
+	}
+
+	public void convertToK() {
 		setToMinimum();
 		// UI.printMinimum();
 		setRightSidesToPositive();
@@ -30,9 +37,9 @@ public class Problem extends AbstractProblem {
 	}
 
 	private void setToMinimum() {
-		if (optimum != Optimum.MINIMUM) {
-			optimum = Optimum.MINIMUM;
-			for (Variable variable : zfunction) {
+		if (this.optimum != Optimum.MINIMUM) {
+			this.optimum = Optimum.MINIMUM;
+			for (Variable variable : this.zfunction) {
 				variable.changeSign();
 			}
 		}
@@ -46,16 +53,17 @@ public class Problem extends AbstractProblem {
 
 	private void setToEquations() {
 		for (Restriction restriction : restrictions) {
-			Variable newVar = restriction.setToEquation();
+			Variable newVar = restriction.setToEquation(maxIndex);
 			if (newVar != null) {
 				Variable toAdd = new Variable(Fraction.ZERO, newVar.getIndex());
+				maxIndex++;
+				varCount++;
 				zfunction.add(toAdd);
 				// we add with zero to keep table shape consistency
-				for (int i=0; i<restrictions.size();i++) {
+				for (int i = 0; i < restrictions.size(); i++) {
 					if (restrictions.get(i).getVarCount() < zfunction.size()) {
 						addVarToRestriction(i, toAdd);
-					}
-					else{
+					} else {
 						// we are at the restriction already set to equation
 					}
 				}
@@ -72,17 +80,24 @@ public class Problem extends AbstractProblem {
 	}
 
 	private void processNegativeParts() {
+		int varsPassed = 0;
 		Iterator<Variable> zfuncIter = zfunction.iterator();
 		for (Boolean hnp : hasNegativePart) {
+			Variable variable = (Variable) zfuncIter.next();
+			varsPassed++;
 			if (hnp == true) {
 				varCount++;
 				// add a zfunction variable
-				Variable variable = (Variable) zfuncIter;
 				List<Variable> varSigned = variable.bipartize();
-				int varIndex = 0;
+				int varIndex = varsPassed - 1;
 				zfuncIter.remove();
 				zfunction.addAll(varIndex, varSigned);
-
+				// one more var was added, we update the iterator
+				zfuncIter = zfunction.iterator();
+				varsPassed++;
+				for (int i = 0; i < varsPassed; i++) {
+					zfuncIter.next();
+				}
 				// change the variable in the restrictions
 				for (int restrictionIndex = 0; restrictionIndex < restrictionsCount; restrictionIndex++) {
 					Restriction changedRestriction = restrictions

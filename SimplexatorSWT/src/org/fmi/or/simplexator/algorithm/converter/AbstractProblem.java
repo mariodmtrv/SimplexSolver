@@ -9,7 +9,6 @@ public abstract class AbstractProblem {
 	protected int restrictionsCount;
 	protected List<Variable> zfunction;
 	protected Vector<Restriction> restrictions;
-
 	public int getRestrictionsCount() {
 		return restrictionsCount;
 	}

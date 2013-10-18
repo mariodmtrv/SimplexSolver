@@ -30,7 +30,7 @@ public class MProblem extends Problem {
 			// UI.printMessage(Converting to MProblem is required)
 			for (int i = 0; i < MVarNeeded.length; i++) {
 				if (MVarNeeded[i]) {
-					int newVarIndex = zfunction.size() + 1;
+					int newVarIndex = ++(this.maxIndex);
 					Variable mVar = new Variable(new Fraction(1), newVarIndex);
 					// the m var is with coefficient 1 in the changed equation
 					addVarToRestriction(i, mVar);
@@ -38,7 +38,7 @@ public class MProblem extends Problem {
 					zfunction.add(new Variable(Fraction.M, newVarIndex));
 					// and zero in the rest(table shape consistency, bitch!)
 					Variable zeroMVar = new Variable(Fraction.ZERO,
-							zfunction.size());
+							this.maxIndex);
 					for (int j = 0; j < restrictionsCount; j++) {
 						if (restrictions.get(j).getVarCount() < zfunction
 								.size()) {
@@ -53,7 +53,12 @@ public class MProblem extends Problem {
 			// no convertion
 		}
 	}
-
+/**
+ * uniquenessMap[i]:
+ *        -1 => is not unique (or is unique but the coefficient is <0)
+ *        n => restriction where is unique (and coefficient >0)
+ *        
+ * */
 	public int[] getUniquenessMap() {
 		int uniquenessPosition[] = new int[this.varCount];
 		for (int i = 0; i < uniquenessPosition.length; i++) {
@@ -68,8 +73,8 @@ public class MProblem extends Problem {
 
 		for (int varPos = 0; varPos < varCount; varPos++) {
 			for (int restrIndex = 0; restrIndex < restrictionsCount; restrIndex++) {
-				if (!restrictionsTable[restrIndex][varPos].getCoefficient()
-						.isEqualTo(Fraction.ZERO)) {
+				if (restrictionsTable[restrIndex][varPos].getCoefficient()
+						.isHigherThan(Fraction.ZERO)) {
 					if (uniquenessPosition[varPos] != -1) {
 						uniquenessPosition[varPos] = -1;
 						break;

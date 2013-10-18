@@ -7,6 +7,7 @@ public class Restriction {
 	private List<Variable> variables;
 	private EquationSign sign;
 	private Fraction rightSide;
+	
     public Fraction getRightSide() {
 		return rightSide;
 	}
@@ -42,20 +43,20 @@ public class Restriction {
 	 * @return the variable to add to zfunction
 	 * null if it is already equation
 	 * */
-	public Variable setToEquation(){
+	public Variable setToEquation(Integer maxIndex){
 		if(this.sign==EquationSign.EQ){
 			// nothing to change
 			return null;
 		}
 		else if(this.sign==EquationSign.GTE){
 			this.sign=EquationSign.EQ;
-			Variable newVar=new Variable(new Fraction(-1),variables.size()+1);
+			Variable newVar=new Variable(new Fraction(-1),maxIndex+1);
 		this.variables.add(newVar);
 			return newVar;
 		}
 		else if(this.sign==EquationSign.LTE){
 			this.sign=EquationSign.EQ;
-			Variable newVar=new Variable(new Fraction(1),variables.size()+1);
+			Variable newVar=new Variable(new Fraction(1),maxIndex+1);
 			this.variables.add(newVar);
 			return newVar;
 		}
