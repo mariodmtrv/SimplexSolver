@@ -81,6 +81,11 @@ public class ProblemInitialization {
 		while ((!isBasisValid(simplexTable.basis))) {
 			simplexTable.basis = getInitialBasis();
 		}
+		// we now have a valid basis; let's find the corresponding indeces
+		for (int i=0; i < simplexTable.basis.size(); i++) {
+			int basisVarIndex = problem.getVarIndex(simplexTable.basis.get(i));
+			simplexTable.basisIndeces.setElementAt(basisVarIndex, i);
+		}
 	}
 
 	private Vector<Variable> getInitialBasis() {

@@ -90,7 +90,7 @@ public class MProblem extends Problem {
 	/**
 	 * @returns which restr should contain m
 	 * */
-	public Vector<Integer> getMRisrictions() {
+	public Vector<Integer> getMResrictions() {
 		Vector<Integer> indices = new Vector<>();
 		//
 
