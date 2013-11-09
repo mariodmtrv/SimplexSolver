@@ -27,9 +27,11 @@ public class MProblem extends Problem {
 		}
 		if (shouldConvertToM) {
 			// should convert
+			
 			// UI.printMessage(Converting to MProblem is required)
 			for (int i = 0; i < MVarNeeded.length; i++) {
 				if (MVarNeeded[i]) {
+					this.varCount++;
 					int newVarIndex = ++(this.maxIndex);
 					Variable mVar = new Variable(new Fraction(1), newVarIndex);
 					// the m var is with coefficient 1 in the changed equation

@@ -15,8 +15,6 @@ import org.fmi.or.simplexator.algorithm.converter.Variable;
 public class ProblemInitialization {
 	private MProblem problem;
 	private SimplexTable simplexTable;
-	
-	
 
 	private boolean isBasisValid(Vector<Variable> initialBasis) {
 		if (initialBasis.size() != problem.getRestrictionsCount()) {
@@ -52,8 +50,10 @@ public class ProblemInitialization {
 						// order basis in proper order
 						// (initialbasis[n] is the variable that comes from the
 						// n-th restriction)
+						Variable swap = initialBasisDraft.get(initialBasisIndex);
 						initialBasis.set(initialBasisIndex,
 								initialBasisDraft.get(b));
+						initialBasis.set(b, swap);
 						initialBasisIndex++;
 
 						// now check the column
@@ -77,30 +77,47 @@ public class ProblemInitialization {
 	}
 
 	private void setInitialBasis() {
-		simplexTable.basis = getInitialBasis();
-		while ((!isBasisValid(simplexTable.basis))) {
-			simplexTable.basis = getInitialBasis();
+		/* user inputs until the basis is correct */
+		simplexTable.setBasis(getInitialBasis());
+		while ((!isBasisValid(simplexTable.getBasis()))) {
+			simplexTable.setBasis(getInitialBasis());
 		}
 		// we now have a valid basis; let's find the corresponding indeces
-		for (int i=0; i < simplexTable.basis.size(); i++) {
-			int basisVarIndex = problem.getVarIndex(simplexTable.basis.get(i));
-			simplexTable.basisIndeces.setElementAt(basisVarIndex, i);
+		for (int i = 0; i < simplexTable.getBasisSize(); i++) {
+			int basisVarIndex = problem.getVarIndex(simplexTable.getBasis()
+					.get(i));
+			
+			simplexTable.setBasisIndecesElementAt(basisVarIndex, i);
 		}
+	}
+
+	private static Vector<Variable> setBasisFromUI() {
+		Vector<Variable> vars = new Vector<>();
+		vars.add(new Variable(new Fraction(1), 2));
+		vars.add(new Variable(new Fraction(1), 5));
+		vars.add(new Variable(new Fraction(1), 6));
+		return vars;
+
 	}
 
 	private Vector<Variable> getInitialBasis() {
 		// TODO Gets the initial basis from the UI
 		// Ui.getInitialVariables();
-		List<Variable> basisFromUI = new Vector<>();
+		/*
+		 * This is hardcoded to simulate basis from UI extraction
+		 */
+		List<Variable> basisFromUI = setBasisFromUI();
+
 		Collections.sort(basisFromUI);
 		return (Vector<Variable>) basisFromUI;
 	}
 
 	public ProblemInitialization(MProblem problem) {
 		this.problem = problem;
+		simplexTable = new SimplexTable(problem.getVarCount(),
+				problem.getRestrictionsCount());
 		initializeZfunction();
 		setInitialBasis();
-		simplexTable.table = new Table(problem.getVarCount(), simplexTable.basis.size());
 	}
 
 	public Table makeFirstIteration() {
@@ -108,15 +125,16 @@ public class ProblemInitialization {
 		// Ui.printTable(table,zfunc);
 		calculateInitialCosts();
 		// Ui.printCosts();
-		
-		return simplexTable.table;
+
+		return simplexTable.getTable();
 	}
-	
+
 	private void initializeZfunction() {
-		simplexTable.zfunctionCoefficients = new Vector<Fraction>(problem.getVarCount());
+		simplexTable.setZfunctionCoefficients(new Vector<Fraction>(problem
+				.getVarCount()));
 		Variable[] vars = problem.getZfunctionVariables();
 		for (int j = 0; j < problem.getVarCount(); j++) {
-			simplexTable.zfunctionCoefficients.add(j, vars[j].getCoefficient());
+			simplexTable.addZfunctionCoefficient(j, vars[j].getCoefficient());
 		}
 	}
 
@@ -131,12 +149,12 @@ public class ProblemInitialization {
 				tableRow[j] = vars[j].getCoefficient();
 			}
 			// after the vars
-			simplexTable.rightSideValues.set(i, restriction.getRightSide());
-			simplexTable.table.setRow(i, tableRow);
-			
+			simplexTable.setRightSideValues(i, restriction.getRightSide());
+			simplexTable.setTableRow(i, tableRow);
+
 			// TODO: fill in the formula
-			//resultNumValue = ;
-			//resultMValue = ;
+			// resultNumValue = ;
+			// resultMValue = ;
 		}
 	}
 
@@ -145,26 +163,31 @@ public class ProblemInitialization {
 			Fraction sumC = Fraction.ZERO;
 			Fraction sumM = Fraction.ZERO;
 			// Ui.highlight(Zcoef[j]);
-			if (simplexTable.zfunctionCoefficients.get(j).isEqualTo(Fraction.M))
-				sumM = sumM.add(simplexTable.zfunctionCoefficients.get(j));
+			if (simplexTable.getZfunctionCoefficients().get(j)
+					.isEqualTo(Fraction.M))
+				sumM = sumM.add(simplexTable.getZfunctionCoefficients().get(j));
 			else
-				sumC = sumC.add(simplexTable.zfunctionCoefficients.get(j));
+				sumC = sumC.add(simplexTable.getZfunctionCoefficients().get(j));
 			// Ui.highlight(basisCoefs);
 			// Ui.highlight(table[j]);
 			// Ui.consolelog(zcoef[j] - skalarnoto proziv na
 			// basisCoefs*table[j]);
-			for (int i = 0; i < simplexTable.basis.size(); ++i) {
+			for (int i = 0; i < simplexTable.getBasisSize(); ++i) {
 
-				if (simplexTable.basis.get(i).getCoefficient().isEqualTo(Fraction.M)
-						|| simplexTable.table.getElement(i, j).isEqualTo(Fraction.M))
-					sumM = sumM.subtract(simplexTable.basis.get(i).getCoefficient()
-							.multiply(simplexTable.table.getElement(i, j)));
+				if (simplexTable.getBasis().get(i).getCoefficient()
+						.isEqualTo(Fraction.M)
+						|| simplexTable.getTableElement(i, j).isEqualTo(
+								Fraction.M))
+					sumM = sumM.subtract(simplexTable.getBasis().get(i)
+							.getCoefficient()
+							.multiply(simplexTable.getTableElement(i, j)));
 				else
-					sumC = sumC.subtract(simplexTable.basis.get(i).getCoefficient()
-							.multiply(simplexTable.table.getElement(i, j)));
+					sumC = sumC.subtract(simplexTable.getBasis().get(i)
+							.getCoefficient()
+							.multiply(simplexTable.getTableElement(i, j)));
 			}
-			simplexTable.numCost.add(j, sumC);
-			simplexTable.MCost.add(j, sumM);
+			simplexTable.addNumCost(j, sumC);
+			simplexTable.addMCost(j, sumM);
 		}
 
 	}

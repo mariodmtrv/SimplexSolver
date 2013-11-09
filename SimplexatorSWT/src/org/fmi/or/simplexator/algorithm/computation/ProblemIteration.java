@@ -1,4 +1,4 @@
-package org.fmi.or.simplexator.algorithm.computation;
+/*package org.fmi.or.simplexator.algorithm.computation;
 
 import java.util.Vector;
 
@@ -174,5 +174,6 @@ public class ProblemIteration {
 		}
 		return rectangleRule(keyElementCoords,i,j);
 	}
-	*/
+
 }
+*/

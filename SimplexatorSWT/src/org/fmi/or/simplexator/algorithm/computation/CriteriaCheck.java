@@ -4,18 +4,18 @@ import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.computation.Pair;
 
 public class CriteriaCheck {
-	private SimplexTable simplexTable;
+	/*private SimplexTable simplexTable;
 
 	public CriteriaCheck(SimplexTable simplexTable) {
 		this.simplexTable = simplexTable;
 	}
-
+*/
 	/*
 	 * this function is being called when solving the big problem;
 	 * @return: simplexTable ready for next iteration,
 	 * else - null;
 	 */
-	private SimplexTable check() {
+	/*private SimplexTable check() {
 		int toExclude = optimalityCriterion();
 		if(toExclude == -1) {
 			// optimality reached
@@ -90,5 +90,5 @@ public class CriteriaCheck {
 		// Ui.drawNewTable();
 		
 		return true;
-	}
+	}*/
 }

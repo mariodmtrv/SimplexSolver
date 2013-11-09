@@ -6,7 +6,12 @@ public class Table {
 	private Fraction table[][];
 
 	public Table(int varCount, int restrictionsCount) {
-		table = new Fraction[varCount][restrictionsCount];
+		table = new Fraction[restrictionsCount][varCount];
+		for(int i=0;i<restrictionsCount;i++){
+			for (int j = 0; j < varCount; j++) {
+				table[i][j]=new Fraction(Fraction.ZERO);
+			}
+		}
 	}
 
 	public Fraction getElement(int i, int j) {
@@ -18,7 +23,7 @@ public class Table {
 	}
 
 	public void setRow(int rowIndex, Fraction[] values) {
-		if (values.length > table.length) {
+		if (values.length > table[rowIndex].length) {
 			throw new IllegalStateException("Too many values entered");
 		}
 		for (int i = 0; i < table.length; i++) {

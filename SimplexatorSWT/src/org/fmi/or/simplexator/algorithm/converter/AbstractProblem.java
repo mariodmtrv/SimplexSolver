@@ -22,7 +22,8 @@ public abstract class AbstractProblem {
 	}
 
 	public Variable[] getZfunctionVariables() {
-		Variable[] vars = new Variable[zfunction.size() + 1];
+		/*investigate +1 case*/
+		Variable[] vars = new Variable[zfunction.size()];
 		vars = zfunction.toArray(vars);
 		return vars;
 	}
@@ -34,10 +35,13 @@ public abstract class AbstractProblem {
 	public int getVarIndex(Variable v) {
 		Iterator it = zfunction.iterator();
 		int index = 0;
+		Variable iterelem;
 		while (it.hasNext()) {
-			if (it == v) {
+			iterelem=(Variable) it.next();
+			if (iterelem.compareTo(v)==0) {
 				return index;
 			}
+			
 			index++;
 		}
 		return (Integer) null;

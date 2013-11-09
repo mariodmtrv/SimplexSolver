@@ -15,7 +15,7 @@ public class Restriction {
     	return variables.size();
     }
 	public Variable[] getVariables(){
-    	Variable[] vars=new Variable[variables.size()+1];
+    	Variable[] vars=new Variable[variables.size()];
     	vars=variables.toArray(vars);
     	return vars;
     }
