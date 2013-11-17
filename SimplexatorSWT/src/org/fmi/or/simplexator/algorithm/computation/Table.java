@@ -26,7 +26,7 @@ public class Table {
 		if (values.length > table[rowIndex].length) {
 			throw new IllegalStateException("Too many values entered");
 		}
-		for (int i = 0; i < table.length; i++) {
+		for (int i = 0; i < table[rowIndex].length; i++) {
 			table[rowIndex][i] = values[i];
 		}
 	}

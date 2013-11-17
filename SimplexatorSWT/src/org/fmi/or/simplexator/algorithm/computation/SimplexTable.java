@@ -93,17 +93,19 @@ public class SimplexTable {
 	}
 
 	public void addNumCost(int pos, Fraction sum) {
-		numCost.add(pos, sum);
+		numCost.set(pos, sum);
 	}
 
 	public void addMCost(int pos, Fraction sum) {
-		MCost.add(pos, sum);
+		MCost.set(pos, sum);
 	}
 	
-	public void setRightSideValues(int i, Fraction f) {
+	public void setRightSideValue(int i, Fraction f) {
 		rightSideValues.set(i,f);
 	}
-	
+	public Fraction getRightSideValue(int i){
+		return rightSideValues.get(i);
+	}
 	public Fraction getResultNumValue() {
 		return resultNumValue;
 	}

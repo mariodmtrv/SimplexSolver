@@ -10,8 +10,8 @@ import org.junit.Test;
 
 public class ProblemInitializationTest {
 
-	@Test
-	public void test() {
+	//@Test
+	public void testProblemWithMinimum() {
 		MProblemConversionTest t=new MProblemConversionTest();
 		Problem p=t.testCanonicalProblemMinimum();
 		MProblem mProblem=new MProblem(p);
@@ -23,5 +23,17 @@ public class ProblemInitializationTest {
 		mProblemInit.makeFirstIteration();
 		
 		}
-
+	@Test
+	public void testProblemWithMaximum() {
+		MProblemConversionTest t=new MProblemConversionTest();
+		Problem p=t.testCanonicalProblemMaximum();
+		MProblem mProblem=new MProblem(p);
+		mProblem.convertToMProblem();
+		
+		ProblemInitialization mProblemInit = 
+				new ProblemInitialization(mProblem);
+		// now test...
+		mProblemInit.makeFirstIteration();
+		
+		}
 }

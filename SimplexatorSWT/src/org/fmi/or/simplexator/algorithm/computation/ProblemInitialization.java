@@ -29,6 +29,13 @@ public class ProblemInitialization {
 			restrictionsTable[i] = currentRestriction.getVariables();
 		}
 
+		for(int i=0;i<initialBasis.size(); i++) {
+			Variable toModify = initialBasis.get(i);
+			int index = problem.getVarIndex(toModify);
+			Variable newCoef = new Variable(problem.getZfunctionVariables()[index].getCoefficient(), toModify.getIndex(),toModify.getType());
+			initialBasis.set(i, newCoef);
+		}
+		
 		Vector<Variable> initialBasisDraft = initialBasis;
 		int initialBasisIndex = 0;
 
@@ -93,8 +100,13 @@ public class ProblemInitialization {
 
 	private static Vector<Variable> setBasisFromUI() {
 		Vector<Variable> vars = new Vector<>();
-		vars.add(new Variable(new Fraction(1), 2));
+		//basis for problem with minimum
+		/*vars.add(new Variable(new Fraction(1), 2));
 		vars.add(new Variable(new Fraction(1), 5));
+		vars.add(new Variable(new Fraction(1), 6));
+		*/
+		//basis for problem with maximum
+		vars.add(new Variable(new Fraction(1), 3));
 		vars.add(new Variable(new Fraction(1), 6));
 		return vars;
 
@@ -149,7 +161,7 @@ public class ProblemInitialization {
 				tableRow[j] = vars[j].getCoefficient();
 			}
 			// after the vars
-			simplexTable.setRightSideValues(i, restriction.getRightSide());
+			simplexTable.setRightSideValue(i, restriction.getRightSide());
 			simplexTable.setTableRow(i, tableRow);
 
 			// TODO: fill in the formula
@@ -157,7 +169,25 @@ public class ProblemInitialization {
 			// resultMValue = ;
 		}
 	}
-
+private void calculateResultCosts(){
+	Fraction numCost = new Fraction(Fraction.ZERO);
+	Fraction MCost = new Fraction(Fraction.ZERO);
+	for(int i=0;i<simplexTable.getBasisSize(); i++) {
+		if (simplexTable.getBasis().get(i).getCoefficient()
+				.isEqualTo(Fraction.M))
+		{
+			MCost=MCost.subtract(simplexTable.getRightSideValue(i));
+		}
+		else
+		{
+			numCost = numCost.subtract(simplexTable.getBasis().get(i)
+					.getCoefficient()
+					.multiply(simplexTable.getRightSideValue(i)));
+		}
+	}
+	this.simplexTable.setResultMValue(MCost);
+	this.simplexTable.setResultNumValue(numCost);
+}
 	private void calculateInitialCosts() {
 		for (int j = 0; j < problem.getVarCount(); ++j) {
 			Fraction sumC = Fraction.ZERO;
@@ -165,7 +195,7 @@ public class ProblemInitialization {
 			// Ui.highlight(Zcoef[j]);
 			if (simplexTable.getZfunctionCoefficients().get(j)
 					.isEqualTo(Fraction.M))
-				sumM = sumM.add(simplexTable.getZfunctionCoefficients().get(j));
+				sumM = sumM.add(new Fraction(1));
 			else
 				sumC = sumC.add(simplexTable.getZfunctionCoefficients().get(j));
 			// Ui.highlight(basisCoefs);
@@ -178,9 +208,7 @@ public class ProblemInitialization {
 						.isEqualTo(Fraction.M)
 						|| simplexTable.getTableElement(i, j).isEqualTo(
 								Fraction.M))
-					sumM = sumM.subtract(simplexTable.getBasis().get(i)
-							.getCoefficient()
-							.multiply(simplexTable.getTableElement(i, j)));
+					sumM = sumM.subtract(simplexTable.getTableElement(i, j));
 				else
 					sumC = sumC.subtract(simplexTable.getBasis().get(i)
 							.getCoefficient()
@@ -188,7 +216,10 @@ public class ProblemInitialization {
 			}
 			simplexTable.addNumCost(j, sumC);
 			simplexTable.addMCost(j, sumM);
+			
+			calculateResultCosts();
 		}
 
 	}
+	
 }
