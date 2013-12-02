@@ -1,4 +1,4 @@
-/*package org.fmi.or.simplexator.algorithm.computation;
+package org.fmi.or.simplexator.algorithm.computation;
 
 import java.util.Vector;
 
@@ -15,32 +15,37 @@ public class ProblemIteration {
 
 	public void makeIteration(Pair<Integer, Integer> keyElementCoords) {
 		SimplexTable newSimplexTable = new SimplexTable();
-		
+
 		// fill keyElem's row
-		for(int j=0; j <= simplexTable.getVarCount(); j++) {
-			Fraction value = rectangleRule(keyElementCoords, keyElementCoords.getFirst(), j);
-			newSimplexTable.setSimplexTableItem(keyElementCoords.getFirst(), j, value);
+		for (int j = 0; j <= simplexTable.getVarCount(); j++) {
+			Fraction value = rectangleRule(keyElementCoords,
+					keyElementCoords.getFirst(), j);
+			newSimplexTable.setSimplexTableItem(keyElementCoords.getFirst(), j,
+					value);
 		}
 		// UI.highlightKeyElemRow(keyElementCoords);
-		
+
 		// fill basis' vars columns
-		for (int basisVarIndex : simplexTable.basisIndeces) {
-			for(int i=0; i <= simplexTable.getVarCount()+1; i++) {
-				Fraction value = rectangleRule(keyElementCoords, i, basisVarIndex);
+		Vector<Integer> basisIndeces = simplexTable.getBasisIndeces();
+		for (int basisVarIndex : basisIndeces) {
+			for (int i = 0; i <= simplexTable.getVarCount() + 1; i++) {
+				Fraction value = rectangleRule(keyElementCoords, i,
+						basisVarIndex);
 				newSimplexTable.setSimplexTableItem(i, basisVarIndex, value);
 			}
 			// UI.highlightBasisVarColumn(i);
 		}
-		
+
 		// fill rest
-		for(int i=0; i<=simplexTable.getVarCount()+1; i++) {
-			if(i == keyElementCoords.getFirst()) {
+		for (int i = 0; i <= simplexTable.getVarCount() + 1; i++) {
+			if (i == keyElementCoords.getFirst()) {
 				// we have already filled the keyElem's row
 				continue;
 			}
-			for(int j=0; j<=simplexTable.getRestrictionsCount(); j++) {
-				if(isIndexOfBasisVar(j)) {
-					// we have already filled the columns of the vars in the basis
+			for (int j = 0; j <= simplexTable.getRestrictionsCount(); j++) {
+				if (isIndexOfBasisVar(j)) {
+					// we have already filled the columns of the vars in the
+					// basis
 					continue;
 				}
 				Fraction value = rectangleRule(keyElementCoords, i, j);
@@ -49,19 +54,20 @@ public class ProblemIteration {
 			}
 		}
 	}
-	
+
 	private void fillTable(Pair<Integer, Integer> keyElementCoords) {
 
 	}
-	
+
 	private boolean isIndexOfBasisVar(int i) {
-		for (int basisVarIndex : simplexTable.basisIndeces) {
-			if(i == basisVarIndex)
+		Vector<Integer> basisIndeces = simplexTable.getBasisIndeces();
+		for (int basisVarIndex : basisIndeces) {
+			if (i == basisVarIndex)
 				return true;
 		}
 		return false;
 	}
-	
+
 	private Fraction rectangleRule(Pair<Integer, Integer> keyElementCoords,
 			int i, int j) {
 		int p = keyElementCoords.getFirst();
@@ -76,18 +82,16 @@ public class ProblemIteration {
 		else if (q == j)
 			return new Fraction(0);
 
-		return simplexTable.getSimplexTableItem(i, j)
-				.subtract(
-						simplexTable.getSimplexTableItem(i, q).multiply(
-								simplexTable.getSimplexTableItem(p, j).divide(
-										keyElement)));
+		return simplexTable.getSimplexTableItem(i, j).subtract(
+				simplexTable.getSimplexTableItem(i, q).multiply(
+						simplexTable.getSimplexTableItem(p, j).divide(
+								keyElement)));
 	}
-	
+
 	private void visualizeTable() {
-		
+
 	}
-	
-	/*
+
 	public void makeIteration(Pair<Integer, Integer> keyElementCoords) {
 		// refill table
 		// UI.fillKeyElementRowAndExplain(array,row,content);
@@ -99,81 +103,86 @@ public class ProblemIteration {
 		// split in several variables),
 		// however this is hidden from the user
 
-		Fraction keyElement = new Fraction(simplexTable.table.getElement(
+		Fraction keyElement = new Fraction(simplexTable.getTableElement(
 				keyElementCoords.getFirst(), keyElementCoords.getSecond()));
 
 		// fill Table table
 		for (int i = 0; i < simplexTable.getRestrictionsCount(); i++) {
 			for (int j = 0; j < simplexTable.getVarCount(); j++) {
 				Fraction setValue = rectangleRule(keyElementCoords, i, j);
-				simplexTable.table.setElement(i, j, setValue);
+				simplexTable.setTableElement(i, j, setValue);
 			}
 		}
 
 		// fill costs
 		for (int j = 0; j < simplexTable.getVarCount(); j++) {
-			Fraction setValue = rectangleRuleSpecialCase(keyElementCoords, simplexTable.getRestrictionsCount(), j);
-			simplexTable.numCost.setElementAt(setValue,j);
-			
-			setValue = rectangleRuleSpecialCase(keyElementCoords, simplexTable.getRestrictionsCount()+1, j);
-			simplexTable.MCost.setElementAt(setValue,j);
+			Fraction setValue = rectangleRuleSpecialCase(keyElementCoords,
+					simplexTable.getRestrictionsCount(), j);
+			simplexTable.setNumCostElementAt(setValue,j);
+
+			setValue = rectangleRuleSpecialCase(keyElementCoords,
+					simplexTable.getRestrictionsCount() + 1, j);
+			simplexTable.setMCostElementAt(setValue,j);
 		}
 
 		// fill right side vector
 		for (int i = 0; i < simplexTable.getRestrictionsCount(); i++) {
-			Fraction setValue = rectangleRuleSpecialCase(keyElementCoords, i, simplexTable.getVarCount());
-			simplexTable.rightSideValues.setElementAt(setValue,i);
+			Fraction setValue = rectangleRuleSpecialCase(keyElementCoords, i,
+					simplexTable.getVarCount());
+			simplexTable.setRightSideValuesElementAt(setValue, i);
 		}
 
 		// fill Z-value
-		Fraction setValue = rectangleRuleSpecialCase(keyElementCoords, simplexTable.getRestrictionsCount(), simplexTable.getVarCount());
-		simplexTable.resultNumValue = setValue;
-		setValue = rectangleRuleSpecialCase(keyElementCoords, simplexTable.getRestrictionsCount()+1, simplexTable.getVarCount());
-		simplexTable.resultMValue = setValue;
+		Fraction setValue = rectangleRuleSpecialCase(keyElementCoords,
+				simplexTable.getRestrictionsCount(), simplexTable.getVarCount());
+		simplexTable.setResultNumValue(setValue);
+		setValue = rectangleRuleSpecialCase(keyElementCoords,
+				simplexTable.getRestrictionsCount() + 1,
+				simplexTable.getVarCount());
+		simplexTable.setResultMValue(setValue);
 	}
 
 	private Fraction rectangleRule(Pair<Integer, Integer> keyElementCoords,
 			int i, int j) {
 		int p = keyElementCoords.getFirst();
 		int q = keyElementCoords.getSecond();
-		Fraction keyElement = simplexTable.table.getElement(p, q);
+		Fraction keyElement = simplexTable.getTableElement(p, q);
 
 		if (p == i && q == j)
 			return new Fraction(1);
 		else if (p == i)
-			return simplexTable.table.getElement(i, j).divide(
-					simplexTable.table.getElement(p, q));
+			return simplexTable.getTableElement(i, j).divide(
+					simplexTable.getTableElement(p, q));
 		else if (q == j)
 			return new Fraction(0);
 
-		return simplexTable.table.getElement(i, j)
+		return simplexTable.getTableElement(i, j)
 				.subtract(
-						simplexTable.table.getElement(i, q).multiply(
-								simplexTable.table.getElement(p, j).divide(
+						simplexTable.getTableElement(i, q).multiply(
+								simplexTable.getTableElement(p, j).divide(
 										keyElement)));
 	}
-	
-	// helps fill these elements of the simplex table that are separate data structures, not part of the Table-type var
-	private Fraction rectangleRuleSpecialCase(Pair<Integer, Integer> keyElementCoords,
-			int i, int j) {
+
+	// helps fill these elements of the simplex table that are separate data
+	// structures, not part of the Table-type var
+	private Fraction rectangleRuleSpecialCase(
+			Pair<Integer, Integer> keyElementCoords, int i, int j) {
 		int p = keyElementCoords.getFirst();
 		int q = keyElementCoords.getSecond();
-		Fraction keyElement = simplexTable.table.getElement(p, q);
-		
-		if(j==simplexTable.getVarCount() && i>=simplexTable.getRestrictionsCount()) {
+		Fraction keyElement = simplexTable.getTableElement(p, q);
+
+		if (j == simplexTable.getVarCount()
+				&& i >= simplexTable.getRestrictionsCount()) {
 			// fill Z-value
-			
-		}
-		else if(j==simplexTable.getVarCount()) {
+
+		} else if (j == simplexTable.getVarCount()) {
 			// fill right side vector
-			
-		}
-		else if(i>=simplexTable.getRestrictionsCount()) {
+
+		} else if (i >= simplexTable.getRestrictionsCount()) {
 			// fill costs
-			
+
 		}
-		return rectangleRule(keyElementCoords,i,j);
+		return rectangleRule(keyElementCoords, i, j);
 	}
 
 }
-*/

@@ -4,18 +4,18 @@ import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.computation.Pair;
 
 public class CriteriaCheck {
-	/*private SimplexTable simplexTable;
+	private SimplexTable simplexTable;
 
 	public CriteriaCheck(SimplexTable simplexTable) {
 		this.simplexTable = simplexTable;
 	}
-*/
+
 	/*
 	 * this function is being called when solving the big problem;
 	 * @return: simplexTable ready for next iteration,
 	 * else - null;
 	 */
-	/*private SimplexTable check() {
+	private SimplexTable checkCriteriaAndChangeBasis() {
 		int toExclude = optimalityCriterion();
 		if(toExclude == -1) {
 			// optimality reached
@@ -26,7 +26,7 @@ public class CriteriaCheck {
 			if(changeBasis(toExclude) == false) {
 				// min Z = -infinity
 				// UI.alertForUnboundedness();
-				return null;
+				return null; // ??????????????????????
 			}
 			// no special case, we should continue to the next iteration
 			return simplexTable; // ??????????????????????
@@ -34,8 +34,8 @@ public class CriteriaCheck {
 	}
 	
 	private boolean unboundednessCriterion(int j) {
-		for (int i = 0; i < simplexTable.basis.size(); ++i) {
-			if (simplexTable.table.getElement(i, j).isEqualOrHigher(
+		for (int i = 0; i < simplexTable.getBasisSize(); ++i) {
+			if (simplexTable.getTableElement(i,j).isEqualOrHigher(
 					Fraction.ZERO))
 				return false;
 		}
@@ -51,13 +51,12 @@ public class CriteriaCheck {
 		Fraction minValueNum = Fraction.ZERO;
 		Fraction minValueM = Fraction.ZERO;
 		for (int i = 0; i < simplexTable.getVarCount(); ++i) {
-			if (simplexTable.MCost.get(i).isLowerOrEqual(Fraction.ZERO)
-					&& (simplexTable.MCost.get(i).isLowerThan(minValueM) || (simplexTable.MCost
-							.get(i).isEqualTo(minValueM) && simplexTable.numCost
-							.get(i).isLowerThan(minValueNum)))) {
+			if (simplexTable.getMCost(i).isLowerOrEqual(Fraction.ZERO)
+					&& (simplexTable.getMCost(i).isLowerThan(minValueM) || (simplexTable.getMCost(i).isEqualTo(minValueM) && simplexTable.getNumCost(i).isLowerThan(minValueNum)))) {
+				// Blend's rule is OK here
 				index = i;
-				minValueNum = simplexTable.numCost.get(i);
-				minValueM = simplexTable.MCost.get(i);
+				minValueNum = simplexTable.getNumCost(i);
+				minValueM = simplexTable.getMCost(i);
 			}
 		}
 		return index;
@@ -69,11 +68,11 @@ public class CriteriaCheck {
 		Fraction minRel = new Fraction(Integer.MAX_VALUE);
 		
 		// UI.explainProcessOfVarChanging();
-		for(int i=0; i<simplexTable.basis.size(); ++i) {
-			if(simplexTable.table.getElement(i,newBaseVar).isHigherThan(Fraction.ZERO)
-					&& minRel.isHigherThan(simplexTable.rightSideValues.get(i).divide(simplexTable.table.getElement(i,newBaseVar)))) {
-				// TODO: be sure that Blend's (Bill's) rule is OK here
-				minRel = simplexTable.rightSideValues.get(i).divide(simplexTable.table.getElement(i,newBaseVar));
+		for(int i=0; i<simplexTable.getBasisSize(); ++i) {
+			if(simplexTable.getTableElement(i, newBaseVar).isHigherThan(Fraction.ZERO)
+					&& minRel.isHigherThan(simplexTable.getRightSideValue(i).divide(simplexTable.getTableElement(i,newBaseVar)))) {
+				// Blend's rule is OK here
+				minRel = simplexTable.getRightSideValue(i).divide(simplexTable.getTableElement(i,newBaseVar));
 				indexOutVar = i;
 			}
 		}
@@ -85,10 +84,10 @@ public class CriteriaCheck {
 		// TODO: move somewhere else these 4 lines
 		// TODO: figure out how to pass to the next iteration the key element's coords
 		Pair<Integer,Integer> keyElementCoords = new Pair<Integer,Integer>(indexOutVar, newBaseVar);
-		Fraction keyElement = simplexTable.table.getElement(indexOutVar,newBaseVar);
+		Fraction keyElement = simplexTable.getTableElement(indexOutVar, newBaseVar);
 		// Ui.highlightKeyElement();
 		// Ui.drawNewTable();
 		
 		return true;
-	}*/
+	}
 }

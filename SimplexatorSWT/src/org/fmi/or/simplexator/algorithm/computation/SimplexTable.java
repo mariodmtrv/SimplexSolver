@@ -47,6 +47,10 @@ public class SimplexTable {
 	public Fraction getTableElement(int i, int j) {
 		return table.getElement(i, j);
 	}
+	
+	public void setTableElement(int i, int j, Fraction setValue) {
+		table.setElement(i, j, setValue);
+	}
 
 	public Table getTable() {
 		return table;
@@ -92,6 +96,14 @@ public class SimplexTable {
 		this.zfunctionCoefficients = zfunctionCoefficients;
 	}
 
+	public Fraction getMCost(int i) {
+		return MCost.get(i);
+	}
+	
+	public Fraction getNumCost(int i) {
+		return numCost.get(i);
+	}
+	
 	public void addNumCost(int pos, Fraction sum) {
 		numCost.set(pos, sum);
 	}
@@ -192,5 +204,17 @@ public class SimplexTable {
 	public void setBasisIndecesElementAt(int basisVarIndex, int i) {
 		basisIndeces.setElementAt(basisVarIndex, i);
 		
+	}
+	
+	public void setRightSideValuesElementAt(Fraction setValue, int i) {
+		rightSideValues.setElementAt(setValue, i);
+	}
+	
+	public void setNumCostElementAt(Fraction setValue, int j) {
+		numCost.setElementAt(setValue, j);
+	}
+	
+	public void setMCostElementAt(Fraction setValue, int j) {
+		MCost.setElementAt(setValue, j);
 	}
 }
