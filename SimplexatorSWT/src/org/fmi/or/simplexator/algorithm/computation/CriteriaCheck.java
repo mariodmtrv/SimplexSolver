@@ -5,6 +5,7 @@ import org.fmi.or.simplexator.algorithm.computation.Pair;
 
 public class CriteriaCheck {
 	private SimplexTable simplexTable;
+	private Pair<Integer,Integer> keyElementCoords;
 
 	public CriteriaCheck(SimplexTable simplexTable) {
 		this.simplexTable = simplexTable;
@@ -12,24 +13,24 @@ public class CriteriaCheck {
 
 	/*
 	 * this function is being called when solving the big problem;
-	 * @return: simplexTable ready for next iteration,
-	 * else - null;
+	 * @return: Pair = <varToGetOut, varToGetIn> => ProblemIteration continues and knows how to change basis; 
+	 * else - null => no more iterations;
 	 */
-	private SimplexTable checkCriteriaAndChangeBasis() {
+	private Pair<Integer,Integer> checkCriteriaAndFindNewBasis() {
 		int toExclude = optimalityCriterion();
 		if(toExclude == -1) {
 			// optimality reached
 			// UI.alertForAnswerReached();
-			return null; // ??????????????????????
+			return null;
 		}
 		else {
-			if(changeBasis(toExclude) == false) {
+			if(findNewBasis(toExclude) == false) {
 				// min Z = -infinity
 				// UI.alertForUnboundedness();
-				return null; // ??????????????????????
+				return null;
 			}
 			// no special case, we should continue to the next iteration
-			return simplexTable; // ??????????????????????
+			return this.keyElementCoords;
 		}
 	}
 	
@@ -62,7 +63,7 @@ public class CriteriaCheck {
 		return index;
 	}
 
-	private boolean changeBasis(int indexOptimal) {
+	private boolean findNewBasis(int indexOptimal) {
 		int newBaseVar = indexOptimal; // index in the list of all vars
 		int indexOutVar = -1; // index in the list of basis vars
 		Fraction minRel = new Fraction(Integer.MAX_VALUE);
@@ -81,10 +82,8 @@ public class CriteriaCheck {
 			return false;
 		}
 		
-		// TODO: move somewhere else these 4 lines
-		// TODO: figure out how to pass to the next iteration the key element's coords
-		Pair<Integer,Integer> keyElementCoords = new Pair<Integer,Integer>(indexOutVar, newBaseVar);
-		Fraction keyElement = simplexTable.getTableElement(indexOutVar, newBaseVar);
+		this.keyElementCoords = new Pair<Integer,Integer>(indexOutVar, newBaseVar);
+		// Fraction keyElement = simplexTable.getTableElement(indexOutVar, newBaseVar);
 		// Ui.highlightKeyElement();
 		// Ui.drawNewTable();
 		

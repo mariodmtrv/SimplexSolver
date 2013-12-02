@@ -7,15 +7,32 @@ import org.fmi.or.simplexator.algorithm.converter.Variable;
 
 public class ProblemIteration {
 
-	public ProblemIteration(SimplexTable simplexTable) {
+	public ProblemIteration(SimplexTable simplexTable, Pair<Integer,Integer> keyElementCoords) {
 		this.simplexTable = simplexTable;
+		this.keyElementCoords = keyElementCoords;
 	}
 
 	private SimplexTable simplexTable;
+	private Pair<Integer,Integer> keyElementCoords;
 
-	public void makeIteration(Pair<Integer, Integer> keyElementCoords) {
-		SimplexTable newSimplexTable = new SimplexTable();
-
+	// set the new basis for the newSimplexTable
+	private void changeBasis() {
+		int indexVarOut = this.keyElementCoords.getFirst();
+		int indexVarIn = this.keyElementCoords.getSecond();
+		Variable<Fraction> varIn; // TODO: find what variable is at index = indexVarIn
+		
+		this.simplexTable.setBasisIndecesElementAt(indexVarOut, indexVarIn);
+		this.simplexTable.setBasisElementAt(indexVarOut, varIn);
+	}
+	
+	public void makeIteration() {
+		// new table has same parameters as the other, but it is blank,
+		// except for the zfunctionCoefs, basis and basisIndeces
+		SimplexTable newSimplexTable = new SimplexTable(this.simplexTable);
+		
+		// change basis of newSimplexTable
+		changeBasis();
+		
 		// fill keyElem's row
 		for (int j = 0; j <= simplexTable.getVarCount(); j++) {
 			Fraction value = rectangleRule(keyElementCoords,
@@ -56,7 +73,7 @@ public class ProblemIteration {
 	}
 
 	private void fillTable(Pair<Integer, Integer> keyElementCoords) {
-
+		// TODO: remind me why we make that function ?????????????????????????????
 	}
 
 	private boolean isIndexOfBasisVar(int i) {
@@ -89,10 +106,12 @@ public class ProblemIteration {
 	}
 
 	private void visualizeTable() {
-
+		// TODO: remind me why we make that function ?????????????????????????????
+		// perhaps it's obsolete because we visualize everything when we compute it in makeIeration()
 	}
 
-	public void makeIteration(Pair<Integer, Integer> keyElementCoords) {
+	// everything down this line is obsolete ?????????????????????????????????????
+	/*public void makeIteration(Pair<Integer, Integer> keyElementCoords) {
 		// refill table
 		// UI.fillKeyElementRowAndExplain(array,row,content);
 		// UI.explainThatTheColumnsOfBaseElemsAreWithZeroesOnlyAndOne1();
@@ -183,6 +202,6 @@ public class ProblemIteration {
 
 		}
 		return rectangleRule(keyElementCoords, i, j);
-	}
+	}*/
 
 }

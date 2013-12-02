@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
+import org.fmi.or.simplexator.algorithm.converter.VariableType;
 
 public class SimplexTable {
 
@@ -35,6 +36,37 @@ public class SimplexTable {
 		}
 		for(int i=0;i<varCount;i++){
 			zfunctionCoefficients.add(new Fraction(Fraction.ZERO));
+			numCost.add(new Fraction(Fraction.ZERO));
+			MCost.add(new Fraction(Fraction.ZERO));
+		}
+	}
+	
+	// blank SimplexTable copy constructor
+	public SimplexTable(SimplexTable oldTable) {
+		int varCount = oldTable.getVarCount();
+		int restrictionsCount = oldTable.getRestrictionsCount();
+		
+		table = new Table(varCount, restrictionsCount);
+		basis = new Vector<Variable>();
+		basisIndeces = new Vector<Integer>();
+		zfunctionCoefficients = new Vector<Fraction>();
+		numCost = new Vector<Fraction>();
+		MCost = new Vector<Fraction>();
+		rightSideValues = new Vector<Fraction>();
+		
+		// fill the basis, basisIndeces and the zfunctionCoefficients with the copied values,
+		// others leave blank
+		Vector<Variable> oldBasis = oldTable.getBasis();
+		Vector<Integer> oldBasisIndeces = oldTable.getBasisIndeces();
+		Vector<Fraction> oldTableZFunctionCoefs = oldTable.getZfunctionCoefficients();
+		
+		for(int i=0;i<restrictionsCount;i++){
+			basis.add(new Variable(oldBasis.get(i).getCoefficient(), oldBasis.get(i).getIndex(), oldBasis.get(i).getType()));
+			basisIndeces.add(oldBasisIndeces.get(i));
+			rightSideValues.add(new Fraction(Fraction.ZERO));
+		}
+		for(int i=0;i<varCount;i++){
+			zfunctionCoefficients.add(oldTableZFunctionCoefs.get(i));
 			numCost.add(new Fraction(Fraction.ZERO));
 			MCost.add(new Fraction(Fraction.ZERO));
 		}
@@ -204,6 +236,10 @@ public class SimplexTable {
 	public void setBasisIndecesElementAt(int basisVarIndex, int i) {
 		basisIndeces.setElementAt(basisVarIndex, i);
 		
+	}
+	
+	public void setBasisElementAt(int basisVarIndex, int i) {
+		basis.setElementAt(basisVarIndex, i);
 	}
 	
 	public void setRightSideValuesElementAt(Fraction setValue, int i) {
