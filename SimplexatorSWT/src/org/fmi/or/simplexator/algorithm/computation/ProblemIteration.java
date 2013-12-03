@@ -19,10 +19,10 @@ public class ProblemIteration {
 	private void changeBasis() {
 		int indexVarOut = this.keyElementCoords.getFirst();
 		int indexVarIn = this.keyElementCoords.getSecond();
-		Variable<Fraction> varIn; // TODO: find what variable is at index = indexVarIn
+		Variable varIn = new Variable(null, 0); // TODO: fill - find what variable is at index = indexVarIn
 		
 		this.simplexTable.setBasisIndecesElementAt(indexVarOut, indexVarIn);
-		this.simplexTable.setBasisElementAt(indexVarOut, varIn);
+		this.simplexTable.setBasisElementAt(varIn, indexVarOut);
 	}
 	
 	public void makeIteration() {

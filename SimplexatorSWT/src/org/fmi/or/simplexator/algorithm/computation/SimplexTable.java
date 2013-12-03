@@ -238,7 +238,7 @@ public class SimplexTable {
 		
 	}
 	
-	public void setBasisElementAt(int basisVarIndex, int i) {
+	public void setBasisElementAt(Variable basisVarIndex, int i) {
 		basis.setElementAt(basisVarIndex, i);
 	}
 	
