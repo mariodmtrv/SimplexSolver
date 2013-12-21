@@ -3,15 +3,18 @@ package org.fmi.or.simplexator.algorithm.computation;
 import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
+import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 
 public class ProblemIteration {
 
-	public ProblemIteration(SimplexTable simplexTable, Pair<Integer,Integer> keyElementCoords) {
+	public ProblemIteration(MProblem problem, SimplexTable simplexTable, Pair<Integer,Integer> keyElementCoords) {
+		this.problem = problem;
 		this.simplexTable = simplexTable;
 		this.keyElementCoords = keyElementCoords;
 	}
 
+	private MProblem problem; 
 	private SimplexTable simplexTable;
 	private Pair<Integer,Integer> keyElementCoords;
 
@@ -19,9 +22,9 @@ public class ProblemIteration {
 	private void changeBasis() {
 		int indexVarOut = this.keyElementCoords.getFirst();
 		int indexVarIn = this.keyElementCoords.getSecond();
-		Variable varIn = new Variable(null, 0); // TODO: fill - find what variable is at index = indexVarIn
+		Variable varIn = this.problem.getVarByIndex(indexVarIn);
 		
-		this.simplexTable.setBasisIndecesElementAt(indexVarOut, indexVarIn);
+		this.simplexTable.setBasisIndecesElementAt(indexVarIn, indexVarOut);
 		this.simplexTable.setBasisElementAt(varIn, indexVarOut);
 	}
 	

@@ -46,4 +46,11 @@ public abstract class AbstractProblem {
 		}
 		return (Integer) null;
 	}
+
+	/**
+	 * @return the variable listed under index i
+	 * */
+	public Variable getVarByIndex(int i) {
+		return zfunction.get(i);
+	}
 }

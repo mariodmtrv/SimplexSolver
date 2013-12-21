@@ -16,7 +16,7 @@ public class CriteriaCheck {
 	 * @return: Pair = <varToGetOut, varToGetIn> => ProblemIteration continues and knows how to change basis; 
 	 * else - null => no more iterations;
 	 */
-	private Pair<Integer,Integer> checkCriteriaAndFindNewBasis() {
+	public Pair<Integer,Integer> checkCriteriaAndFindNewBasis() {
 		int toExclude = optimalityCriterion();
 		if(toExclude == -1) {
 			// optimality reached
@@ -68,6 +68,11 @@ public class CriteriaCheck {
 		int indexOutVar = -1; // index in the list of basis vars
 		Fraction minRel = new Fraction(Integer.MAX_VALUE);
 		
+		if(!unboundednessCriterion(indexOptimal)) {
+			return false;
+		}
+		
+		// not unbounded => we can safely choose smallest fraction ( rightSideVector[k] / simplexTable[k][indexOptimal] )
 		// UI.explainProcessOfVarChanging();
 		for(int i=0; i<simplexTable.getBasisSize(); ++i) {
 			if(simplexTable.getTableElement(i, newBaseVar).isHigherThan(Fraction.ZERO)

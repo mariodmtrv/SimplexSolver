@@ -38,7 +38,7 @@ public class SimplexMethodSolver {
 		 * 	Problem kp = convertToK(p);
 		 * 	MProblem mp = convertToM(kp);
 		 * 	SimplexTable simtable = problemInitialization(mp);
-		 * 	while(	(basisChange = checkCriteriaAndChangeBasis(simtable)) != invalid	)
+		 * 	while(	(basisChange = checkCriteriaAndFindNewBasis(simtable)) != invalid	)
 		 * 	{
 		 * 		simtable = makeIteration(simtable, basisChange);
 		 * 	}
