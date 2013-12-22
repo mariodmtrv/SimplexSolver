@@ -1,12 +1,38 @@
 package org.fmi.or.simplexator.algorithm.converter;
 
+import java.text.ParseException;
+import java.util.regex.Pattern;
+
 public class Fraction {
 	private int numerator;
 	private int denominator;
 
 	public static final Fraction M = new Fraction(7_000_003);
 	public static final Fraction ZERO = new Fraction(0);
-	
+
+	public Fraction(String text) throws NumberFormatException {
+		// empty string
+		if (text.equals("")) {
+			numerator = 0;
+			denominator = 1;
+		}
+
+		else {
+
+			// single number
+			if (!text.contains("/")) {
+				numerator = Integer.parseInt(text);
+				denominator=1;
+			}
+			// fraction
+			else {
+				String[] st = text.split("/");
+				numerator = Integer.parseInt(st[0]);
+				denominator = Integer.parseInt(st[1]);
+			}
+		}
+	}
+
 	private int findGCD(int numerator, int denominator) {
 		while (numerator > 0 && denominator > 0) {
 			if (numerator > denominator) {
@@ -17,12 +43,16 @@ public class Fraction {
 		return Math.max(numerator, denominator);
 
 	}
-    private int toPositive(int num){
-    	if(num<0)return num*(-1);
-    	return num;
-    }
+
+	private int toPositive(int num) {
+		if (num < 0)
+			return num * (-1);
+		return num;
+	}
+
 	private void reduce() {
-		int gcd = findGCD(toPositive(this.numerator),toPositive(this.denominator));
+		int gcd = findGCD(toPositive(this.numerator),
+				toPositive(this.denominator));
 		this.numerator /= gcd;
 		this.denominator /= gcd;
 	}
@@ -35,22 +65,23 @@ public class Fraction {
 	}
 
 	public Fraction(int num, int denom) {
-		
 
 		this.numerator = num;
-		
+
 		this.denominator = denom;
-		if(denom<0){
-			this.numerator*=(-1);
-			this.denominator*=(-1);
+		if (denom < 0) {
+			this.numerator *= (-1);
+			this.denominator *= (-1);
 		}
 		reduce();
 
 	}
-public Fraction(Fraction other){
-	this.numerator=other.numerator;
-	this.denominator=other.denominator;
-}
+
+	public Fraction(Fraction other) {
+		this.numerator = other.numerator;
+		this.denominator = other.denominator;
+	}
+
 	public Fraction(int num) {
 		this.numerator = num;
 		this.denominator = 1;
@@ -120,8 +151,9 @@ public Fraction(Fraction other){
 	public boolean isHigherThan(Fraction other) {
 		return (this.compareTo(other) > 0);
 	}
-	public String toString(){
-		return this.numerator+"/"+this.denominator;
+
+	public String toString() {
+		return this.numerator + "/" + this.denominator;
 	}
 
 }
