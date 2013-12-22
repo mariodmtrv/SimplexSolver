@@ -28,7 +28,8 @@ public class MProblem extends Problem {
 		if (shouldConvertToM) {
 			// should convert
 			
-			// UI.printMessage(Converting to MProblem is required)
+			// UI.printMessage("Необходимо е да преобразуваме към М-задача, защото нямаме достатъчно променливи, за да образуваме базис (необходими са толкова базисни променливи, колкото са ограниченията).");
+			// UI.printMessage("В съответните ограничения добавяме нова променлива, която е неотрицателна и коефициентът й в Z-функцията е М. Тук М е някакво фиксирано крайно много голямо число.");
 			for (int i = 0; i < MVarNeeded.length; i++) {
 				if (MVarNeeded[i]) {
 					this.varCount++;
@@ -54,6 +55,7 @@ public class MProblem extends Problem {
 		} else {
 			// no convertion
 		}
+		//  UI.printProblem(problem);
 	}
 /**
  * uniquenessMap[i]:

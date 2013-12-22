@@ -53,4 +53,11 @@ public abstract class AbstractProblem {
 	public Variable getVarByIndex(int i) {
 		return zfunction.get(i);
 	}
+	public String toString(){
+		StringBuilder result=new StringBuilder();
+		for(Restriction z :restrictions){
+			result.append(z.toString());
+		}
+		return result.toString();
+	}
 }

@@ -27,31 +27,41 @@ public class Problem extends AbstractProblem {
 
 	public void convertToK() {
 		setToMinimum();
-		// UI.printMinimum();
+	
 		setRightSidesToPositive();
-		// UI.printToPositive();
+	
 		processNegativeParts();
-		// UI.printNegativeSides();
+		
 		setToEquations();
-		// UI.printEquation();
+
 	}
 
 	private void setToMinimum() {
 		if (this.optimum != Optimum.MINIMUM) {
+		//	UI.printMessage("Преобразуваме към задача за минимум.\n");
+		//UI.printMessage("max(Z)=min(-Z)\n");
 			this.optimum = Optimum.MINIMUM;
 			for (Variable variable : this.zfunction) {
 				variable.changeSign();
 			}
+		//UI.printProblem(problem);
+			return;
 		}
+		//UI.printMessage("Оригиналната задача е за минимум.");
 	}
 
 	private void setRightSidesToPositive() {
+		//UI.printMessage("Трансформираме всички ограничения с отрицателни десни страни в такива с положителни.")
 		for (Restriction restriction : restrictions) {
 			restriction.rightSideToPositive();
 		}
+		//UI.printProblem(problem);
 	}
 
 	private void setToEquations() {
+		//UI.printMessage("За всяко неравенство в ограниченията заместваме с равенство, като добавяме допълнителна променлива.");
+		//UI.printMessage("<лява_страна> >= <дясна_страна>		става		<лява_страна> - \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.");
+		//UI.printMessage("<лява_страна> <= <дясна_страна>		става		<лява_страна> + \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.");
 		for (Restriction restriction : restrictions) {
 			Variable newVar = restriction.setToEquation(maxIndex);
 			if (newVar != null) {
@@ -69,8 +79,6 @@ public class Problem extends AbstractProblem {
 				}
 			}
 		}
-
-		// this.varCount=
 	}
 
 	public void addVarToRestriction(int restrIndex, Variable var) {
@@ -80,6 +88,9 @@ public class Problem extends AbstractProblem {
 	}
 
 	private void processNegativeParts() {
+		
+		//UI.printMessage("За всяка променлива \\x_i, за която няма
+		//ограничение за неотрицателност, я заместваме с 2 променливи \\x_i^+ и \\x_i^-, които са неотрицателни.");
 		int varsPassed = 0;
 		Iterator<Variable> zfuncIter = zfunction.iterator();
 		for (Boolean hnp : hasNegativePart) {
@@ -108,6 +119,6 @@ public class Problem extends AbstractProblem {
 			}
 
 		}
-
+//UI.printProblem(problem);
 	}
 }

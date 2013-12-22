@@ -106,7 +106,8 @@ public class ProblemDescription {
 		btnToTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
-				System.out.println(zFuncCoefs.get(1).getText());
+			//	System.out.println(zFuncCoefs.get(1).getText());
+			//call problem conversion
 			}
 		});
 		btnToTable.setBounds(200 + variablesCount * 110,

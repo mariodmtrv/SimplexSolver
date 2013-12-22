@@ -3,6 +3,7 @@ package org.fmi.or.simplexator.algorithm.computation.tests;
 import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.computation.CriteriaCheck;
+import org.fmi.or.simplexator.algorithm.computation.Pair;
 import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
@@ -13,7 +14,7 @@ public class CriteriaCheckTest {
 	
 	@Test
 	public void testGoToNextIteration1() {
-		SimplexTable simtable = new SimplexTable(3, 7);
+		SimplexTable simtable = new SimplexTable(7, 3);
 		
 		// set basis
 		Vector<Variable> basis = new Vector<>();
@@ -94,12 +95,12 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		cc.checkCriteriaAndFindNewBasis();
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
 	}
 	
 	@Test
 	public void testGoToNextIteration2() {
-		SimplexTable simtable = new SimplexTable(2, 7);
+		SimplexTable simtable = new SimplexTable(7, 2);
 		
 		// set basis
 		Vector<Variable> basis = new Vector<>();
@@ -176,7 +177,7 @@ public class CriteriaCheckTest {
 	
 	@Test
 	public void testOptimalReached1() {
-		SimplexTable simtable = new SimplexTable(3, 7);
+		SimplexTable simtable = new SimplexTable(7, 3);
 		// CHANGED: only non-negative values in Costs
 		
 		// set basis
@@ -263,7 +264,7 @@ public class CriteriaCheckTest {
 	
 	@Test
 	public void testOptimalReached2() {
-		SimplexTable simtable = new SimplexTable(2, 7);
+		SimplexTable simtable = new SimplexTable(7, 2);
 		// CHANGED: only non-negative Costs
 		
 		// set basis
@@ -339,7 +340,7 @@ public class CriteriaCheckTest {
 
 	@Test
 	public void testUnbounded1() {
-		SimplexTable simtable = new SimplexTable(3, 7);
+		SimplexTable simtable = new SimplexTable(7, 3);
 		// CHANGED: x1- variable has non-positive column
 		
 		// set basis
@@ -426,7 +427,7 @@ public class CriteriaCheckTest {
 	
 	@Test
 	public void testUnbounded2() {
-		SimplexTable simtable = new SimplexTable(2, 7);
+		SimplexTable simtable = new SimplexTable(7, 2);
 		// CHANGED: x2- variable has non-positive column
 		
 		// set basis

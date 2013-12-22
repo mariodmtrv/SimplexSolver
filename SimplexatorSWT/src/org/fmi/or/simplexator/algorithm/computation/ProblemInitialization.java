@@ -18,7 +18,7 @@ public class ProblemInitialization {
 
 	private boolean isBasisValid(Vector<Variable> initialBasis) {
 		if (initialBasis.size() != problem.getRestrictionsCount()) {
-			// Ui.throwTooFewVariablesMessage("You need 3 vars you added 1");
+			// Ui.throwError("Необходими са problem.getRestrictionsCount()променливи, вие добавихте initialBasis.size()");
 			return false;
 		}
 
@@ -73,7 +73,7 @@ public class ProblemInitialization {
 						}
 						if (nonzeroes > 1) {
 							return false;
-							// Ui.throwWrongBasisSet("The vars do not form basis");
+							// Ui.throwError("Избраните променливи не образуват базис");
 						}
 						break;
 					}
@@ -132,13 +132,13 @@ public class ProblemInitialization {
 		setInitialBasis();
 	}
 
-	public Table makeFirstIteration() {
+	public SimplexTable makeFirstIteration() {
 		initializeTable();
 		// Ui.printTable(table,zfunc);
 		calculateInitialCosts();
 		// Ui.printCosts();
 
-		return simplexTable.getTable();
+		return simplexTable;
 	}
 
 	private void initializeZfunction() {
