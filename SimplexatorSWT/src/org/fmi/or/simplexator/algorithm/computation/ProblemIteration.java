@@ -14,7 +14,7 @@ public class ProblemIteration {
 		this.keyElementCoords = keyElementCoords;
 	}
 
-	private MProblem problem; 
+	private MProblem problem;
 	private SimplexTable simplexTable;
 	private Pair<Integer,Integer> keyElementCoords;
 
@@ -24,11 +24,12 @@ public class ProblemIteration {
 		int indexVarIn = this.keyElementCoords.getSecond();
 		Variable varIn = this.problem.getVarByIndex(indexVarIn);
 		
+		// UI.printMessage("Променливата \\this.problem.getVarByIndex(indexVarOut) излиза от базиса, а на нейно място влиза \\this.problem.getVarByIndex(indexVarIn).");
 		this.simplexTable.setBasisIndecesElementAt(indexVarIn, indexVarOut);
 		this.simplexTable.setBasisElementAt(varIn, indexVarOut);
 	}
 	
-	public void makeIteration() {
+	public SimplexTable makeIteration() {
 		// new table has same parameters as the other, but it is blank,
 		// except for the zfunctionCoefs, basis and basisIndeces
 		SimplexTable newSimplexTable = new SimplexTable(this.simplexTable);
@@ -37,15 +38,17 @@ public class ProblemIteration {
 		changeBasis();
 		
 		// fill keyElem's row
+		// UI.printMessage("Редът на ключовия елемент се преписва от старата таблица като преди това се разделя на стойността на ключовия елемент.");
+		// UI.highlightElement(keyElementCoords.getFirst(), keyElementCoords.getSecond());
 		for (int j = 0; j <= simplexTable.getVarCount(); j++) {
 			Fraction value = rectangleRule(keyElementCoords,
 					keyElementCoords.getFirst(), j);
 			newSimplexTable.setSimplexTableItem(keyElementCoords.getFirst(), j,
 					value);
 		}
-		// UI.highlightKeyElemRow(keyElementCoords);
 
 		// fill basis' vars columns
+		// UI.printMessage("Колоните на базисните променливи се попълват с нули и една единица на реда, отговарящ на позицията й вляво.");
 		Vector<Integer> basisIndeces = simplexTable.getBasisIndeces();
 		for (int basisVarIndex : basisIndeces) {
 			for (int i = 0; i <= simplexTable.getVarCount() + 1; i++) {
@@ -53,10 +56,12 @@ public class ProblemIteration {
 						basisVarIndex);
 				newSimplexTable.setSimplexTableItem(i, basisVarIndex, value);
 			}
-			// UI.highlightBasisVarColumn(i);
+			// UI.highlightColumns(simplexTable.getBasisIndecesElement(i));
 		}
 
 		// fill rest
+		// UI.printMessage("Останалите клетки попълваме по правилото на правоъгълника.");
+		// UI.printMessage(---explain_rectangle_rule---);
 		for (int i = 0; i <= simplexTable.getVarCount() + 1; i++) {
 			if (i == keyElementCoords.getFirst()) {
 				// we have already filled the keyElem's row
@@ -70,13 +75,11 @@ public class ProblemIteration {
 				}
 				Fraction value = rectangleRule(keyElementCoords, i, j);
 				newSimplexTable.setSimplexTableItem(i, j, value);
-				// UI.fillTableElement(i,j);
+				// UI.highlightTableElement(i,j);
 			}
 		}
-	}
-
-	private void fillTable(Pair<Integer, Integer> keyElementCoords) {
-		// TODO: remind me why we make that function ?????????????????????????????
+		
+		return this.simplexTable;
 	}
 
 	private boolean isIndexOfBasisVar(int i) {
@@ -106,11 +109,6 @@ public class ProblemIteration {
 				simplexTable.getSimplexTableItem(i, q).multiply(
 						simplexTable.getSimplexTableItem(p, j).divide(
 								keyElement)));
-	}
-
-	private void visualizeTable() {
-		// TODO: remind me why we make that function ?????????????????????????????
-		// perhaps it's obsolete because we visualize everything when we compute it in makeIeration()
 	}
 
 	// everything down this line is obsolete ?????????????????????????????????????

@@ -14,12 +14,7 @@ import org.junit.Test;
 
 public class ProblemIterationTest {
 
-	/*@Test
-	public void testProblemIteration() {
-		fail("Not yet implemented");
-	}*/
-
-	//@Test
+	@Test
 	public void testMakeIterationMinimum() {
 		MProblemConversionTest t=new MProblemConversionTest();
 		Problem p=t.testCanonicalProblemMinimum();
@@ -29,17 +24,18 @@ public class ProblemIterationTest {
 		ProblemInitialization mProblemInit = 
 				new ProblemInitialization(mProblem);
 		SimplexTable simtable = mProblemInit.makeFirstIteration();
-		// TODO: change what makeFirstIteration returns !!!!!!!!!!!!
 		
 		// now test..
 		CriteriaCheck crit = new CriteriaCheck(simtable);
 		Pair<Integer,Integer> keyElementCoords;
 		while(	(keyElementCoords = crit.checkCriteriaAndFindNewBasis())	 != null	) {
 			ProblemIteration mProblemIter = new ProblemIteration(mProblem, simtable, keyElementCoords);
+			simtable = mProblemIter.makeIteration();
+			crit = new CriteriaCheck(simtable);
 		}
-		
-		}
-	@Test
+	}
+	
+	//@Test
 	public void testMakeIterationMaximum() {
 		MProblemConversionTest t=new MProblemConversionTest();
 		Problem p=t.testCanonicalProblemMaximum();
@@ -55,8 +51,10 @@ public class ProblemIterationTest {
 		Pair<Integer,Integer> keyElementCoords;
 		while(	(keyElementCoords = crit.checkCriteriaAndFindNewBasis())	 != null	) {
 			ProblemIteration mProblemIter = new ProblemIteration(mProblem, simtable, keyElementCoords);
+			simtable = mProblemIter.makeIteration();
+			crit = new CriteriaCheck(simtable);
 		}
 		
-		}
+	}
 	
 }

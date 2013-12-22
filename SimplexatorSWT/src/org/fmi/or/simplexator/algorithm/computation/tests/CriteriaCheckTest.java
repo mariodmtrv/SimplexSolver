@@ -1,5 +1,7 @@
 package org.fmi.or.simplexator.algorithm.computation.tests;
 
+import static org.junit.Assert.*;
+
 import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.computation.CriteriaCheck;
@@ -96,6 +98,11 @@ public class CriteriaCheckTest {
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
 		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+
+		Pair<Integer,Integer> compareTo=new Pair<Integer, Integer>(0, 1);
+		if(!newBasis.equals(compareTo)) {
+			fail("pair should be <0,1>");
+		}
 	}
 	
 	@Test
@@ -170,7 +177,12 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		cc.checkCriteriaAndFindNewBasis();
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+
+		Pair<Integer,Integer> compareTo=new Pair<Integer, Integer>(1, 2);
+		if(!newBasis.equals(compareTo)) {
+			fail("pair should be <1,2>");
+		}
 	}
 	
 
@@ -259,7 +271,11 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		cc.checkCriteriaAndFindNewBasis();
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+
+		if(newBasis!=null) {
+			fail("should be optimal");
+		}
 	}
 	
 	@Test
@@ -335,7 +351,11 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		cc.checkCriteriaAndFindNewBasis();
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+
+		if(newBasis!=null) {
+			fail("should be optimal");
+		}
 	}
 
 	@Test
@@ -422,7 +442,11 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		cc.checkCriteriaAndFindNewBasis();
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+
+		if(newBasis!=null) {
+			fail("should be unbounded");
+		}
 	}
 	
 	@Test
@@ -498,7 +522,10 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		cc.checkCriteriaAndFindNewBasis();
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
 		
+		if(newBasis!=null) {
+			fail("should be unbounded");
+		}
 	}
 }
