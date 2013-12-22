@@ -1,7 +1,6 @@
 package org.fmi.or.simplexator.visualization;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -9,20 +8,21 @@ import java.util.Vector;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.fmi.or.simplexator.algorithm.converter.EquationSign;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
@@ -37,11 +37,11 @@ public class ProblemDescription {
 	private ArrayList<Text> rightSideValues;
 	private ArrayList<Combo> equationSigns;
 	private ArrayList<ArrayList<Text>> restrictionCoefficients;
+	private ArrayList<Button> hasNoNegativePart;
 	private Text restrictionNumericValue;
 	private Integer restrictionsCount;
 	private Integer variablesCount;
 	private Boolean isMinimum;
-	private Problem problem;
 
 	public ProblemDescription(boolean isMinimum, int variablesCount,
 			int restrictionsCount) {
@@ -51,6 +51,7 @@ public class ProblemDescription {
 		this.isMinimum = isMinimum;
 		restrictionCoefficients = new ArrayList<>(restrictionsCount);
 		rightSideValues = new ArrayList<>(restrictionsCount);
+		hasNoNegativePart = new ArrayList<>(variablesCount);
 		equationSigns = new ArrayList<Combo>();
 	}
 
@@ -71,22 +72,51 @@ public class ProblemDescription {
 		return Optimum.MAXIMUM;
 	}
 
-	private void createProblem() {
+	private Problem createProblem() {
 		List<Variable> zfunction = addZFunction();
 		Vector<Restriction> restrictions = new Vector<>();
 		for (int restrIndex = 0; restrIndex < restrictionsCount; restrIndex++) {
 			Restriction current = getRestriction(restrIndex);
 			restrictions.add(current);
 		}
-		Vector<Boolean> hasNegativePart = new Vector<>();
-		problem = new Problem(zfunction, restrictions, getOptimum(),
+		Vector<Boolean> hasNegativePart = getNegativeParts();
+		
+		Problem problem = new Problem(zfunction, restrictions, getOptimum(),
 				hasNegativePart);
+		return problem;
+	}
+private Vector<Boolean> getNegativeParts(){
+	Vector<Boolean> result=new Vector<>();
+	for(Button isNonNegative:hasNoNegativePart){
+		result.add(!isNonNegative.getSelection());
+		}
+	return result;
+}
+	private EquationSign getEquationSign(Combo combo) {
+		String sign = combo.getText();
+		switch (sign) {
+		case ">=":
+			return EquationSign.GTE;
+		case "<=":
+			return EquationSign.LTE;
+		case "=":
+			return EquationSign.EQ;
+		}
+		return null;
 	}
 
 	private Restriction getRestriction(int restrIndex) {
-		List<Variable> variables = null;
-		EquationSign sign = null;
-		Fraction rightSide = null;
+		List<Variable> variables = new LinkedList<>();
+		ArrayList<Text> coefficients = restrictionCoefficients.get(restrIndex);
+		int index = 1;
+		for (Text coef : coefficients) {
+			variables.add(new Variable(new Fraction(coef.getText()), index));
+			index++;
+		}
+
+		EquationSign sign = getEquationSign(equationSigns.get(restrIndex));
+		Fraction rightSide = new Fraction(rightSideValues.get(restrIndex)
+				.getText());
 		Restriction current = new Restriction(variables, sign, rightSide);
 		return current;
 	}
@@ -95,23 +125,27 @@ public class ProblemDescription {
 		restrictionCoefficients = new ArrayList<ArrayList<Text>>(
 				restrictionsCount);
 		shell = new Shell();
+
 		shell.setSize(370 + variablesCount * 110, 140 + restrictionsCount * 90);
 		shell.setText("Ограничени�?");
 		visualizeFunction(isMinimum, variablesCount);
 		for (Integer i = 1; i <= restrictionsCount; i++) {
 			visualizeRestriction(variablesCount, i);
 		}
+		visualizeNonNegatives();
 		Button btnToTable = new Button(shell, SWT.NONE);
 		btnToTable.setFont(SWTResourceManager.getFont("Segoe UI", 14,
 				SWT.NORMAL));
 		btnToTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
-				// System.out.println(zFuncCoefs.get(1).getText());
-				// call problem conversion
+			
+				ProblemConversion conversion=new ProblemConversion();
+			
+				shell.dispose();
 			}
 		});
-		btnToTable.setBounds(200 + variablesCount * 110,
+		btnToTable.setBounds(300 + variablesCount * 110,
 				50 + restrictionsCount * 90, 120, 35);
 		btnToTable.setText("Продължи");
 
@@ -157,11 +191,10 @@ public class ProblemDescription {
 		curRestrCoefs.add(restrictionX1Visualization(restrictionIndex,
 				restrictionComposite));
 
-		for (Integer i = 1; i <= variablesCount; i++) {
+		for (Integer i = 2; i <= variablesCount; i++) {
 			Composite restrictionXComposite = new Composite(
 					restrictionComposite, SWT.NONE);
 			restrictionXComposite.setBounds(120 + 105 * (i - 2), 15, 105, 45);
-
 			restrictionCoefficient = new Text(restrictionXComposite, SWT.BORDER);
 			restrictionCoefficient.setFont(SWTResourceManager.getFont(
 					"Segoe UI", 13, SWT.NORMAL));
@@ -193,17 +226,37 @@ public class ProblemDescription {
 				155, 45);
 
 		Combo restrictionSign = new Combo(restrictionRightSide, SWT.NONE);
-		restrictionSign.setItems(new String[] { "<", "<=", "=", ">", ">=" });
+		restrictionSign.setItems(new String[] { "<=", "=", ">=" });
+		restrictionSign.select(1);
 		restrictionSign.setFont(SWTResourceManager.getFont("Segoe UI", 14,
 				SWT.NORMAL));
-		restrictionSign.setBounds(10, 5, 50, 25);
+		restrictionSign.setBounds(10, 5, 60, 25);
 
 		restrictionNumericValue = new Text(restrictionRightSide, SWT.BORDER);
 		restrictionNumericValue.setFont(SWTResourceManager.getFont("Segoe UI",
 				13, SWT.NORMAL));
-		restrictionNumericValue.setBounds(65, 5, 50, 32);
+		restrictionNumericValue.setBounds(75, 5, 50, 32);
 		rightSideValues.add(restrictionNumericValue);
 		equationSigns.add(restrictionSign);
+	}
+
+	private void visualizeNonNegatives() {
+
+		
+		Group nonNegatives = new Group(shell, SWT.NONE);
+		
+		nonNegatives.setBounds(45, 65 * (restrictionsCount) + 88,
+				150 + 110 * (variablesCount - 1), 25);
+		nonNegatives.setText("НEОТРИЦАТЕЛНИ");
+	
+		for (int index = 1; index <= variablesCount; index++) {
+			Button check = new Button(nonNegatives, SWT.CHECK);
+			check.setBounds(120+ 110 * (index-1), 5, 20, 20);
+			check.setSize(40, 40);
+			check.pack();
+			hasNoNegativePart.add(check);
+		}
+
 	}
 
 	protected void visualizeFunction(boolean isMinimum, int variablesCount) {
@@ -243,7 +296,6 @@ public class ProblemDescription {
 
 			Composite composite = new Composite(shell, SWT.NONE);
 			composite.setBounds(200 + 110 * (i - 2), 30, 109, 45);
-
 			Text coefficient = new Text(composite, SWT.BORDER);
 			coefficient.setFont(SWTResourceManager.getFont("Segoe UI", 13,
 					SWT.NORMAL));

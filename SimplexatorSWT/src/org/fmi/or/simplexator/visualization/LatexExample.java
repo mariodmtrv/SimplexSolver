@@ -1,101 +1,68 @@
 package org.fmi.or.simplexator.visualization;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Graphics;
+import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
-import org.scilab.forge.jlatexmath.TeXConstants;
+import org.scilab.forge.jlatexmath.TeXConstants; 
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import org.scilab.forge.jlatexmath.DefaultTeXFont;
 
-public class LatexExample extends JFrame implements ActionListener {
+import org.scilab.forge.jlatexmath.cyrillic.CyrillicRegistration;
+import org.scilab.forge.jlatexmath.greek.GreekRegistration;
+
+/**
+ * A class to test LaTeX rendering.
+ **/
+public class LatexExample {
+    public static void main(String[] args) {
 	
-	private JTextArea latexSource;
-	private JButton btnRender;
-	private JPanel drawingArea;
+	String latex = "\\begin{array}{lr}\\mbox{\\textcolor{Blue}{Russian}}&\\mbox{\\textcolor{Melon}{Greek}}\\\\";
+	latex += "\\mbox{" + "привет мир".toUpperCase() + "}&\\mbox{" + "γειά κόσμο".toUpperCase() + "}\\\\";
+	latex += "\\mbox{привет мир}&\\mbox{γειά κόσμο}\\\\";
+	latex += "\\mathbf{\\mbox{привет мир}}&\\mathbf{\\mbox{γειά κόσμο}}\\\\";
+	latex += "\\mathit{\\mbox{привет мир}}&\\mathit{\\mbox{γειά κόσμο}}\\\\";
+	latex += "\\mathsf{\\mbox{привет мир}}&\\mathsf{\\mbox{γειά κόσμο}}\\\\";
+	latex += "\\mathtt{\\mbox{привет мир}}&\\mathtt{\\mbox{γειά κόσμο}}\\\\";
+	latex += "\\mathbf{\\mathit{\\mbox{привет мир}}}&\\mathbf{\\mathit{\\mbox{γειά κόσμο}}}\\\\";
+	latex += "\\mathbf{\\mathsf{\\mbox{привет мир}}}&\\mathbf{\\mathsf{\\mbox{γειά κόσμο}}}\\\\";
+	latex += "\\mathsf{\\mathit{\\mbox{привет мир}}}&\\mathsf{\\mathit{\\mbox{γειά κόσμο}}}\\\\";
+	latex += "&\\\\";
+	latex += "\\mbox{\\textcolor{Salmon}{Bulgarian}}&\\mbox{\\textcolor{Tan}{Serbian}}\\\\";
+	latex += "\\mbox{здравей свят}&\\mbox{Хелло уорлд}\\\\";
+	latex += "&\\\\";
+	latex += "\\mbox{\\textcolor{Turquoise}{Bielorussian}}&\\mbox{\\textcolor{LimeGreen}{Ukrainian}}\\\\";
+	latex += "\\mbox{прывітаньне Свет}&\\mbox{привіт світ}\\\\";
+	latex += "\\end{array}";
+	
+	DefaultTeXFont.registerAlphabet(new CyrillicRegistration());
+	DefaultTeXFont.registerAlphabet(new GreekRegistration());
 
-	public LatexExample() {
-		this.setTitle("JLatexMath Example");
-		this.setSize(500, 500);
-		Container content = this.getContentPane();
-		content.setLayout(new GridLayout(2, 1));
-		this.latexSource = new JTextArea();
-		
-		JPanel editorArea = new JPanel();
-		editorArea.setLayout(new BorderLayout());
-		editorArea.add(new JScrollPane(this.latexSource),BorderLayout.CENTER);
-		editorArea.add(btnRender = new JButton("Render"),BorderLayout.SOUTH);		
-		
-		content.add(editorArea);
-		content.add(this.drawingArea = new JPanel());		
-		this.btnRender.addActionListener(this);
-		
-		this.latexSource.setText("x=\\frac{-b \\pm \\sqrt {b^2-4ac}}{2a}");
-	}
-
-	public void render() {
-		try {
-			// get the text
-			String latex = this.latexSource.getText();
-			
-			// create a formula
-			TeXFormula formula = new TeXFormula(latex);
-			
-			// render the formla to an icon of the same size as the formula.
-			TeXIcon icon = formula
-					.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
-			
-			// insert a border 
-			icon.setInsets(new Insets(5, 5, 5, 5));
-
-			// now create an actual image of the rendered equation
-			BufferedImage image = new BufferedImage(icon.getIconWidth(),
-					icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g2 = image.createGraphics();
-			g2.setColor(Color.white);
-			g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
-			JLabel jl = new JLabel();
-		jl.setForeground(new Color(0, 0, 0));
-		icon.paintIcon(jl, g2, 0, 0);
-		
-			// at this point the image is created, you could also save it with ImageIO
-			
-			// now draw it to the screen			
-			Graphics g = this.drawingArea.getGraphics();
-			g.drawImage(image,0,0,null);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
-					JOptionPane.INFORMATION_MESSAGE);		
-		}
-
-	}
-
-	public static void main(String[] args) {
-		LatexExample frame = new LatexExample();		
-		frame.setVisible(true);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if( e.getSource()==this.btnRender ) {
-			render();
-		}
-		
-	}
+	TeXFormula formula = new TeXFormula(latex);
+	TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
+	icon.setInsets(new Insets(5, 5, 5, 5));
+	
+	BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+	Graphics2D g2 = image.createGraphics();
+	g2.setColor(Color.white);
+	g2.fillRect(0,0,icon.getIconWidth(),icon.getIconHeight());
+	JLabel jl = new JLabel();
+	jl.setForeground(new Color(0, 0, 0));
+	icon.paintIcon(jl, g2, 0, 0);
+	File file = new File("Example1.png");
+	try {
+	    ImageIO.write(image, "png", file.getAbsoluteFile());
+	} catch (IOException ex) { }
+    }    
 }

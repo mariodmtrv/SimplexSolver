@@ -18,6 +18,8 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.custom.ScrolledComposite;
 
 public class Main {
 
@@ -46,7 +48,11 @@ public class Main {
 		Display display = Display.getDefault();
 
 		shell = new Shell();
-	shell.setLayout(new FormLayout());
+		
+		
+		
+		
+	
 
 	/*	Composite simplexTableInstance = new Composite(shell, SWT.NONE);
 		simplexTableInstance.setFont(SWTResourceManager.getFont("Segoe UI", 14,
@@ -65,8 +71,10 @@ public class Main {
 		shell.open();
 		shell.layout();
 */
-		InitialRestrictions in=new InitialRestrictions();
-		in.createProblemEnvironment();
+		/*InitialRestrictions in=new InitialRestrictions();
+		in.createProblemEnvironment();*/
+
+		ProblemConversion conversion=new ProblemConversion();
 	
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -104,6 +112,4 @@ public class Main {
 		xSignLabel.setText("+");
 		xSignLabel.setBounds(20, 0, 50, 25);
 	}
-
-	
 }
