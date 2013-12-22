@@ -35,7 +35,7 @@ public class ProblemDescription {
 	protected Shell shell;
 	private ArrayList<Text> zFuncCoefs;
 	private ArrayList<Text> rightSideValues;
-	
+	private ArrayList<Combo> equationSigns;
 	private ArrayList<ArrayList<Text>> restrictionCoefficients;
 	private Text restrictionNumericValue;
 	private Integer restrictionsCount;
@@ -50,7 +50,8 @@ public class ProblemDescription {
 		this.variablesCount = variablesCount;
 		this.isMinimum = isMinimum;
 		restrictionCoefficients = new ArrayList<>(restrictionsCount);
-		rightSideValues=new ArrayList<>(restrictionsCount);
+		rightSideValues = new ArrayList<>(restrictionsCount);
+		equationSigns = new ArrayList<Combo>();
 	}
 
 	private List<Variable> addZFunction() {
@@ -106,8 +107,8 @@ public class ProblemDescription {
 		btnToTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
-			//	System.out.println(zFuncCoefs.get(1).getText());
-			//call problem conversion
+				// System.out.println(zFuncCoefs.get(1).getText());
+				// call problem conversion
 			}
 		});
 		btnToTable.setBounds(200 + variablesCount * 110,
@@ -202,6 +203,7 @@ public class ProblemDescription {
 				13, SWT.NORMAL));
 		restrictionNumericValue.setBounds(65, 5, 50, 32);
 		rightSideValues.add(restrictionNumericValue);
+		equationSigns.add(restrictionSign);
 	}
 
 	protected void visualizeFunction(boolean isMinimum, int variablesCount) {
