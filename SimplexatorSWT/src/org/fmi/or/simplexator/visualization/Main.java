@@ -48,12 +48,6 @@ public class Main {
 		Display display = Display.getDefault();
 
 		shell = new Shell();
-		
-		
-		
-		
-	
-
 	/*	Composite simplexTableInstance = new Composite(shell, SWT.NONE);
 		simplexTableInstance.setFont(SWTResourceManager.getFont("Segoe UI", 14,
 				SWT.NORMAL));

@@ -1,7 +1,9 @@
 package org.fmi.or.simplexator.visualization;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
@@ -21,6 +24,10 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.PaletteData;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -41,78 +48,66 @@ import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+
 public class ProblemConversion {
 	protected Shell shell;
-	Composite problem;
-	Canvas canvas;
-	public ProblemConversion(){
+	private Display display;
+	private Label problem;
+
+	public ProblemConversion() {
+		display = Display.getCurrent();
+		shell = new Shell(display);
+
+		problem = new Label(shell, SWT.BORDER);
+		problem.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		problem.setBounds(50, 50, shell.getSize().x/2, shell.getSize().y/2);
+		
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setBounds(83, 249, 385, 152);
 		open();
 	}
-	Frame frame;
-	private static LinkedList<Pair<String,Destination>> messages;
+
+	private static LinkedList<Pair<String, Destination>> messages;
+
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	public void open() {
-		shell=new Shell();
-	/*	
-	//	canvas=new org.eclipse.swt.widgets.Canvas(parent, style));
-		Composite composite = new Composite(shell, SWT.EMBEDDED);
-composite.setBounds(0, 0, 500, 500);
-	    frame = SWT_AWT.new_Frame(composite);
-	    frame.setBounds(10, 10, 200, 300);
-		canvas=new Canvas();
-		//canvas.setBackground(java.awt.Color.RED);
-		canvas.setBounds(10, 10, 200, 300);
-		/*problem = new Composite(shell, SWT.NONE);
-		problem.setBounds(67, 10, 317, 64);
-		ScrolledComposite messageLog = new ScrolledComposite(shell, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		messageLog.setBounds(67, 145, 317, 85);
-		messageLog.setExpandVertical(true);
-		frame.add(canvas);*/
-		//printToProblem("Hello");
+	//printToProblem("a_1^+ Hello bihile (!shell.isDisposed()) \\hline  {if (!display.readAndDispatch())display.sleep();");
 		shell.open();
-		shell.layout();
-	}
-	private void appendToFile(){
-		
-	}
-	public void getNext(){
-		
-	}
-	public void getPrevious(){
-		
-	}
-	
-	private void printToProblem(String message) {
-		TeXFormula formula = new TeXFormula(message);
-		TeXIcon icon = formula
-				.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
-		BufferedImage image = new BufferedImage(icon.getIconWidth(),
-				icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-		canvas=new Canvas();
-		Graphics2D g2 = image.createGraphics();
-		g2.setColor(Color.WHITE);
-		g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
-		icon.paintIcon(canvas, g2, 0, 0);
-		
-		File outputfile = new File("image.jpg");
-	
-		
-		Graphics g = canvas.getGraphics();
-		
-		g.drawImage(image,0,0,null);
-		try {
-			ImageIO.write(image, "jpg", outputfile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
 		}
-		
-		
+		display.dispose();
 	}
-	private void printToConsole(){
-		
+
+	private void appendToFile() {
+
 	}
-	
+
+	public void getNext() {
+
+	}
+
+	public void getPrevious() {
+
+	}
+
+	private void printToConsole() {
+
+	}
+
+	private void printToProblem(String latexText) {
+		TeXFormula formula = new TeXFormula(latexText);
+		UUID id=UUID.randomUUID();
+		String imageName=id+".png";
+		formula.createPNG(TeXConstants.STYLE_DISPLAY, 20, imageName,
+				Color.white, Color.black);
+
+		Image image = new Image(display, imageName);
+		problem.setImage(image);
+		File f = new File(imageName);
+		f.delete();
+	}
 }
