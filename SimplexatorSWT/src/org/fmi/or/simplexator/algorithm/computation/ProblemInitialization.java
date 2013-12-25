@@ -18,7 +18,7 @@ public class ProblemInitialization {
 
 	private boolean isBasisValid(Vector<Variable> initialBasis) {
 		if (initialBasis.size() != problem.getRestrictionsCount()) {
-			// Ui.throwError("Необходими са problem.getRestrictionsCount()променливи, вие добавихте initialBasis.size()");
+			// Ui.throwError("РќРµРѕР±С…РѕРґРёРјРё СЃР° problem.getRestrictionsCount()РїСЂРѕРјРµРЅР»РёРІРё, РІРёРµ РґРѕР±Р°РІРёС…С‚Рµ initialBasis.size()");
 			return false;
 		}
 
@@ -73,7 +73,7 @@ public class ProblemInitialization {
 						}
 						if (nonzeroes > 1) {
 							return false;
-							// Ui.throwError("Избраните променливи не образуват базис");
+							// Ui.throwError("Р�Р·Р±СЂР°РЅРёС‚Рµ РїСЂРѕРјРµРЅР»РёРІРё РЅРµ РѕР±СЂР°Р·СѓРІР°С‚ Р±Р°Р·РёСЃ");
 						}
 						break;
 					}

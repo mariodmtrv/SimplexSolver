@@ -8,39 +8,39 @@ import org.fmi.or.simplexator.algorithm.converter.Variable;
 
 public class ProblemIteration {
 
-	public ProblemIteration(MProblem problem, SimplexTable simplexTable, Pair<Integer,Integer> keyElementCoords) {
+	public ProblemIteration(MProblem problem, SimplexTable oldSimplexTable, Pair<Integer,Integer> keyElementCoords) {
 		this.problem = problem;
-		this.simplexTable = simplexTable;
+		this.oldSimplexTable = oldSimplexTable;
 		this.keyElementCoords = keyElementCoords;
 	}
 
 	private MProblem problem;
-	private SimplexTable simplexTable;
+	private SimplexTable oldSimplexTable;
 	private Pair<Integer,Integer> keyElementCoords;
 
 	// set the new basis for the newSimplexTable
-	private void changeBasis() {
+	private void changeBasis(SimplexTable newSimplexTable) {
 		int indexVarOut = this.keyElementCoords.getFirst();
 		int indexVarIn = this.keyElementCoords.getSecond();
 		Variable varIn = this.problem.getVarByIndex(indexVarIn);
 		
 		// UI.printMessage("Променливата \\this.problem.getVarByIndex(indexVarOut) излиза от базиса, а на нейно място влиза \\this.problem.getVarByIndex(indexVarIn).");
-		this.simplexTable.setBasisIndecesElementAt(indexVarIn, indexVarOut);
-		this.simplexTable.setBasisElementAt(varIn, indexVarOut);
+		newSimplexTable.setBasisIndecesElementAt(indexVarIn, indexVarOut);
+		newSimplexTable.setBasisElementAt(varIn, indexVarOut);
 	}
 	
 	public SimplexTable makeIteration() {
 		// new table has same parameters as the other, but it is blank,
 		// except for the zfunctionCoefs, basis and basisIndeces
-		SimplexTable newSimplexTable = new SimplexTable(this.simplexTable);
+		SimplexTable newSimplexTable = new SimplexTable(this.oldSimplexTable);
 		
 		// change basis of newSimplexTable
-		changeBasis();
+		changeBasis(newSimplexTable);
 		
 		// fill keyElem's row
 		// UI.printMessage("Редът на ключовия елемент се преписва от старата таблица като преди това се разделя на стойността на ключовия елемент.");
 		// UI.highlightElement(keyElementCoords.getFirst(), keyElementCoords.getSecond());
-		for (int j = 0; j <= simplexTable.getVarCount(); j++) {
+		for (int j = 0; j <= oldSimplexTable.getVarCount(); j++) {
 			Fraction value = rectangleRule(keyElementCoords,
 					keyElementCoords.getFirst(), j);
 			newSimplexTable.setSimplexTableItem(keyElementCoords.getFirst(), j,
@@ -49,9 +49,9 @@ public class ProblemIteration {
 
 		// fill basis' vars columns
 		// UI.printMessage("Колоните на базисните променливи се попълват с нули и една единица на реда, отговарящ на позицията й вляво.");
-		Vector<Integer> basisIndeces = simplexTable.getBasisIndeces();
+		Vector<Integer> basisIndeces = oldSimplexTable.getBasisIndeces();
 		for (int basisVarIndex : basisIndeces) {
-			for (int i = 0; i <= simplexTable.getVarCount() + 1; i++) {
+			for (int i = 0; i <= oldSimplexTable.getRestrictionsCount() + 1; i++) {
 				Fraction value = rectangleRule(keyElementCoords, i,
 						basisVarIndex);
 				newSimplexTable.setSimplexTableItem(i, basisVarIndex, value);
@@ -62,12 +62,12 @@ public class ProblemIteration {
 		// fill rest
 		// UI.printMessage("Останалите клетки попълваме по правилото на правоъгълника.");
 		// UI.printMessage(---explain_rectangle_rule---);
-		for (int i = 0; i <= simplexTable.getVarCount() + 1; i++) {
+		for (int i = 0; i <= oldSimplexTable.getRestrictionsCount() + 1; i++) {
 			if (i == keyElementCoords.getFirst()) {
 				// we have already filled the keyElem's row
 				continue;
 			}
-			for (int j = 0; j <= simplexTable.getRestrictionsCount(); j++) {
+			for (int j = 0; j <= oldSimplexTable.getVarCount(); j++) {
 				if (isIndexOfBasisVar(j)) {
 					// we have already filled the columns of the vars in the
 					// basis
@@ -79,11 +79,11 @@ public class ProblemIteration {
 			}
 		}
 		
-		return this.simplexTable;
+		return newSimplexTable;
 	}
 
 	private boolean isIndexOfBasisVar(int i) {
-		Vector<Integer> basisIndeces = simplexTable.getBasisIndeces();
+		Vector<Integer> basisIndeces = oldSimplexTable.getBasisIndeces();
 		for (int basisVarIndex : basisIndeces) {
 			if (i == basisVarIndex)
 				return true;
@@ -95,19 +95,19 @@ public class ProblemIteration {
 			int i, int j) {
 		int p = keyElementCoords.getFirst();
 		int q = keyElementCoords.getSecond();
-		Fraction keyElement = simplexTable.getSimplexTableItem(p, q);
+		Fraction keyElement = oldSimplexTable.getSimplexTableItem(p, q);
 
 		if (p == i && q == j)
 			return new Fraction(1);
 		else if (p == i)
-			return simplexTable.getSimplexTableItem(i, j).divide(
-					simplexTable.getSimplexTableItem(p, q));
+			return oldSimplexTable.getSimplexTableItem(i, j).divide(
+					oldSimplexTable.getSimplexTableItem(p, q));
 		else if (q == j)
 			return new Fraction(0);
 
-		return simplexTable.getSimplexTableItem(i, j).subtract(
-				simplexTable.getSimplexTableItem(i, q).multiply(
-						simplexTable.getSimplexTableItem(p, j).divide(
+		return oldSimplexTable.getSimplexTableItem(i, j).subtract(
+				oldSimplexTable.getSimplexTableItem(i, q).multiply(
+						oldSimplexTable.getSimplexTableItem(p, j).divide(
 								keyElement)));
 	}
 

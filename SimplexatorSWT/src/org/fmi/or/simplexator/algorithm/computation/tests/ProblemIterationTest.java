@@ -14,7 +14,7 @@ import org.junit.Test;
 
 public class ProblemIterationTest {
 
-	@Test
+	//@Test
 	public void testMakeIterationMinimum() {
 		MProblemConversionTest t=new MProblemConversionTest();
 		Problem p=t.testCanonicalProblemMinimum();
@@ -25,17 +25,18 @@ public class ProblemIterationTest {
 				new ProblemInitialization(mProblem);
 		SimplexTable simtable = mProblemInit.makeFirstIteration();
 		
-		// now test..
-		CriteriaCheck crit = new CriteriaCheck(simtable);
-		Pair<Integer,Integer> keyElementCoords;
-		while(	(keyElementCoords = crit.checkCriteriaAndFindNewBasis())	 != null	) {
+		// now test...
+		CriteriaCheck critCheck = new CriteriaCheck(simtable);
+		Pair<Integer,Integer> keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
+		while(keyElementCoords != null) {
 			ProblemIteration mProblemIter = new ProblemIteration(mProblem, simtable, keyElementCoords);
 			simtable = mProblemIter.makeIteration();
-			crit = new CriteriaCheck(simtable);
+			critCheck = new CriteriaCheck(simtable);
+			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
 		}
 	}
 	
-	//@Test
+	@Test
 	public void testMakeIterationMaximum() {
 		MProblemConversionTest t=new MProblemConversionTest();
 		Problem p=t.testCanonicalProblemMaximum();
@@ -47,12 +48,13 @@ public class ProblemIterationTest {
 		SimplexTable simtable = mProblemInit.makeFirstIteration();
 		
 		// now test..
-		CriteriaCheck crit = new CriteriaCheck(simtable);
-		Pair<Integer,Integer> keyElementCoords;
-		while(	(keyElementCoords = crit.checkCriteriaAndFindNewBasis())	 != null	) {
+		CriteriaCheck critCheck = new CriteriaCheck(simtable);
+		Pair<Integer,Integer> keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
+		while(keyElementCoords != null) {
 			ProblemIteration mProblemIter = new ProblemIteration(mProblem, simtable, keyElementCoords);
 			simtable = mProblemIter.makeIteration();
-			crit = new CriteriaCheck(simtable);
+			critCheck = new CriteriaCheck(simtable);
+			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
 		}
 		
 	}

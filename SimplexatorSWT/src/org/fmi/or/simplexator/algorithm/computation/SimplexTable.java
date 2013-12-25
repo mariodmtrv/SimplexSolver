@@ -209,7 +209,7 @@ public class SimplexTable {
 			table.setElement(i, j, value);
 		}
 
-		if (j == getVarCount() && i >= getRestrictionsCount()) {
+		else if (j == getVarCount() && i >= getRestrictionsCount()) {
 			// set Z-costs
 			if (i == getRestrictionsCount()) {
 				resultNumValue = value;
@@ -218,12 +218,12 @@ public class SimplexTable {
 			}
 		}
 
-		if (j == getVarCount()) {
+		else if (j == getVarCount()) {
 			// set right side vector
 			rightSideValues.setElementAt(value, i);
 		}
 
-		if (i >= getRestrictionsCount()) {
+		else if (i >= getRestrictionsCount()) {
 			// set costs
 			if (i == getRestrictionsCount()) {
 				numCost.setElementAt(value, j);
