@@ -25,7 +25,8 @@ public class Main {
 
 	protected Shell shell;
 	private Text restrictionNumericValue;
-    private Problem problem;
+	private Problem problem;
+
 	/**
 	 * Launch the application.
 	 * 
@@ -48,28 +49,28 @@ public class Main {
 		Display display = Display.getDefault();
 
 		shell = new Shell();
-	/*	Composite simplexTableInstance = new Composite(shell, SWT.NONE);
-		simplexTableInstance.setFont(SWTResourceManager.getFont("Segoe UI", 14,
-				SWT.NORMAL));
-		simplexTableInstance.setBackground(SWTResourceManager
-				.getColor(SWT.COLOR_WHITE));
-		FormData fd_simplexTableInstance = new FormData();
-		fd_simplexTableInstance.bottom = new FormAttachment(100, -10);
-		fd_simplexTableInstance.left = new FormAttachment(0, 62);
-		fd_simplexTableInstance.top = new FormAttachment(0, 26);
-		fd_simplexTableInstance.right = new FormAttachment(0, 402);
-		simplexTableInstance.setLayoutData(fd_simplexTableInstance);
+		/*
+		 * Composite simplexTableInstance = new Composite(shell, SWT.NONE);
+		 * simplexTableInstance.setFont(SWTResourceManager.getFont("Segoe UI",
+		 * 14, SWT.NORMAL));
+		 * simplexTableInstance.setBackground(SWTResourceManager
+		 * .getColor(SWT.COLOR_WHITE)); FormData fd_simplexTableInstance = new
+		 * FormData(); fd_simplexTableInstance.bottom = new FormAttachment(100,
+		 * -10); fd_simplexTableInstance.left = new FormAttachment(0, 62);
+		 * fd_simplexTableInstance.top = new FormAttachment(0, 26);
+		 * fd_simplexTableInstance.right = new FormAttachment(0, 402);
+		 * simplexTableInstance.setLayoutData(fd_simplexTableInstance);
+		 * 
+		 * visualizeXLabelInstance(simplexTableInstance,0,0,1); // TableColumn
+		 * tc= new TableColumn(table, SWT.NONE); shell.open(); shell.layout();
+		 */
+		/*
+		 * InitialRestrictions in=new InitialRestrictions();
+		 * in.createProblemEnvironment();
+		 */
 
-		visualizeXLabelInstance(simplexTableInstance,0,0,1);
-		// TableColumn tc= new TableColumn(table, SWT.NONE);
-		shell.open();
-		shell.layout();
-*/
-		/*InitialRestrictions in=new InitialRestrictions();
-		in.createProblemEnvironment();*/
+		ProblemConversion conversion = new ProblemConversion();
 
-		ProblemConversion conversion=new ProblemConversion();
-	
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();

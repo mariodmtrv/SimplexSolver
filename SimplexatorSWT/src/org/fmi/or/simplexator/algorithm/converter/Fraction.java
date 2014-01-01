@@ -4,8 +4,8 @@ import java.text.ParseException;
 import java.util.regex.Pattern;
 
 public class Fraction {
-	private int numerator;
-	private int denominator;
+	private Integer numerator;
+	private Integer denominator;
 
 	public static final Fraction M = new Fraction(7_000_003);
 	public static final Fraction ZERO = new Fraction(0);
@@ -22,7 +22,7 @@ public class Fraction {
 			// single number
 			if (!text.contains("/")) {
 				numerator = Integer.parseInt(text);
-				denominator=1;
+				denominator = 1;
 			}
 			// fraction
 			else {
@@ -31,6 +31,7 @@ public class Fraction {
 				denominator = Integer.parseInt(st[1]);
 			}
 		}
+		reduce();
 	}
 
 	private int findGCD(int numerator, int denominator) {
@@ -152,8 +153,19 @@ public class Fraction {
 		return (this.compareTo(other) > 0);
 	}
 
+
 	public String toString() {
-		return this.numerator + "/" + this.denominator;
+		if (this.numerator == 0) {
+			return "0";
+		}
+		if (this.denominator == 1) {
+			return this.numerator.toString();
+		}
+		if (this.numerator < 0) {
+			return "-" + "\\frac{" + Math.abs(this.numerator) + "}{"
+					+ this.denominator + "}";
+		}
+		return "\\frac{" + this.numerator + "}{" + this.denominator + "}";
 	}
 
 }

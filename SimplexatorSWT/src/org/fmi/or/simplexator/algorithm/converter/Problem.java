@@ -4,7 +4,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import org.fmi.or.simplexator.visualization.Destination;
+import org.fmi.or.simplexator.visualization.UIController;
+
 public class Problem extends AbstractProblem {
+
 	private Optimum optimum;
 	private Vector<Boolean> hasNegativePart;
 	protected Integer maxIndex;
@@ -16,6 +20,7 @@ public class Problem extends AbstractProblem {
 
 	public Problem(List<Variable> zfunction, Vector<Restriction> restrictions,
 			Optimum optimum, Vector<Boolean> hasNegativePart) {
+		this.uiController = new UIController();
 		this.optimum = optimum;
 		this.zfunction = zfunction;
 		this.restrictions = restrictions;
@@ -26,42 +31,57 @@ public class Problem extends AbstractProblem {
 	}
 
 	public void convertToK() {
+		uiController.addContent(this.toString(), Destination.WINDOW);
 		setToMinimum();
-	
+
 		setRightSidesToPositive();
-	
+
 		processNegativeParts();
-		
+
 		setToEquations();
 
 	}
 
 	private void setToMinimum() {
 		if (this.optimum != Optimum.MINIMUM) {
-		//	UI.printMessage("Преобразуваме към задача за минимум.\n");
-		//UI.printMessage("max(Z)=min(-Z)\n");
+			uiController.addContent("Преобразуваме към задача за минимум.\n",
+					Destination.LOG);
+			uiController.addContent("max(Z)=min(-Z)\n", Destination.LOG);
 			this.optimum = Optimum.MINIMUM;
 			for (Variable variable : this.zfunction) {
 				variable.changeSign();
 			}
-		//UI.printProblem(problem);
+			uiController.addContent(this.toString(), Destination.WINDOW);
 			return;
 		}
-		//UI.printMessage("Оригиналната задача е за минимум.");
+		uiController.addContent("Оригиналната задача е за минимум.",
+				Destination.LOG);
 	}
 
 	private void setRightSidesToPositive() {
-		//UI.printMessage("Трансформираме всички ограничения с отрицателни десни страни в такива с положителни.")
+		uiController
+				.addContent(
+						"Трансформираме всички ограничения с отрицателни десни страни в такива с положителни.",
+						Destination.LOG);
 		for (Restriction restriction : restrictions) {
 			restriction.rightSideToPositive();
 		}
-		//UI.printProblem(problem);
+		uiController.addContent(this.toString(), Destination.WINDOW);
 	}
 
 	private void setToEquations() {
-		//UI.printMessage("За всяко неравенство в ограниченията заместваме с равенство, като добавяме допълнителна променлива.");
-		//UI.printMessage("<лява_страна> >= <дясна_страна>		става		<лява_страна> - \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.");
-		//UI.printMessage("<лява_страна> <= <дясна_страна>		става		<лява_страна> + \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.");
+		uiController
+				.addContent(
+						"За всяко неравенство в ограниченията заместваме с равенство, като добавяме допълнителна променлива.",
+						Destination.LOG);
+		uiController
+				.addContent(
+						"<лява_страна> >= <дясна_страна>		става		<лява_страна> - \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.",
+						Destination.LOG);
+		uiController
+				.addContent(
+						"<лява_страна> <= <дясна_страна>		става		<лява_страна> + \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.",
+						Destination.LOG);
 		for (Restriction restriction : restrictions) {
 			Variable newVar = restriction.setToEquation(maxIndex);
 			if (newVar != null) {
@@ -88,9 +108,11 @@ public class Problem extends AbstractProblem {
 	}
 
 	private void processNegativeParts() {
-		
-		//UI.printMessage("За всяка променлива \\x_i, за която няма
-		//ограничение за неотрицателност, я заместваме с 2 променливи \\x_i^+ и \\x_i^-, които са неотрицателни.");
+
+		uiController
+				.addContent(
+						"За всяка променлива \\x_i, за която няма ограничение за неотрицателност, я заместваме с 2 променливи \\x_i^+ и \\x_i^-, които са неотрицателни.",
+						Destination.LOG);
 		int varsPassed = 0;
 		Iterator<Variable> zfuncIter = zfunction.iterator();
 		for (Boolean hnp : hasNegativePart) {
@@ -119,6 +141,33 @@ public class Problem extends AbstractProblem {
 			}
 
 		}
-//UI.printProblem(problem);
+		uiController.addContent(this.toString(), Destination.WINDOW);
+	}
+
+	public String toString() {
+		StringBuilder pretty = new StringBuilder();
+		pretty.append(getExtremal());
+		pretty.append(zfunction.get(0).toString());
+		for (int index = 1; index < zfunction.size(); index++) {
+			if (zfunction.get(index).getCoefficient()
+					.isEqualOrHigher(Fraction.ZERO)) {
+				pretty.append("+");
+			}
+			pretty.append(zfunction.get(index).toString());
+
+		}
+		pretty.append("\\cr\\cr");
+
+		for (Restriction restr : restrictions) {
+			pretty.append(restr.toString());
+		}
+		return pretty.toString();
+	}
+
+	private String getExtremal() {
+		if (optimum == Optimum.MINIMUM) {
+			return "{\\bf min {\\it z}}=";
+		}
+		return "{\\bf max {\\it z}}=";
 	}
 }

@@ -15,9 +15,11 @@ public class Variable implements Comparable {
 		this.index = index;
 		this.type = type;
 	}
-    public VariableType getType(){
-    	return type;
-    }
+
+	public VariableType getType() {
+		return type;
+	}
+
 	public Variable(Fraction coefficient, int index) {
 		super();
 		this.coefficient = coefficient;
@@ -28,9 +30,11 @@ public class Variable implements Comparable {
 	public void changeSign() {
 		coefficient.changeSign();
 	}
-    public int getIndex(){
-    	return this.index;
-    }
+
+	public int getIndex() {
+		return this.index;
+	}
+
 	public List<Variable> bipartize() {
 		List<Variable> result = new LinkedList<>();
 		Variable positive = new Variable(this.coefficient, this.index,
@@ -84,6 +88,14 @@ public class Variable implements Comparable {
 	}
 
 	public String toString() {
-		return this.coefficient.toString() + " x" + this.index;
+		StringBuilder result = new StringBuilder();
+		result.append(this.coefficient);
+		result.append("x_" + index);
+		if (this.type == VariableType.NEGATIVE) {
+			result.append("^-");
+		} else if (this.type == VariableType.POSITIVE) {
+			result.append("^+");
+		}
+		return result.toString();
 	}
 }
