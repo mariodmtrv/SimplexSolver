@@ -127,7 +127,7 @@ private Vector<Boolean> getNegativeParts(){
 		shell = new Shell();
 
 		shell.setSize(370 + variablesCount * 110, 140 + restrictionsCount * 90);
-		shell.setText("Ограничени�?");
+		shell.setText("РћРіСЂР°РЅРёС‡РµРЅРёпїЅ?");
 		visualizeFunction(isMinimum, variablesCount);
 		for (Integer i = 1; i <= restrictionsCount; i++) {
 			visualizeRestriction(variablesCount, i);
@@ -140,14 +140,14 @@ private Vector<Boolean> getNegativeParts(){
 			@Override
 			public void mouseDown(MouseEvent e) {
 			
-				ProblemConversion conversion=new ProblemConversion();
+//				ProblemConversion conversion=new ProblemConversion();
 			
 				shell.dispose();
 			}
 		});
 		btnToTable.setBounds(300 + variablesCount * 110,
 				50 + restrictionsCount * 90, 120, 35);
-		btnToTable.setText("Продължи");
+		btnToTable.setText("РџСЂРѕРґСЉР»Р¶Рё");
 
 		shell.open();
 		shell.layout();
@@ -247,7 +247,7 @@ private Vector<Boolean> getNegativeParts(){
 		
 		nonNegatives.setBounds(45, 65 * (restrictionsCount) + 88,
 				150 + 110 * (variablesCount - 1), 25);
-		nonNegatives.setText("НEОТРИЦАТЕЛНИ");
+		nonNegatives.setText("РќEРћРўР Р�Р¦РђРўР•Р›РќР�");
 	
 		for (int index = 1; index <= variablesCount; index++) {
 			Button check = new Button(nonNegatives, SWT.CHECK);

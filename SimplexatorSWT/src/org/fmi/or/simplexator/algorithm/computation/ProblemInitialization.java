@@ -100,14 +100,15 @@ public class ProblemInitialization {
 
 	private static Vector<Variable> setBasisFromUI() {
 		Vector<Variable> vars = new Vector<>();
+		// hardcoding for test purposes
 		//basis for problem with minimum
-		/*vars.add(new Variable(new Fraction(1), 2));
+		vars.add(new Variable(new Fraction(1), 2));
 		vars.add(new Variable(new Fraction(1), 5));
 		vars.add(new Variable(new Fraction(1), 6));
-		*/
+		
 		//basis for problem with maximum
-		vars.add(new Variable(new Fraction(1), 3));
-		vars.add(new Variable(new Fraction(1), 6));
+		/*vars.add(new Variable(new Fraction(1), 3));
+		vars.add(new Variable(new Fraction(1), 6));*/
 		return vars;
 
 	}

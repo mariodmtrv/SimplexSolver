@@ -14,7 +14,7 @@ import org.junit.Test;
 
 public class ProblemIterationTest {
 
-	//@Test
+	@Test
 	public void testMakeIterationMinimum() {
 		MProblemConversionTest t=new MProblemConversionTest();
 		Problem p=t.testCanonicalProblemMinimum();
@@ -36,7 +36,7 @@ public class ProblemIterationTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void testMakeIterationMaximum() {
 		MProblemConversionTest t=new MProblemConversionTest();
 		Problem p=t.testCanonicalProblemMaximum();

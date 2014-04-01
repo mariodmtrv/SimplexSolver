@@ -69,7 +69,7 @@ public class Main {
 		 * in.createProblemEnvironment();
 		 */
 
-		ProblemConversion conversion = new ProblemConversion();
+//		ProblemConversion conversion = new ProblemConversion();
 
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {

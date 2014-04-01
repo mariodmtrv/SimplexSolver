@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.fmi.or.simplexator.visualization.Destination;
-import org.fmi.or.simplexator.visualization.UIController;
+//import org.fmi.or.simplexator.visualization.Destination;
+//import org.fmi.or.simplexator.visualization.UIController;
 
 public class Problem extends AbstractProblem {
 
@@ -20,7 +20,7 @@ public class Problem extends AbstractProblem {
 
 	public Problem(List<Variable> zfunction, Vector<Restriction> restrictions,
 			Optimum optimum, Vector<Boolean> hasNegativePart) {
-		this.uiController = new UIController();
+//		this.uiController = new UIController();
 		this.optimum = optimum;
 		this.zfunction = zfunction;
 		this.restrictions = restrictions;
@@ -31,7 +31,7 @@ public class Problem extends AbstractProblem {
 	}
 
 	public void convertToK() {
-		uiController.addContent(this.toString(), Destination.WINDOW);
+//		uiController.addContent(this.toString(), Destination.WINDOW);
 		setToMinimum();
 
 		setRightSidesToPositive();
@@ -44,44 +44,44 @@ public class Problem extends AbstractProblem {
 
 	private void setToMinimum() {
 		if (this.optimum != Optimum.MINIMUM) {
-			uiController.addContent("Преобразуваме към задача за минимум.\n",
-					Destination.LOG);
-			uiController.addContent("max(Z)=min(-Z)\n", Destination.LOG);
+//			uiController.addContent("Преобразуваме към задача за минимум.\n",
+//					Destination.LOG);
+//			uiController.addContent("max(Z)=min(-Z)\n", Destination.LOG);
 			this.optimum = Optimum.MINIMUM;
 			for (Variable variable : this.zfunction) {
 				variable.changeSign();
 			}
-			uiController.addContent(this.toString(), Destination.WINDOW);
+//			uiController.addContent(this.toString(), Destination.WINDOW);
 			return;
 		}
-		uiController.addContent("Оригиналната задача е за минимум.",
-				Destination.LOG);
+//		uiController.addContent("Оригиналната задача е за минимум.",
+//				Destination.LOG);
 	}
 
 	private void setRightSidesToPositive() {
-		uiController
-				.addContent(
-						"Трансформираме всички ограничения с отрицателни десни страни в такива с положителни.",
-						Destination.LOG);
+//		uiController
+//				.addContent(
+//						"Трансформираме всички ограничения с отрицателни десни страни в такива с положителни.",
+//						Destination.LOG);
 		for (Restriction restriction : restrictions) {
 			restriction.rightSideToPositive();
 		}
-		uiController.addContent(this.toString(), Destination.WINDOW);
+//		uiController.addContent(this.toString(), Destination.WINDOW);
 	}
 
 	private void setToEquations() {
-		uiController
-				.addContent(
-						"За всяко неравенство в ограниченията заместваме с равенство, като добавяме допълнителна променлива.",
-						Destination.LOG);
-		uiController
-				.addContent(
-						"<лява_страна> >= <дясна_страна>		става		<лява_страна> - \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.",
-						Destination.LOG);
-		uiController
-				.addContent(
-						"<лява_страна> <= <дясна_страна>		става		<лява_страна> + \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.",
-						Destination.LOG);
+//		uiController
+//				.addContent(
+//						"За всяко неравенство в ограниченията заместваме с равенство, като добавяме допълнителна променлива.",
+//						Destination.LOG);
+//		uiController
+//				.addContent(
+//						"<лява_страна> >= <дясна_страна>		става		<лява_страна> - \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.",
+//						Destination.LOG);
+//		uiController
+//				.addContent(
+//						"<лява_страна> <= <дясна_страна>		става		<лява_страна> + \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.",
+//						Destination.LOG);
 		for (Restriction restriction : restrictions) {
 			Variable newVar = restriction.setToEquation(maxIndex);
 			if (newVar != null) {
@@ -109,10 +109,10 @@ public class Problem extends AbstractProblem {
 
 	private void processNegativeParts() {
 
-		uiController
-				.addContent(
-						"За всяка променлива \\x_i, за която няма ограничение за неотрицателност, я заместваме с 2 променливи \\x_i^+ и \\x_i^-, които са неотрицателни.",
-						Destination.LOG);
+//		uiController
+//				.addContent(
+//						"За всяка променлива \\x_i, за която няма ограничение за неотрицателност, я заместваме с 2 променливи \\x_i^+ и \\x_i^-, които са неотрицателни.",
+//						Destination.LOG);
 		int varsPassed = 0;
 		Iterator<Variable> zfuncIter = zfunction.iterator();
 		for (Boolean hnp : hasNegativePart) {
@@ -141,7 +141,7 @@ public class Problem extends AbstractProblem {
 			}
 
 		}
-		uiController.addContent(this.toString(), Destination.WINDOW);
+//		uiController.addContent(this.toString(), Destination.WINDOW);
 	}
 
 	public String toString() {

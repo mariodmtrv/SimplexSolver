@@ -4,14 +4,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.fmi.or.simplexator.visualization.UIController;
+//import org.fmi.or.simplexator.visualization.UIController;
 
 public abstract class AbstractProblem {
 	protected int varCount;
 	protected int restrictionsCount;
 	protected List<Variable> zfunction;
 	protected Vector<Restriction> restrictions;
-	protected UIController uiController;
+//	protected UIController uiController;
 
 	public int getRestrictionsCount() {
 		return restrictionsCount;
@@ -21,9 +21,9 @@ public abstract class AbstractProblem {
 		return restrictions.elementAt(index);
 	}
 
-	public UIController getUIControler() {
-		return uiController;
-	}
+//	public UIController getUIControler() {
+//		return uiController;
+//	}
 
 	public int getVarCount() {
 		return varCount;
