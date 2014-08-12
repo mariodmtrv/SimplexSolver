@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="lib/jquery-1.11.1.js"></script>
+    <script src="lib/jquery.cookie.js"></script>
+    <script src="js/index.js"></script>
+  </head>
+  <body>
+    <form id="problemParameters">
+      <select id="type">
+        <option value="MIN">MIN</option>
+        <option value="MAX">MAX</option>
+      </select>
+      <input id="numVars" type="number" min="2" max="10" value="2" name="numVars"/>
+      <input id="numRestrictions" type="number" min="2" max="10" value="2" name="numRestrictions"/>
+      <button type="button">Next</button>
+    </form>
+
+    <article id="setProblem" style="display: none">
+      <table id="zTable">
+      </table>
+      <table id="restrictTable">
+      </table>
+      <table id="checkPositive">
+      </table>
+      <!--<button type="button">Next</button>-->
+      <a href="table.html">Next</a>
+    </article>
+  </body>
+</html>
