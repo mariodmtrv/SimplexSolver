@@ -143,18 +143,31 @@ function fillCosts()
 	{
 		for (var j = 0; j < currentIteration.costs[i].length; j++)
 		{
-			$("#problemTable .costsTable tr").eq(i).children("td").eq(j).html(currentIteration.costs[i][j]);
+			var cell = $("#problemTable .costsTable tr").eq(i).children("td").eq(j);
+			$(cell).html(currentIteration.costs[i][j]);
+
+			// on hover: highlight the columns used for the calculation of the cell value
+			$(cell).addClass("hoverEnabled");
+			$(cell).hover(function() {
+				highlightColumn("basisTable", "yellow", 2);
+				var index = $(".hoverEnabled").index($(this));
+				highlightColumn("mainTable", "yellow", index % problemManager.numVars + 1);
+			}, function() {
+				unHighlight("basisTable");
+				unHighlight("mainTable");
+			});
 		}
 	}
 
 	highlightAll("costsTable", "red");
-	// TODO: columns highlight on hover
 }
 
 
 function fillRightSideVector()
 {
 	unHighlight("costsTable");
+	$(".hoverEnabled").off('mouseenter mouseleave');
+	$(".hoverEnabled").removeClass("hoverEnabled");
 
 	var currentIteration = problemManager.getCurrentIteration();
 
@@ -163,14 +176,12 @@ function fillRightSideVector()
 		$("#problemTable .rightSideTable tr").eq(i + 1).children("td").html(currentIteration.rightSide[i]);
 	}
 
-	highlightColumn("basisTable", "yellow", 2);
 	highlightAll("rightSideTable", "cyan");
 }
 
 
 function fillRightSideValue()
 {
-	unHighlight("basisTable");
 	unHighlight("rightSideTable");
 
 	var currentIteration = problemManager.getCurrentIteration();
@@ -230,6 +241,51 @@ function fillKeyElementRow()
 }
 
 
+// helper function for fillTableRectangleRule();
+// on hover: highlight the cells from the previous table that give the value in the selected cell
+function showRectangleRuleHover(cell, cellCoords, keyElemCoords)
+{
+	$(cell).addClass("hoverEnabled");
+
+	var i = cellCoords[0];
+	var j = cellCoords[1];
+	var p = keyElemCoords[0] - 1;
+	var q = keyElemCoords[1] - 1;
+	var keyElement = $("#previousTable div:last .mainTable tr").eq(p + 1).children("td").eq(q);
+
+	if($(cell).closest("table").hasClass("mainTable")) {
+		var cell_iq = $("#previousTable div:last .mainTable tr").eq(i + 1).children("td").eq(q);
+		var cell_pj = $("#previousTable div:last .mainTable tr").eq(p + 1).children("td").eq(j);
+		var previous = $("#previousTable div:last .mainTable tr").eq(i + 1).children("td").eq(j);
+	}
+	else if($(cell).closest("table").hasClass("rightSideTable")) {
+		var cell_iq = $("#previousTable div:last .mainTable tr").eq(i + 1).children("td").eq(q);
+		var cell_pj = $("#previousTable div:last .rightSideTable tr").eq(p + 1).children("td").eq(j);
+		var previous = $("#previousTable div:last .rightSideTable tr").eq(i + 1).children("td").eq(j);
+	}
+	else if ($(cell).closest("table").hasClass("costsTable")) {
+		var cell_iq = $("#previousTable div:last .costsTable tr").eq(i).children("td").eq(q);
+		var cell_pj = $("#previousTable div:last .mainTable tr").eq(p + 1).children("td").eq(j);
+		var previous = $("#previousTable div:last .costsTable tr").eq(i).children("td").eq(j);
+	}
+	else if ($(cell).closest("table").hasClass("rightSideValueTable")) {
+		var cell_iq = $("#previousTable div:last .costsTable tr").eq(i).children("td").eq(q);
+		var cell_pj = $("#previousTable div:last .rightSideTable tr").eq(p + 1).children("td").eq(j);
+		var previous = $("#previousTable div:last .rightSideValueTable tr").eq(i).children("td").eq(j);
+	};
+
+	$(cell).hover(function() {
+		$(cell_iq).css('background', "yellow");
+		$(cell_pj).css('background', "yellow");
+		$(previous).css('background', "cyan");
+	}, function() {
+		$(cell_iq).css('background', "");
+		$(cell_pj).css('background', "");
+		$(previous).css('background', "");
+	});	
+}
+
+
 // fill rest of the table (via rectangular rule)
 function fillTableRectangleRule()
 {
@@ -241,6 +297,7 @@ function fillTableRectangleRule()
 	var keyElementRow = currentIteration.keyElemCoords[0];
 	var column_indexes = currentIteration.basis.map(problemManager.getVarIndex);
 
+	var cell;
 	for (var i = 0; i < currentIteration.table.length; i++)
 	{
 		if(i + 1 == keyElementRow)
@@ -252,12 +309,16 @@ function fillTableRectangleRule()
 			if(column_indexes.indexOf(j) != -1)
 				continue;
 
-			$("#problemTable .mainTable tr").eq(i + 1).children("td").eq(j).html(currentIteration.table[i][j]);
+			cell = $("#problemTable .mainTable tr").eq(i + 1).children("td").eq(j);
+			$(cell).html(currentIteration.table[i][j]);
+			showRectangleRuleHover(cell, [i, j], currentIteration.keyElemCoords);
 			highlightCell("mainTable", "cyan", i + 1, j);
 		};
 
 		// fill right side column
-		$("#problemTable .rightSideTable tr").eq(i + 1).children("td:first").html(currentIteration.rightSide[i]);
+		cell = $("#problemTable .rightSideTable tr").eq(i + 1).children("td:first");
+		$(cell).html(currentIteration.rightSide[i]);
+		showRectangleRuleHover(cell, [i, 0], currentIteration.keyElemCoords);
 		highlightRow("rightSideTable", "cyan", i + 1);
 	};
 
@@ -269,18 +330,22 @@ function fillTableRectangleRule()
 			if(column_indexes.indexOf(j) != -1)
 				continue;
 
-			$("#problemTable .costsTable tr").eq(i).children("td").eq(j).html(currentIteration.costs[i][j]);
+			cell = $("#problemTable .costsTable tr").eq(i).children("td").eq(j);
+			$(cell).html(currentIteration.costs[i][j]);
+			showRectangleRuleHover(cell, [i, j], currentIteration.keyElemCoords);
 			highlightCell("costsTable", "cyan", i, j);
 		}
 	}
 
 	// fill right side value
-	$("#problemTable .rightSideValueTable td:first").html(currentIteration.numValue);
-	$("#problemTable .rightSideValueTable td:last").html(currentIteration.MValue);
+	cell = $("#problemTable .rightSideValueTable td:first");
+	cell.html(currentIteration.numValue);
+	showRectangleRuleHover(cell, [0, 0], currentIteration.keyElemCoords);
+	cell = $("#problemTable .rightSideValueTable td:last");
+	cell.html(currentIteration.MValue);
+	showRectangleRuleHover(cell, [1, 0], currentIteration.keyElemCoords);
 	highlightCell("rightSideValueTable", "cyan", 0, 0);
 	highlightCell("rightSideValueTable", "cyan", 1, 0);
-
-	// TODO: cells highlight on hover
 }
 
 
@@ -291,6 +356,8 @@ function checkOptimalityCriterion()
 	unHighlight("rightSideTable");
 	unHighlight("rightSideValueTable");
 	unHighlight("costsTable");
+	$(".hoverEnabled").off('mouseenter mouseleave');
+	$(".hoverEnabled").removeClass("hoverEnabled");
 
 	var currentIteration = problemManager.getCurrentIteration();
 

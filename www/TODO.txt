@@ -4,7 +4,7 @@ TODO
 1. LaTeX font in JS
 2. AJAX to Java server + response
 3. LaTeX document print
-4. Hover animations in JS
+4. Change numbers (coefficients) to strings
 5. Message log
 6. Different cases to end loop
 7. Java: class Answer
