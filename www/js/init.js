@@ -1,6 +1,6 @@
 // Based on problem parameters make form for user input
 $(document).ready(function(){
-  $("#problemParameters > button").on('click', function() {
+  $("#nextCreate").on('click', function() {
   	var type = $("#type").val();
   	var numVars = $("#numVars").val();
   	var numRestrictions = $("#numRestrictions").val();
@@ -33,9 +33,14 @@ $(document).ready(function(){
 });
 
 
-// Make & send JSON of the problem via AJAX to the server
+var problemManager;
+var stepSwitcher;
+
+
+// Make & send JSON of the problem via AJAX to the server,
+// also recieve response and initialize variables for the visualization
 $(document).ready(function(){
-  $("#setProblem > a").on('click', function() {
+  $("#nextSendProblem").on('click', function() {
     var problem = {};
     var jsonProblem = JSON.stringify(getProblemInfo(problem));
 
@@ -50,19 +55,19 @@ $(document).ready(function(){
         zFuncCoefs: ["2", "1", "2"],
         restrictions: [
           {
-            coefs: [1, 0, -1],
+            coefs: ["1", "0", "-1"],
             sign: "LTE",
-            rightSide: -1
+            rightSide: "-1"
           },
           {
-            coefs: [-1, 0, -2],
+            coefs: ["-1", "0", "-2"],
             sign: "LTE",
-            rightSide: 3
+            rightSide: "3"
           },
           {
-            coefs: [3, 1, 1],
+            coefs: ["3", "1", "1"],
             sign: "EQ",
-            rightSide: 4
+            rightSide: "4"
           }
         ],
         nonNegativeVars: ["x2", "x3"]
@@ -75,19 +80,19 @@ $(document).ready(function(){
         zFuncCoefs: ["2", "-2", "1", "2", "0", "0"],
         restrictions: [
           {
-            coefs: [-1, 1, 0, 1, -1, 0],
+            coefs: ["-1", "1", "0", "1", "-1", "0"],
             sign: "EQ",
-            rightSide: 1
+            rightSide: "1"
           },
           {
-            coefs: [-1, 1, 0, -2, 0, 1],
+            coefs: ["-1", "1", "0", "-2", "0", "1"],
             sign: "EQ",
-            rightSide: 3
+            rightSide: "3"
           },
           {
-            coefs: [3, -3, 1, 1, 0, 0],
+            coefs: ["3", "-3", "1", "1", "0", "0"],
             sign: "EQ",
-            rightSide: 4
+            rightSide: "4"
           }
         ],
         nonNegativeVars: ["x1+", "x1-", "x2", "x3", "x4", "x5"]
@@ -100,19 +105,19 @@ $(document).ready(function(){
         zFuncCoefs: ["2", "-2", "1", "2", "0", "0", "M"],
         restrictions: [
           {
-            coefs: [-1, 1, 0, 1, -1, 0, 1],
+            coefs: ["-1", "1", "0", "1", "-1", "0", "1"],
             sign: "EQ",
-            rightSide: 1
+            rightSide: "1"
           },
           {
-            coefs: [-1, 1, 0, -2, 0, 1, 0],
+            coefs: ["-1", "1", "0", "-2", "0", "1", "0"],
             sign: "EQ",
-            rightSide: 3
+            rightSide: "3"
           },
           {
-            coefs: [3, -3, 1, 1, 0, 0, 0],
+            coefs: ["3", "-3", "1", "1", "0", "0", "0"],
             sign: "EQ",
-            rightSide: 4
+            rightSide: "4"
           }
         ],
         nonNegativeVars: ["x1+", "x1-", "x2", "x3", "x4", "x5", "x6"]
@@ -123,17 +128,17 @@ $(document).ready(function(){
         basis: ["x6", "x5", "x2"],
         basisCoefs: ["M", "0", "1"],
         table: [
-        [-1, 1, 0, 1, -1, 0, 1],
-        [-1, 1, 0, -2, 0, 1, 0],
-        [3, -3, 1, 1, 0, 0, 0]
+        ["-1", "1", "0", "1", "-1", "0", "1"],
+        ["-1", "1", "0", "-2", "0", "1", "0"],
+        ["3", "-3", "1", "1", "0", "0", "0"]
         ],
-        rightSide: [1, 3, 4],
+        rightSide: ["1", "3", "4"],
         costs: [
-        [-1, 1, 0, 1, 0, 0, 0],
-        [1, -1, 0, -1, 1, 0, 0]
+        ["-1", "1", "0", "1", "0", "0", "0"],
+        ["1", "-1", "0", "-1", "1", "0", "0"]
         ],
-        numValue: -4,
-        MValue: -1,
+        numValue: "-4",
+        MValue: "-1",
         messageLog: [],
         keyElemCoords: [],
         newKeyElemCoords: [1, 2]
@@ -142,17 +147,17 @@ $(document).ready(function(){
         basis: ["x1-", "x5", "x2"],
         basisCoefs: ["-2", "0", "1"],
         table: [
-        [-1, 1, 0, 1, -1, 0, 1],
-        [0, 0, 0, -3, 1, 1, -1],
-        [0, 0, 1, 4, -3, 0, 3]
+        ["-1", "1", "0", "1", "-1", "0", "1"],
+        ["0", "0", "0", "-3", "1", "1", "-1"],
+        ["0", "0", "1", "4", "-3", "0", "3"]
         ],
-        rightSide: [1, 2, 7],
+        rightSide: ["1", "2", "7"],
         costs: [
-        [0, 0, 0, 0, 1, 0, -1],
-        [0, 0, 0, 0, 0, 0, 1]
+        ["0", "0", "0", "0", "1", "0", "-1"],
+        ["0", "0", "0", "0", "0", "0", "1"]
         ],
-        numValue: -5,
-        MValue: 0,
+        numValue: "-5",
+        MValue: "0",
         messageLog: [],
         keyElemCoords: [1, 2],
         newKeyElemCoords: []
@@ -161,31 +166,31 @@ $(document).ready(function(){
       answers: [
       {
         points: [
-        [0, 1, 7, 0, 0, 2, 0]
+        ["0", "1", "7", "0", "0", "2", "0"]
         ],
         directions: []
       },
       {
         points: [
-        [0, 1, 7, 0, 0, 2]
+        ["0", "1", "7", "0", "0", "2"]
         ],
         directions: []
       },
       {
         points: [
-        [-1, 7, 0],
-        [1, 2, 3],
-        [1, 2, 3]
+        ["-1", "7", "0"],
+        ["1", "2", "3"],
+        ["1", "2", "3"]
         ],
-        directions: [[1, 2, 3],[1, 2, 3]]
+        directions: [["1", "2", "3"],["1", "2", "3"]]
       }
       ]
     };
-    $.cookie("response", JSON.stringify(HARDCODED_RESPONSE), { expires : 1 });
 
     $("#setProblem").toggle();
-    $("#tables").toggle();
-    $("#log").toggle();
+
+    problemManager = initializeProblemManager(HARDCODED_RESPONSE);
+    stepSwitcher = initializeStepSwitcher(problemManager);
   });
 });
 

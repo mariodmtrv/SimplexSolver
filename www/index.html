@@ -2,8 +2,11 @@
 <html>
   <head>
     <script src="lib/jquery-1.11.1.js"></script>
-    <script src="lib/jquery.cookie.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/response.js"></script>
+    <script src="js/colors.js"></script>
+    <script src="js/steps.js"></script>
+    <script src="js/table.js"></script>
   </head>
   <body>
     <form id="problemParameters">
@@ -13,7 +16,7 @@
       </select>
       <input id="numVars" type="number" min="2" max="10" value="2" name="numVars"/>
       <input id="numRestrictions" type="number" min="2" max="10" value="2" name="numRestrictions"/>
-      <button type="button">Next</button>
+      <button type="button" id="nextCreate">Next</button>
     </form>
 
     <article id="setProblem" style="display: none">
@@ -23,8 +26,32 @@
       </table>
       <table id="checkPositive">
       </table>
-      <!--<button type="button">Next</button>-->
-      <a href="table.html">Next</a>
+      <button type="button" id="nextSendProblem">Next</button>
+      <!--<a href="table.html">Next</a>-->
+    </article>
+
+
+
+    <article id="problemDescription">
+    </article>
+
+    <article id="tables">
+      <h2>Simplex Table:</h2>
+      <h3>Previous Iterations:</h3>
+      <div id="previousTable">
+      </div>
+      <h3>Current Iteration:</h3>
+      <div id="problemTable">
+      </div>
+      <button type="button" id="next">Next</button>
+    </article>
+
+    <article id="answers">
+      <h2>Optimal answers:</h2>
+    </article>
+
+    <article id="log">
+      <h2>Message Log:</h2>
     </article>
   </body>
 </html>
