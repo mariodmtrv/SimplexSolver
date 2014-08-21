@@ -14,20 +14,23 @@ public class CriteriaCheck {
 	/*
 	 * this function is being called when solving the big problem;
 	 * @return: Pair = <varToGetOut, varToGetIn> => ProblemIteration continues and knows how to change basis; 
-	 * else - null => no more iterations;
+	 * else: <-1,-1> => optimality reached, no more iterations;
+	 * 		 <-1, varToGetIn> => unbounded, no more iterations;
 	 */
 	public Pair<Integer,Integer> checkCriteriaAndFindNewBasis() {
 		int toInclude = optimalityCriterion();
 		if(toInclude == -1) {
 			// optimality reached
 			// UI.printMessage("Симплекс методът завършва успешно! Достигнахме до оптимално решение.");
-			return null;
+			//return null;
+			return new Pair<Integer, Integer>(-1, -1);
 		}
 		else {
 			if(findNewBasis(toInclude) == false) {
 				// min Z = -infinity
 				// UI.printMessage("М-задачата е неограничена, т.е. min(Z)=-infinity.");
-				return null;
+				//return null;
+				return new Pair<Integer, Integer>(-1, toInclude);
 			}
 			// no special case, we should continue to the next iteration
 			// UI.printMessage("Нито един критерий не е изпълнен, затова симплекс методът продължава със следващата итерация.");

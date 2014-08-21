@@ -28,7 +28,7 @@ public class ProblemIterationTest {
 		// now test...
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
 		Pair<Integer,Integer> keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
-		while(keyElementCoords != null) {
+		while(keyElementCoords.getFirst() != -1) {
 			ProblemIteration mProblemIter = new ProblemIteration(mProblem, simtable, keyElementCoords);
 			simtable = mProblemIter.makeIteration();
 			critCheck = new CriteriaCheck(simtable);
@@ -50,7 +50,7 @@ public class ProblemIterationTest {
 		// now test..
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
 		Pair<Integer,Integer> keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
-		while(keyElementCoords != null) {
+		while(keyElementCoords.getFirst() != -1) {
 			ProblemIteration mProblemIter = new ProblemIteration(mProblem, simtable, keyElementCoords);
 			simtable = mProblemIter.makeIteration();
 			critCheck = new CriteriaCheck(simtable);

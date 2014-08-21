@@ -273,7 +273,8 @@ public class CriteriaCheckTest {
 		CriteriaCheck cc = new CriteriaCheck(simtable);
 		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
 
-		if(newBasis!=null) {
+		Pair<Integer,Integer> compareTo=new Pair<Integer, Integer>(-1, -1);
+		if(!newBasis.equals(compareTo)) {
 			fail("should be optimal");
 		}
 	}
@@ -353,7 +354,8 @@ public class CriteriaCheckTest {
 		CriteriaCheck cc = new CriteriaCheck(simtable);
 		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
 
-		if(newBasis!=null) {
+		Pair<Integer,Integer> compareTo=new Pair<Integer, Integer>(-1, -1);
+		if(!newBasis.equals(compareTo)) {
 			fail("should be optimal");
 		}
 	}
@@ -444,7 +446,8 @@ public class CriteriaCheckTest {
 		CriteriaCheck cc = new CriteriaCheck(simtable);
 		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
 
-		if(newBasis!=null) {
+		Pair<Integer,Integer> compareTo=new Pair<Integer, Integer>(-1, 1);
+		if(!newBasis.equals(compareTo)) {
 			fail("should be unbounded");
 		}
 	}
@@ -524,7 +527,8 @@ public class CriteriaCheckTest {
 		CriteriaCheck cc = new CriteriaCheck(simtable);
 		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
 		
-		if(newBasis!=null) {
+		Pair<Integer,Integer> compareTo = new Pair<Integer, Integer>(-1, 2);
+		if(!newBasis.equals(compareTo)) {
 			fail("should be unbounded");
 		}
 	}

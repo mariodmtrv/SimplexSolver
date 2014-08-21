@@ -160,7 +160,7 @@ $(document).ready(function(){
         MValue: "0",
         messageLog: [],
         keyElemCoords: [1, 2],
-        newKeyElemCoords: []
+        newKeyElemCoords: [-1, -1]
       }
       ],
       answers: [

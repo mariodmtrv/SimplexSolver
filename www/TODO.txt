@@ -5,6 +5,6 @@ TODO
 2. AJAX to Java server + response
 3. LaTeX document print
 4. Message log
-5. Different cases to end loop
-6. Java: class Answer
-7. Java: class AnswerSearcher
+5. Java: class Answer
+6. Java: class AnswerSearcher
+7. Possible bug: indexes of keyElementCoords start (0 or 1)

@@ -361,9 +361,8 @@ function checkOptimalityCriterion()
 
 	var currentIteration = problemManager.getCurrentIteration();
 
-	if(currentIteration.newKeyElemCoords.length == 0)
+	if(currentIteration.newKeyElemCoords[1] == -1)
 	{
-		// TODO: handle special outcomes (no negative costs, no positvie cells in the column)
 		return;
 	}
 
@@ -377,9 +376,8 @@ function checkUnboundednessCriterion()
 
 	var currentIteration = problemManager.getCurrentIteration();
 
-	if(currentIteration.newKeyElemCoords.length == 0)
+	if(currentIteration.newKeyElemCoords[0] == -1)
 	{
-		// TODO: handle special outcomes (no negative costs, no positvie cells in the column)
 		return;
 	}
 
