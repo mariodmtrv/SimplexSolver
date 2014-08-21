@@ -50,6 +50,27 @@ public class SimplexMethodSolver {
 		 * 	return to Zlateva & Chernogorov;
 		 * }
 		 */
+		
+		/*
+		 * void main()
+		 * {
+		 * 	userData = getInputFromUser;
+		 * 	Problem p = makeProblem(userData);
+		 * 	Problem kp = convertToK(p);
+		 * 	MProblem mp = convertToM(kp);
+		 * 	SimplexTable simtable = problemInitialization(mp);
+		 * 	while(	(basisChange = checkCriteriaAndFindNewBasis(simtable)) != invalid	)
+		 * 	{
+		 * 		simtable = makeIteration(simtable, basisChange);
+		 * 	}
+		 * 	// now "simtable" has the first optimal answer
+		 * 	AnswerSearcher result = findAllAnswers(simtable);
+		 * 	// "result" holds the solution (is there one) and all possible optimal answers
+		 *  AnswerConverter realanswer = convert(result);
+		 *  // find the answer to the problem that the user orignally input
+		 * 	return to Zlateva & Chernogorov;
+		 * }
+		 */
 	}
 	
 }

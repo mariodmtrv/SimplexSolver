@@ -1,10 +1,13 @@
 TODO
 ----
 
-1. LaTeX font in JS
-2. AJAX to Java server + response
-3. LaTeX document print
-4. Message log
-5. Java: class Answer
-6. Java: class AnswerSearcher
-7. Possible bug: indexes of keyElementCoords start (0 or 1)
+JAVA
+* class AnswerConverter
+* class AnswerSearcher
+* LaTeX document print
+
+JS
+* Message log
+* AJAX to Java server + response
+* LaTeX font in JS
+* Possible bug: indexes of keyElementCoords start (0 or 1)
