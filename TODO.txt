@@ -2,8 +2,9 @@ TODO
 ----
 
 JAVA
-* class AnswerConverter
-* class AnswerSearcher
+* Add "problemType" attribute to Problem classes (to indicate if it is L, K or M)
+* Class AnswerSearcher
+* Test conversion of answers
 * LaTeX document print
 
 JS
