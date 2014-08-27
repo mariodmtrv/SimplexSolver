@@ -1,5 +1,5 @@
 // pretty print the coefficient
-function printCoef(c, isFirst=false)
+function printCoef(c, isFirst)
 {
 	var sign = c < 0 ? "-" : (isFirst ? "" : "+");
 	var value = (Math.abs(c) == 1 || c == 0) ? "" : Math.abs(c).toString();
@@ -11,11 +11,11 @@ function printCoef(c, isFirst=false)
 function printEquationSign(s)
 {
 	if(s=="EQ")
-		return "=";
+		return "\\( = \\)";
 	else if (s=="GTE")
-		return ">=";
+		return "\\( \\geq \\)";
 	else if (s=="LTE")
-		return "<=";
+		return "\\( \\leq \\)";
 }
 
 
@@ -33,7 +33,7 @@ function printProblem()
 	$(problemDiv).find("table tr").append("<td>" + printCoef(currentProblem.zFuncCoefs[0], true) + currentProblem.variables[0] + "</td>");
 	for (var i = 1; i < currentProblem.variables.length; i++)
 	{
-		$(problemDiv).find("table tr").append("<td>" + printCoef(currentProblem.zFuncCoefs[i]) + currentProblem.variables[i] + "</td>");
+		$(problemDiv).find("table tr").append("<td>" + printCoef(currentProblem.zFuncCoefs[i], false) + currentProblem.variables[i] + "</td>");
 	};
 
 	// print restrictions
@@ -46,13 +46,15 @@ function printProblem()
 		row.append("<td>" + printCoef(currentProblem.restrictions[r].coefs[0], true) + currentProblem.variables[0] + "</td>");
 		for (var i = 1; i < currentProblem.variables.length; i++)
 		{
-			row.append("<td>" + printCoef(currentProblem.restrictions[r].coefs[i]) + currentProblem.variables[i] + "</td>");
+			row.append("<td>" + printCoef(currentProblem.restrictions[r].coefs[i], false) + currentProblem.variables[i] + "</td>");
 		};
 		row.append("<td>" + printEquationSign(currentProblem.restrictions[r].sign) + "</td><td>" + currentProblem.restrictions[r].rightSide + "</td>");
 	}
 
 	// print xi >= 0
-	problemDiv.append("<span>" + currentProblem.nonNegativeVars.join(", ") + " >= 0</span>");
+	problemDiv.append("<span>" + currentProblem.nonNegativeVars.join(", ") + " \\(\\geq\\) 0</span>");
+
+	MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }
 
 

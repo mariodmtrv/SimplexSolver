@@ -10,5 +10,6 @@ JAVA
 JS
 * Message log
 * AJAX to Java server + response
-* LaTeX font in JS
 * Possible bug: indexes of keyElementCoords start (0 or 1)
+* Fix $.load() for Chrome
+* pretty print all variables, coefficients, etc.

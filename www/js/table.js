@@ -36,6 +36,7 @@ function initializeStepSwitcher(problemManager)
 		this.executeNextStep = function(){
 			console.log("step = " + self.step + "; index = " + problemManager.index + ";")
 			self.events[self.step]();
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 			self.updateStepAndIndex();
 		};
 

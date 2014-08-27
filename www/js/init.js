@@ -10,25 +10,27 @@ $(document).ready(function(){
 
     $("#zTable").append("<tr></tr>");
     $("#zTable tr").append("<td>" + type + " Z = </td>");
-    $("#zTable tr").append("<td><input/>x_1</td>");
+    $("#zTable tr").append("<td><input/>\\(x_1\\)</td>");
     for(i=2; i <= numVars; i++){
-        $("#zTable tr").append("<td>+<input/>x_" + i + "</td>");
+        $("#zTable tr").append("<td>+<input/>\\(x_" + i + "\\)</td>");
     }
 
     for (var i = 0; i < numRestrictions; i++) {
       var row = $("#restrictTable").append("<tr></tr>");
-      $("#restrictTable tr").eq(i).append("<td><input/>x_1</td>");
+      $("#restrictTable tr").eq(i).append("<td><input/>\\(x_1\\)</td>");
       for (var j = 2; j <= numVars; j++) {
-        $("#restrictTable tr").eq(i).append("<td>+<input/>x_" + j + "</td>");
+        $("#restrictTable tr").eq(i).append("<td>+<input/>\\(x_" + j + "\\)</td>");
       };
-      $("#restrictTable tr").eq(i).append("<td><select class=\"sign\"><option value=\"GTE\">>=</option><option value=\"LTE\"><=</option><option value=\"EQ\">=</option></select></td>");
+      $("#restrictTable tr").eq(i).append("<td><select class=\"sign\"><option value=\"GTE\">\\( \\geq \\)</option><option value=\"LTE\">\\( \\leq \\)</option><option value=\"EQ\">\\( = \\)</option></select></td>");
       $("#restrictTable tr").eq(i).append("<td><input class=\"rightSide\"/></td>");
     };
 
     var checks = $("#checkPositive").append("<tr></tr>");
   	for (var i = 1; i <= numVars; i++) {
-      checks.append("<input type='checkbox' name='isPositive_x" + i + "' value='isPositive_x" + i + "'>x_" + i + " >= 0");
+      checks.append("<input type='checkbox' name='isPositive_x" + i + "' value='isPositive_x" + i + "'>\\(x_" + i + " \\geq \\) 0");
     };
+
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
   });
 });
 
