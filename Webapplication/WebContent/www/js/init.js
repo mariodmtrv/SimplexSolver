@@ -53,32 +53,32 @@ $(document).ready(function(){
         extremum: "MIN",
         isK: false,
         isM: false,
-        variables: ["x1", "x2", "x3"],
+        variables: ["x_1", "x_2", "x_3"],
         zFuncCoefs: ["2", "1", "2"],
         restrictions: [
           {
             coefs: ["1", "0", "-1"],
             sign: "LTE",
-            rightSide: "-1"
+            rightSide: "\\(-^{1}/_{11}\\)"
           },
           {
             coefs: ["-1", "0", "-2"],
             sign: "LTE",
-            rightSide: "3"
+            rightSide: "\\(^{3}/_{11}\\)"
           },
           {
             coefs: ["3", "1", "1"],
             sign: "EQ",
-            rightSide: "4"
+            rightSide: "\\(4\\)"
           }
         ],
-        nonNegativeVars: ["x2", "x3"]
+        nonNegativeVars: ["x_2", "x_3"]
       },
       {
         extremum: "MIN",
         isK: true,
         isM: false,
-        variables: ["x1+", "x1-", "x2", "x3", "x4", "x5"],
+        variables: ["x_1^+", "x_1^-", "x_2", "x_3", "x_4", "x_5"],
         zFuncCoefs: ["2", "-2", "1", "2", "0", "0"],
         restrictions: [
           {
@@ -97,13 +97,13 @@ $(document).ready(function(){
             rightSide: "4"
           }
         ],
-        nonNegativeVars: ["x1+", "x1-", "x2", "x3", "x4", "x5"]
+        nonNegativeVars: ["x_1^+", "x_1^-", "x_2", "x_3", "x_4", "x_5"]
       },
       {
         extremum: "MIN",
         isK: true,
         isM: true,
-        variables: ["x1+", "x1-", "x2", "x3", "x4", "x5", "x6"],
+        variables: ["x_1^+", "x_1^-", "x_2", "x_3", "x_4", "x_5", "x_6"],
         zFuncCoefs: ["2", "-2", "1", "2", "0", "0", "M"],
         restrictions: [
           {
@@ -122,12 +122,12 @@ $(document).ready(function(){
             rightSide: "4"
           }
         ],
-        nonNegativeVars: ["x1+", "x1-", "x2", "x3", "x4", "x5", "x6"]
+        nonNegativeVars: ["x_1^+", "x_1^-", "x_2", "x_3", "x_4", "x_5", "x_6"]
       }
       ],
       iterations: [
       {
-        basis: ["x6", "x5", "x2"],
+        basis: ["x_6", "x_5", "x_2"],
         basisCoefs: ["M", "0", "1"],
         table: [
         ["-1", "1", "0", "1", "-1", "0", "1"],
@@ -146,7 +146,7 @@ $(document).ready(function(){
         newKeyElemCoords: [1, 2]
       },
       {
-        basis: ["x1-", "x5", "x2"],
+        basis: ["x_1^-", "x_5", "x_2"],
         basisCoefs: ["-2", "0", "1"],
         table: [
         ["-1", "1", "0", "1", "-1", "0", "1"],

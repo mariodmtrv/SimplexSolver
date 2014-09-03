@@ -2,14 +2,18 @@ TODO
 ----
 
 JAVA
-* Add "problemType" attribute to Problem classes (to indicate if it is L, K or M)
-* Class AnswerSearcher
-* Test conversion of answers
-* LaTeX document print
+* Add "problemType" attribute to Problem classes (to indicate if it is L, K or M)		[Mario]
+* Message logging																		[Mario]
+* Test conversion of answers															[Dimiter]
+* Java AJAX response																	[Mario]
+* LaTeX document print																	[Mario]
+* Main method class																		[Mario]
+* Test application!																		[Both]
+* Class AnswerSearcher																	[Dimiter]
 
 JS
-* Message log
-* AJAX to Java server + response
-* Possible bug: indexes of keyElementCoords start (0 or 1)
-* Fix $.load() for Chrome
-* pretty print all variables, coefficients, etc.
+* AJAX to Java request / response														[Dimiter]
+* Message log print																		[Dimiter]
+* CSS + pretty print all variables, coefficients, fonts, etc.							[Dimiter]
+* Possible bug: indexes of keyElementCoords start (0 or 1)								[Dimiter]
+* Possible bug: Fix $.load() for Chrome													[Dimiter]

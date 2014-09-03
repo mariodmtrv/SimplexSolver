@@ -26,7 +26,8 @@ function printProblem()
 
 	$("#problemDescription").append("<div></div>");
 	var problemDiv = $("#problemDescription div:last");
-	problemDiv.append("<span>" + currentProblem.extremum + " Z = </span>");
+	var z = "Z"; // TODO: print "Z", "Z_K" or "Z_M"
+	problemDiv.append("<span>" + currentProblem.extremum + " " + z + " = </span>");
 
 	// print Z-function
 	problemDiv.append("<table><tr></tr></table>");
@@ -98,6 +99,7 @@ function makeBlankSimplexTable()
 		};
 
 		$("#next").toggle();
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 	});
 }
 
