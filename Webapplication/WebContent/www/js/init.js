@@ -38,16 +38,7 @@ $(document).ready(function(){
 var problemManager;
 var stepSwitcher;
 
-
-// Make & send JSON of the problem via AJAX to the server,
-// also recieve response and initialize variables for the visualization
-$(document).ready(function(){
-  $("#nextSendProblem").on('click', function() {
-    var problem = {};
-    var jsonProblem = JSON.stringify(getProblemInfo(problem));
-
-    // TODO: send AJAX
-    var HARDCODED_RESPONSE = {
+var HARDCODED_RESPONSE = {
       problems: [
       {
         extremum: "MIN",
@@ -143,7 +134,7 @@ $(document).ready(function(){
         MValue: "-1",
         messageLog: [],
         keyElemCoords: [],
-        newKeyElemCoords: [1, 2]
+        newKeyElemCoords: [0, 1]
       },
       {
         basis: ["x_1^-", "x_5", "x_2"],
@@ -161,7 +152,7 @@ $(document).ready(function(){
         numValue: "-5",
         MValue: "0",
         messageLog: [],
-        keyElemCoords: [1, 2],
+        keyElemCoords: [0, 1],
         newKeyElemCoords: [-1, -1]
       }
       ],
@@ -189,10 +180,26 @@ $(document).ready(function(){
       ]
     };
 
-    $("#setProblem").toggle();
+// Make & send JSON of the problem via AJAX to the server,
+// also recieve response and initialize variables for the visualization
+$(document).ready(function(){
+  $("#nextSendProblem").on('click', function() {
+    var problem = {};
+    var jsonProblem = JSON.stringify(getProblemInfo(problem));
 
-    problemManager = initializeProblemManager(HARDCODED_RESPONSE);
-    stepSwitcher = initializeStepSwitcher(problemManager);
+    // send AJAX
+    /*$.get(
+      "",
+      jsonProblem,
+      function(response) {*/
+        var response = HARDCODED_RESPONSE;
+
+        $("#setProblem").toggle();
+
+        problemManager = initializeProblemManager(response);
+        stepSwitcher = initializeStepSwitcher(problemManager);
+      /*}
+    );*/
   });
 });
 

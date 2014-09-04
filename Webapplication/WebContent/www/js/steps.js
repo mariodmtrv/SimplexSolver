@@ -65,7 +65,7 @@ function makeBlankSimplexTable()
 	// move old table to previous tables and clear highlighting
 	$("#problemTable").find("tr, td, th").css('background', "");
 	var currentIteration = problemManager.getCurrentIteration();
-	highlightAndEmphasizeCell("mainTable", "red", currentIteration.keyElemCoords[0], currentIteration.keyElemCoords[1] - 1);
+	highlightAndEmphasizeCell("mainTable", "red", currentIteration.keyElemCoords[0] + 1, currentIteration.keyElemCoords[1] + 1 - 1);
 	$("#previousTable").append("<div></div>");
 	var newDiv = $("#previousTable > div:last");
 	$("#problemTable").children().clone().appendTo(newDiv);
@@ -233,7 +233,7 @@ function fillKeyElementRow()
 
 	var currentIteration = problemManager.getCurrentIteration();
 
-	var keyElementRow = currentIteration.keyElemCoords[0];
+	var keyElementRow = currentIteration.keyElemCoords[0] + 1;
 	highlightRow("mainTable", "violet", keyElementRow);
 	highlightRow("rightSideTable", "violet", keyElementRow);
 	for (var j = 0; j < currentIteration.table[keyElementRow - 1].length; j++)	// indexes of key element start at 1
@@ -253,8 +253,8 @@ function showRectangleRuleHover(cell, cellCoords, keyElemCoords)
 
 	var i = cellCoords[0];
 	var j = cellCoords[1];
-	var p = keyElemCoords[0] - 1;
-	var q = keyElemCoords[1] - 1;
+	var p = keyElemCoords[0];
+	var q = keyElemCoords[1];
 	var keyElement = $("#previousTable div:last .mainTable tr").eq(p + 1).children("td").eq(q);
 
 	if($(cell).closest("table").hasClass("mainTable")) {
@@ -298,7 +298,7 @@ function fillTableRectangleRule()
 
 	var currentIteration = problemManager.getCurrentIteration();
 
-	var keyElementRow = currentIteration.keyElemCoords[0];
+	var keyElementRow = currentIteration.keyElemCoords[0] + 1;
 	var column_indexes = currentIteration.basis.map(problemManager.getVarIndex);
 
 	var cell;
@@ -370,7 +370,7 @@ function checkOptimalityCriterion()
 		return;
 	}
 
-	highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 2);
+	highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 1 + 2);
 }
 
 
@@ -385,8 +385,8 @@ function checkUnboundednessCriterion()
 		return;
 	}
 
-	//highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 2);
-	highlightColumn("mainTable", "green", currentIteration.newKeyElemCoords[1]);
+	//highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 1 + 2);
+	highlightColumn("mainTable", "green", currentIteration.newKeyElemCoords[1] + 1);
 	highlightAll("rightSideTable", "cyan");
 }
 
@@ -399,11 +399,11 @@ function findKeyElement()
 
 	var currentIteration = problemManager.getCurrentIteration();
 
-	highlightColumn("mainTable", "green", currentIteration.newKeyElemCoords[1]);
-	highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 2);
-	highlightRow("basisTable", "green", currentIteration.newKeyElemCoords[0]);
-	highlightRow("mainTable", "green", currentIteration.newKeyElemCoords[0]);
-	highlightRow("rightSideTable", "green", currentIteration.newKeyElemCoords[0]);
+	highlightColumn("mainTable", "green", currentIteration.newKeyElemCoords[1] + 1);
+	highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 1 + 2);
+	highlightRow("basisTable", "green", currentIteration.newKeyElemCoords[0] + 1);
+	highlightRow("mainTable", "green", currentIteration.newKeyElemCoords[0] + 1);
+	highlightRow("rightSideTable", "green", currentIteration.newKeyElemCoords[0] + 1);
 }
 
 
@@ -416,6 +416,7 @@ function printAnswer()
 	$("#answers").append("<div></div>");
 	var div = $("#answers div:last");
 	$(div).load("templates/answers_grid_template.html", function(){
+		$(div).find(".points").append("<caption>Vertices:</caption>");
 		$(div).find(".points").append("<tr></tr>");
 		for (var v in currentProblem.variables)
 		{
@@ -435,9 +436,8 @@ function printAnswer()
 			return;
 
 		// print direction vectors (non-empty list)
-
+		$(div).find(".directions").append("<caption>Directions:</caption>");
 		$(div).find(".directions").append("<tr></tr>");
-
 		for (var v in currentProblem.variables)
 		{
 			$(div).find(".directions tr:last").append("<th>" + currentProblem.variables[v] + "</th>");
