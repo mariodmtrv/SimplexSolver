@@ -14,6 +14,6 @@ JAVA
 JS
 * AJAX to Java request / response														[Dimiter]
 * Message log print																		[Dimiter]
-* CSS + pretty print all variables, coefficients, fonts, etc.							[Dimiter]
+* CSS + fonts																			[Dimiter]
 * Possible bug: indexes of keyElementCoords start (0 or 1)								[Dimiter]
 * Possible bug: Fix $.load() for Chrome													[Dimiter]

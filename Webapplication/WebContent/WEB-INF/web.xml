@@ -19,4 +19,14 @@
     <servlet-name>SimplexatorServlet</servlet-name>
     <url-pattern>/simplexator</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Sample Servlet</description>
+    <display-name>SimplexatorServlet</display-name>
+    <servlet-name>SimplexatorServlet</servlet-name>
+    <servlet-class>com.example.myproject.SimplexatorServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SimplexatorServlet</servlet-name>
+    <url-pattern>/simplexator</url-pattern>
+  </servlet-mapping>
 </web-app>
