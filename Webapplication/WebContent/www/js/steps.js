@@ -31,10 +31,10 @@ function printProblem()
 
 	// print Z-function
 	problemDiv.append("<table><tr></tr></table>");
-	$(problemDiv).find("table tr").append("<td>" + printCoef(currentProblem.zFuncCoefs[0], true) + currentProblem.variables[0] + "</td>");
+	$(problemDiv).find("table tr").append("<td>" + printCoef(currentProblem.zFuncCoefs[0], true) + " " + currentProblem.variables[0] + "</td>");
 	for (var i = 1; i < currentProblem.variables.length; i++)
 	{
-		$(problemDiv).find("table tr").append("<td>" + printCoef(currentProblem.zFuncCoefs[i], false) + currentProblem.variables[i] + "</td>");
+		$(problemDiv).find("table tr").append("<td>" + printCoef(currentProblem.zFuncCoefs[i], false) + " " + currentProblem.variables[i] + "</td>");
 	};
 
 	// print restrictions
@@ -44,11 +44,28 @@ function printProblem()
 	{
 		$(restrictionsTable).append("<tr></tr>");
 		var row = $(restrictionsTable).find("tr:last");
-		row.append("<td>" + printCoef(currentProblem.restrictions[r].coefs[0], true) + currentProblem.variables[0] + "</td>");
+
+		if(currentProblem.restrictions[r].coefs[0] != 0)
+		{
+			row.append("<td>" + printCoef(currentProblem.restrictions[r].coefs[0], true) + " " + currentProblem.variables[0] + "</td>");
+		}
+		else
+		{
+			row.append("<td></td>");
+		}
+
 		for (var i = 1; i < currentProblem.variables.length; i++)
 		{
-			row.append("<td>" + printCoef(currentProblem.restrictions[r].coefs[i], false) + currentProblem.variables[i] + "</td>");
+			if(currentProblem.restrictions[r].coefs[i] != 0)
+			{
+				row.append("<td>" + printCoef(currentProblem.restrictions[r].coefs[i], false) + " " + currentProblem.variables[i] + "</td>");
+			}
+			else
+			{
+				row.append("<td></td>");
+			}
 		};
+
 		row.append("<td>" + printEquationSign(currentProblem.restrictions[r].sign) + "</td><td>" + currentProblem.restrictions[r].rightSide + "</td>");
 	}
 

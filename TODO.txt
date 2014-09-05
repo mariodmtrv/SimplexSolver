@@ -3,6 +3,7 @@ TODO
 
 JAVA
 * Add "problemType" attribute to Problem classes (to indicate if it is L, K or M)		[Mario]
+* De-couple L -> K conversion from K -> M conversion									[Mario]
 * Message logging																		[Mario]
 * Test conversion of answers															[Dimiter]
 * Java AJAX response																	[Mario]
@@ -12,7 +13,8 @@ JAVA
 * Class AnswerSearcher																	[Dimiter]
 
 JS
-* AJAX to Java request / response														[Dimiter]
+* AJAX to Java request																	[Dimiter]
 * Message log print																		[Dimiter]
 * CSS + fonts																			[Dimiter]
+* Include MathJax locally																[Dimiter]
 * Fix $.load() for Chrome																[Dimiter]

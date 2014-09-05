@@ -1,0 +1,19 @@
+body {
+    font: "Times New Roman", serif;
+}
+
+.basisTable, .mainTable, .costsTable {
+	border: 1 solid black;
+	postion: relative;
+	float: left;
+}
+
+#problemTable td, #problemTable th, #previousTable td, #previousTable th {
+	width: 50px;
+	height: 30px;
+	text-align: center;
+}
+
+button {
+	position: static;
+}
