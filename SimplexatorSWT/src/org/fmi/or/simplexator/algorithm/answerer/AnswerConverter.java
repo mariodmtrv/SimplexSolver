@@ -72,9 +72,9 @@ public class AnswerConverter {
 		// find variables added as "+" & "-"
 		Vector<Integer> plusVars = new Vector<Integer>();
 		
-		for(int i=0; i < this.problem.getVarCount(); i++) {
-			if(this.problem.getVarByIndex(i).getType() == VariableType.POSITIVE)
-				plusVars.add(i); // => (i+1) is VariableType.NEGATIVE
+		for(int i=0; i < this.problem.getHasNegativePart().size(); i++) {
+			if(this.problem.getHasNegativePart().get(i))
+				plusVars.add(i);
 		}
 		
 		// convert vertices

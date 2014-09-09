@@ -3,8 +3,6 @@ package org.fmi.or.simplexator.algorithm.converter;
 import java.util.List;
 import java.util.Vector;
 
-import org.eclipse.swt.ole.win32.Variant;
-
 public class Restriction {
 	private List<Variable> variables;
 	private EquationSign sign;

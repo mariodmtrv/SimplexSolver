@@ -167,5 +167,18 @@ public class Fraction {
 		}
 		return "\\frac{" + this.numerator + "}{" + this.denominator + "}";
 	}
-
+	
+	public String toMathJaxString() {
+		if (this.numerator == 0) {
+			return "\\(0\\)";
+		}
+		if (this.denominator == 1) {
+			return "\\(" + this.numerator.toString() + "\\)";
+		}
+		if (this.numerator < 0) {
+			return "\\(-" + "^{" + Math.abs(this.numerator) + "}/_{"
+					+ this.denominator + "}\\)";
+		}
+		return "\\(^{" + this.numerator + "}/_{" + this.denominator + "}\\)";
+	}
 }
