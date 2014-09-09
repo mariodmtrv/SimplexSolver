@@ -13,8 +13,6 @@ JAVA
 * Class AnswerSearcher																	[Dimiter]
 
 JS
-* AJAX to Java request																	[Dimiter]
 * Message log print																		[Dimiter]
-* CSS + fonts																			[Dimiter]
-* Include MathJax locally																[Dimiter]
+* CSS tables size + more descriptions 													[Dimiter]
 * Fix $.load() for Chrome																[Dimiter]

@@ -44,7 +44,7 @@ var HARDCODED_RESPONSE = {
         extremum: "MIN",
         isK: false,
         isM: false,
-        variables: ["x_1", "x_2", "x_3"],
+        variables: ["\\(x_1\\)", "\\(x_2\\)", "\\(x_3\\)"],
         zFuncCoefs: ["2", "1", "2"],
         restrictions: [
           {
@@ -63,13 +63,13 @@ var HARDCODED_RESPONSE = {
             rightSide: "\\(4\\)"
           }
         ],
-        nonNegativeVars: ["x_2", "x_3"]
+        nonNegativeVars: ["\\(x_2\\)", "\\(x_3\\)"]
       },
       {
         extremum: "MIN",
         isK: true,
         isM: false,
-        variables: ["x_1^+", "x_1^-", "x_2", "x_3", "x_4", "x_5"],
+        variables: ["\\(x_1^+\\)", "\\(x_1^-\\)", "\\(x_2\\)", "\\(x_3\\)", "\\(x_4\\)", "\\(x_5\\)"],
         zFuncCoefs: ["2", "-2", "1", "2", "0", "0"],
         restrictions: [
           {
@@ -88,13 +88,13 @@ var HARDCODED_RESPONSE = {
             rightSide: "4"
           }
         ],
-        nonNegativeVars: ["x_1^+", "x_1^-", "x_2", "x_3", "x_4", "x_5"]
+        nonNegativeVars: ["\\(x_1^+\\)", "\\(x_1^-\\)", "\\(x_2\\)", "\\(x_3\\)", "\\(x_4\\)", "\\(x_5\\)"]
       },
       {
         extremum: "MIN",
         isK: true,
         isM: true,
-        variables: ["x_1^+", "x_1^-", "x_2", "x_3", "x_4", "x_5", "x_6"],
+        variables: ["\\(x_1^+\\)", "\\(x_1^-\\)", "\\(x_2\\)", "\\(x_3\\)", "\\(x_4\\)", "\\(x_5\\)", "\\(x_6\\)"],
         zFuncCoefs: ["2", "-2", "1", "2", "0", "0", "M"],
         restrictions: [
           {
@@ -113,12 +113,12 @@ var HARDCODED_RESPONSE = {
             rightSide: "4"
           }
         ],
-        nonNegativeVars: ["x_1^+", "x_1^-", "x_2", "x_3", "x_4", "x_5", "x_6"]
+        nonNegativeVars: ["\\(x_1^+\\)", "\\(x_1^-\\)", "\\(x_2\\)", "\\(x_3\\)", "\\(x_4\\)", "\\(x_5\\)", "\\(x_6\\)"]
       }
       ],
       iterations: [
       {
-        basis: ["x_6", "x_5", "x_2"],
+        basis: ["\\(x_6\\)", "\\(x_5\\)", "\\(x_2\\)"],
         basisCoefs: ["M", "0", "1"],
         table: [
         ["-1", "1", "0", "1", "-1", "0", "1"],
@@ -137,7 +137,7 @@ var HARDCODED_RESPONSE = {
         newKeyElemCoords: [0, 1]
       },
       {
-        basis: ["x_1^-", "x_5", "x_2"],
+        basis: ["\\(x_1^-\\)", "\\(x_5\\)", "\\(x_2\\)"],
         basisCoefs: ["-2", "0", "1"],
         table: [
         ["-1", "1", "0", "1", "-1", "0", "1"],
@@ -179,6 +179,7 @@ var HARDCODED_RESPONSE = {
       }
       ]
     };
+var HARDCODED_RESPONSE = JSON.stringify(HARDCODED_RESPONSE);
 
 // Make & send JSON of the problem via AJAX to the server,
 // also recieve response and initialize variables for the visualization
@@ -191,8 +192,9 @@ $(document).ready(function(){
     /*$.get(
       "",
       jsonProblem,
-      function(response) {*/
-        var response = HARDCODED_RESPONSE;
+      function(data) {*/
+        var data = HARDCODED_RESPONSE;
+        var response = JSON.parse(data);
 
         $("#setProblem").toggle();
 

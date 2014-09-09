@@ -449,6 +449,8 @@ function printAnswer()
 			}
 		}
 
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+
 		if(currentAnswer.directions.length == 0)
 			return;
 
@@ -468,5 +470,7 @@ function printAnswer()
 				$(div).find(".directions tr:last").append("<td>" + currentAnswer.directions[i][j] + "</td>");
 			}
 		}
+
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 	});
 }
