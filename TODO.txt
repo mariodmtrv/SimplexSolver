@@ -14,5 +14,6 @@ JAVA
 
 JS
 * Message log print																		[Dimiter]
-* CSS tables size + more descriptions 													[Dimiter]
+* CSS tables size + more descriptions													[Dimiter]
+* Include MathJax locally																[Dimiter]
 * Fix $.load() for Chrome																[Dimiter]
