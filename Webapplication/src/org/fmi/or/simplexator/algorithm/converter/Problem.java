@@ -44,7 +44,7 @@ public class Problem extends AbstractProblem {
 
 	private void setToMinimum() {
 		if (this.optimum != Optimum.MINIMUM) {
-//			uiController.addContent("Преобразуваме към задача за минимум.\n",
+//			uiController.addContent("ÐŸÑ€ÐµÐ¾Ð±Ñ€Ð°Ð·ÑƒÐ²Ð°Ð¼Ðµ ÐºÑŠÐ¼ Ð·Ð°Ð´Ð°Ñ‡Ð° Ð·Ð° Ð¼Ð¸Ð½Ð¸Ð¼ÑƒÐ¼.\n",
 //					Destination.LOG);
 //			uiController.addContent("max(Z)=min(-Z)\n", Destination.LOG);
 			this.optimum = Optimum.MINIMUM;
@@ -54,14 +54,14 @@ public class Problem extends AbstractProblem {
 //			uiController.addContent(this.toString(), Destination.WINDOW);
 			return;
 		}
-//		uiController.addContent("Оригиналната задача е за минимум.",
+//		uiController.addContent("ÐžÑ€Ð¸Ð³Ð¸Ð½Ð°Ð»Ð½Ð°Ñ‚Ð° Ð·Ð°Ð´Ð°Ñ‡Ð° Ðµ Ð·Ð° Ð¼Ð¸Ð½Ð¸Ð¼ÑƒÐ¼.",
 //				Destination.LOG);
 	}
 
 	private void setRightSidesToPositive() {
 //		uiController
 //				.addContent(
-//						"Трансформираме всички ограничения с отрицателни десни страни в такива с положителни.",
+//						"Ð¢Ñ€Ð°Ð½Ñ�Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€Ð°Ð¼Ðµ Ð²Ñ�Ð¸Ñ‡ÐºÐ¸ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ñ� Ñ� Ð¾Ñ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»Ð½Ð¸ Ð´ÐµÑ�Ð½Ð¸ Ñ�Ñ‚Ñ€Ð°Ð½Ð¸ Ð² Ñ‚Ð°ÐºÐ¸Ð²Ð° Ñ� Ð¿Ð¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»Ð½Ð¸.",
 //						Destination.LOG);
 		for (Restriction restriction : restrictions) {
 			restriction.rightSideToPositive();
@@ -72,15 +72,15 @@ public class Problem extends AbstractProblem {
 	private void setToEquations() {
 //		uiController
 //				.addContent(
-//						"За всяко неравенство в ограниченията заместваме с равенство, като добавяме допълнителна променлива.",
+//						"Ð—Ð° Ð²Ñ�Ñ�ÐºÐ¾ Ð½ÐµÑ€Ð°Ð²ÐµÐ½Ñ�Ñ‚Ð²Ð¾ Ð² Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ñ�Ñ‚Ð° Ð·Ð°Ð¼ÐµÑ�Ñ‚Ð²Ð°Ð¼Ðµ Ñ� Ñ€Ð°Ð²ÐµÐ½Ñ�Ñ‚Ð²Ð¾, ÐºÐ°Ñ‚Ð¾ Ð´Ð¾Ð±Ð°Ð²Ñ�Ð¼Ðµ Ð´Ð¾Ð¿ÑŠÐ»Ð½Ð¸Ñ‚ÐµÐ»Ð½Ð° Ð¿Ñ€Ð¾Ð¼ÐµÐ½Ð»Ð¸Ð²Ð°.",
 //						Destination.LOG);
 //		uiController
 //				.addContent(
-//						"<лява_страна> >= <дясна_страна>		става		<лява_страна> - \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.",
+//						"<Ð»Ñ�Ð²Ð°_Ñ�Ñ‚Ñ€Ð°Ð½Ð°> >= <Ð´Ñ�Ñ�Ð½Ð°_Ñ�Ñ‚Ñ€Ð°Ð½Ð°>		Ñ�Ñ‚Ð°Ð²Ð°		<Ð»Ñ�Ð²Ð°_Ñ�Ñ‚Ñ€Ð°Ð½Ð°> - \\x_k = <Ð´Ñ�Ñ�Ð½Ð°_Ñ�Ñ‚Ñ€Ð°Ð½Ð°>, ÐºÑŠÐ´ÐµÑ‚Ð¾ k Ðµ Ð½Ð¾Ð² Ð¸Ð½Ð´ÐµÐºÑ� Ð¸ \\x_k >= 0.",
 //						Destination.LOG);
 //		uiController
 //				.addContent(
-//						"<лява_страна> <= <дясна_страна>		става		<лява_страна> + \\x_k = <дясна_страна>, където k е нов индекс и \\x_k >= 0.",
+//						"<Ð»Ñ�Ð²Ð°_Ñ�Ñ‚Ñ€Ð°Ð½Ð°> <= <Ð´Ñ�Ñ�Ð½Ð°_Ñ�Ñ‚Ñ€Ð°Ð½Ð°>		Ñ�Ñ‚Ð°Ð²Ð°		<Ð»Ñ�Ð²Ð°_Ñ�Ñ‚Ñ€Ð°Ð½Ð°> + \\x_k = <Ð´Ñ�Ñ�Ð½Ð°_Ñ�Ñ‚Ñ€Ð°Ð½Ð°>, ÐºÑŠÐ´ÐµÑ‚Ð¾ k Ðµ Ð½Ð¾Ð² Ð¸Ð½Ð´ÐµÐºÑ� Ð¸ \\x_k >= 0.",
 //						Destination.LOG);
 		for (Restriction restriction : restrictions) {
 			Variable newVar = restriction.setToEquation(maxIndex);
@@ -111,7 +111,7 @@ public class Problem extends AbstractProblem {
 
 //		uiController
 //				.addContent(
-//						"За всяка променлива \\x_i, за която няма ограничение за неотрицателност, я заместваме с 2 променливи \\x_i^+ и \\x_i^-, които са неотрицателни.",
+//						"Ð—Ð° Ð²Ñ�Ñ�ÐºÐ° Ð¿Ñ€Ð¾Ð¼ÐµÐ½Ð»Ð¸Ð²Ð° \\x_i, Ð·Ð° ÐºÐ¾Ñ�Ñ‚Ð¾ Ð½Ñ�Ð¼Ð° Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ðµ Ð·Ð° Ð½ÐµÐ¾Ñ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»Ð½Ð¾Ñ�Ñ‚, Ñ� Ð·Ð°Ð¼ÐµÑ�Ñ‚Ð²Ð°Ð¼Ðµ Ñ� 2 Ð¿Ñ€Ð¾Ð¼ÐµÐ½Ð»Ð¸Ð²Ð¸ \\x_i^+ Ð¸ \\x_i^-, ÐºÐ¾Ð¸Ñ‚Ð¾ Ñ�Ð° Ð½ÐµÐ¾Ñ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»Ð½Ð¸.",
 //						Destination.LOG);
 		int varsPassed = 0;
 		Iterator<Variable> zfuncIter = zfunction.iterator();
@@ -170,4 +170,9 @@ public class Problem extends AbstractProblem {
 		}
 		return "{\\bf max {\\it z}}=";
 	}
+	
+	public Vector<Boolean> getHasNegativePart() {
+		return hasNegativePart;
+	}
+
 }

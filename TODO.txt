@@ -5,7 +5,6 @@ JAVA
 * Add "problemType" attribute to Problem classes (to indicate if it is L, K or M)		[Mario]
 * De-couple L -> K conversion from K -> M conversion									[Mario]
 * Message logging																		[Mario]
-* Test conversion of answers															[Dimiter]
 * Java AJAX response																	[Mario]
 * LaTeX document print																	[Mario]
 * Main method class																		[Mario]

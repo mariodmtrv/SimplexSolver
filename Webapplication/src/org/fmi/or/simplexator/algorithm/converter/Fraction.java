@@ -3,6 +3,7 @@ package org.fmi.or.simplexator.algorithm.converter;
 import java.text.ParseException;
 import java.util.regex.Pattern;
 
+
 public class Fraction {
 	private Integer numerator;
 	private Integer denominator;
@@ -63,6 +64,14 @@ public class Fraction {
 
 		return check.numerator;
 
+	}
+	
+	public boolean equals(Object obj) {
+		Fraction other = (Fraction) obj;
+	    if(this == other) { 
+	        return true;
+	    }
+	    return this.compareTo(other) == 0;
 	}
 
 	public Fraction(int num, int denom) {
@@ -167,5 +176,18 @@ public class Fraction {
 		}
 		return "\\frac{" + this.numerator + "}{" + this.denominator + "}";
 	}
-
+	
+	public String toMathJaxString() {
+		if (this.numerator == 0) {
+			return "\\(0\\)";
+		}
+		if (this.denominator == 1) {
+			return "\\(" + this.numerator.toString() + "\\)";
+		}
+		if (this.numerator < 0) {
+			return "\\(-" + "^{" + Math.abs(this.numerator) + "}/_{"
+					+ this.denominator + "}\\)";
+		}
+		return "\\(^{" + this.numerator + "}/_{" + this.denominator + "}\\)";
+	}
 }

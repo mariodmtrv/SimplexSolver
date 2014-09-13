@@ -72,9 +72,9 @@ public class AnswerConverter {
 		// find variables added as "+" & "-"
 		Vector<Integer> plusVars = new Vector<Integer>();
 		
-		for(int i=0; i < this.problem.getVarCount(); i++) {
-			if(this.problem.getVarByIndex(i).getType() == VariableType.POSITIVE)
-				plusVars.add(i); // => (i+1) is VariableType.NEGATIVE
+		for(int i=0; i < this.problem.getHasNegativePart().size(); i++) {
+			if(this.problem.getHasNegativePart().get(i))
+				plusVars.add(i);
 		}
 		
 		// convert vertices
@@ -84,11 +84,9 @@ public class AnswerConverter {
 			// unite variables added as "+" & "-"
 			for(int j = 0; j < plusVars.size(); j++) {
 				Fraction plusValue = newVertex.get(plusVars.get(j));
-				Fraction minusValue = newVertex.get(plusVars.get(j + 1));
+				Fraction minusValue = newVertex.get(plusVars.get(j) + 1);
 				newVertex.setElementAt(plusValue.subtract(minusValue), plusVars.get(j));
-			}
-			for(int j = 0; j < plusVars.size(); j++) {
-				newVertex.remove(plusVars.get(j + 1));
+				newVertex.remove(plusVars.get(j) + 1);
 			}
 			
 			// cut out the variables added to balance the restrictions
@@ -104,11 +102,9 @@ public class AnswerConverter {
 			// unite variables added as "+" & "-"
 			for(int j = 0; j < plusVars.size(); j++) {
 				Fraction plusValue = newDirection.get(plusVars.get(j));
-				Fraction minusValue = newDirection.get(plusVars.get(j + 1));
+				Fraction minusValue = newDirection.get(plusVars.get(j) + 1);
 				newDirection.setElementAt(plusValue.subtract(minusValue), plusVars.get(j));
-			}
-			for(int j = 0; j < plusVars.size(); j++) {
-				newDirection.remove(plusVars.get(j + 1));
+				newDirection.remove(plusVars.get(j) + 1);
 			}
 			
 			// cut out the variables added to balance the restrictions

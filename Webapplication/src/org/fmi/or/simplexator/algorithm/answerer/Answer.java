@@ -36,4 +36,12 @@ public class Answer {
 	public Vector<Vector<Fraction>> getDirections() {
 		return directions;
 	}
+	
+	public boolean equals(Object obj) {
+		Answer other = (Answer) obj;
+	    if(this == other) { 
+	        return true;
+	    }
+	    return this.vertices.equals(other.getVertices()) && this.directions.equals(other.getDirections());
+	}
 }
