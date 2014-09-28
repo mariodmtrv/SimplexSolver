@@ -31,3 +31,23 @@ body {
 button {
 	position: static;
 }
+
+header, footer {
+	background-color: #E8E8E8;
+    width: 100%;
+}
+
+footer {
+    bottom: 0;
+    position: relative;
+    height: 60px;
+}
+
+#log {
+    height: 250px;
+}
+
+#scrollable {
+    overflow-y: scroll;
+    height: 85%;
+}

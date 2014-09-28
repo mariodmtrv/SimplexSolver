@@ -197,6 +197,10 @@ $(document).ready(function(){
         var response = JSON.parse(data);
 
         $("#setProblem").toggle();
+        $("#problemDescription").toggle();
+        $("#tables").toggle();
+        $("#answers").toggle();
+        $("#log").toggle();
 
         problemManager = initializeProblemManager(response);
         stepSwitcher = initializeStepSwitcher(problemManager);

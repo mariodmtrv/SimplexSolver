@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <title>Simplex Solver</title>
     <link rel="stylesheet" type="text/css" href="index.css">
     
     <script type="text/javascript" src="lib/jquery-1.11.1.js"></script>
@@ -23,6 +24,11 @@
     <script src="js/table.js"></script>
   </head>
   <body>
+    <header>
+      <h1>Simplex Solver</h1>
+      <h5>Уеб приложение, решаващо линейни оптимизационни задачи чрез симплекс метод</h5>
+    </header>
+
     <form id="problemParameters">
       <select id="type">
         <option value="MIN">MIN</option>
@@ -41,15 +47,14 @@
       <table id="checkPositive">
       </table>
       <button type="button" id="nextSendProblem">Next</button>
-      <!--<a href="table.html">Next</a>-->
     </article>
 
 
 
-    <article id="problemDescription">
+    <article id="problemDescription" style="display: none" style="float: none">
     </article>
 
-    <article id="tables">
+    <article id="tables" style="display: none">
       <h2>Simplex Table:</h2>
       <h3>Previous Iterations:</h3>
       <div id="previousTable">
@@ -60,12 +65,19 @@
       <button type="button" id="next">Next</button>
     </article>
 
-    <article id="answers">
+    <article id="answers" style="display: none">
       <h2>Optimal answers:</h2>
     </article>
 
-    <article id="log">
+    <article id="log" style="display: none">
       <h2>Message Log:</h2>
+      <div id="scrollable">
+      </div>
     </article>
+
+    <footer>
+      <p>Марио Димитров, Димитър Мутафчиев</p>
+      <p>2014 - ФМИ, Софийски университет "Св. Климент Охридски"</p>
+    </footer>
   </body>
 </html>
