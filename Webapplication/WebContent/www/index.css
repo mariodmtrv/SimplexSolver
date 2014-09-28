@@ -18,7 +18,7 @@ body {
 
 .basisTable, .mainTable, .costsTable {
 	border: 1 solid black;
-	postion: relative;
+	position: relative;
 	float: left;
 }
 
