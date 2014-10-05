@@ -1,0 +1,2 @@
+serviceClass: org.fmi.or.simplexator.client.GreetingService
+path: 8C4D980762AEA86E5306C294EAB5D116.gwt.rpc
