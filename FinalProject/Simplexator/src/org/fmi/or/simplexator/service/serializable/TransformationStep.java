@@ -7,26 +7,19 @@ import java.util.Vector;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 
-/**
- * extremum: "MIN", isK: false, isM: false, variables: ["\\(x_1\\)",
- * "\\(x_2\\)", "\\(x_3\\)"], zFuncCoefs: ["2", "1", "2"], restrictions: [ {
- * coefs: ["1", "0", "-1"], sign: "LTE", rightSide: "\\(-^{1}/_{11}\\)" }, {
- * coefs: ["-1", "0", "-2"], sign: "LTE", rightSide: "\\(^{3}/_{11}\\)" }, {
- * coefs: ["3", "1", "1"], sign: "EQ", rightSide: "\\(4\\)" } ],
- * nonNegativeVars: ["\\(x_2\\)", "\\(x_3\\)"] },
- */
 public class TransformationStep {
 	String extremum;
 	Boolean isK;
 	Boolean isM;
 	List<String> variables;
 	List<String> zFuncCoefs;
-    List<VisualRestriction> restrictions;
+	List<VisualRestriction> restrictions;
 	List<String> nonNegativeVars;
 
 	public TransformationStep(String extremum, Boolean isK, Boolean isM,
 			List<String> variables, List<String> zFuncCoefs,
-			List<VisualRestriction> visualRestrictions, List<String> nonNegativeVars) {
+			List<VisualRestriction> visualRestrictions,
+			List<String> nonNegativeVars) {
 
 		this.extremum = extremum;
 		this.isK = isK;
@@ -54,9 +47,10 @@ public class TransformationStep {
 			this.zFuncCoefs.add(zFuncCoef);
 		}
 		// add restrictions
-		// this.restrictions = new ArrayList<>();
+		this.restrictions = new ArrayList<>();
 		for (int restrIndex = 0; restrIndex < kProblem.getRestrictionsCount(); restrIndex++) {
-
+			restrictions.add(new VisualRestriction(kProblem
+					.getRestriction(restrIndex)));
 		}
 		this.nonNegativeVars = new ArrayList<>();
 		Vector<Boolean> negativePartIndicators = kProblem.getHasNegativePart();
@@ -107,12 +101,14 @@ public class TransformationStep {
 		this.zFuncCoefs = zFuncCoefs;
 	}
 
-	/*
-	 * public List<VisualRestriction> getRestrictions() { return restrictions; }
-	 * 
-	 * public void setRestrictions(List<VisualRestriction> restrictions) {
-	 * this.restrictions = restrictions; }
-	 */
+	public List<VisualRestriction> getRestrictions() {
+		return restrictions;
+	}
+
+	public void setRestrictions(List<VisualRestriction> restrictions) {
+		this.restrictions = restrictions;
+	}
+
 	public List<String> getNonNegativeVars() {
 		return nonNegativeVars;
 	}
