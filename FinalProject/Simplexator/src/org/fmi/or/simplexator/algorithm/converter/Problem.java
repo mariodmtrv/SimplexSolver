@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 
-import org.fmi.or.simplexator.answerqueue.AnswerQueue;
-import org.fmi.or.simplexator.answerqueue.WebAnswerQueue;
+import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 
 public class Problem extends AbstractProblem {
 
@@ -32,49 +31,50 @@ public class Problem extends AbstractProblem {
 	}
 
 	public void convertToK() {
-		AnswerQueue answerQueue = new WebAnswerQueue(new Locale("bg", "BG"));
-		convertToK(answerQueue);
+		ProblemConversionQueue problemConversionQueue = new ProblemConversionQueue(new Locale("bg", "BG"));
+		convertToK(problemConversionQueue);
 	}
 
-	public void convertToK(AnswerQueue answerQueue) {
-		answerQueue.addProblemStep(this);
-		setToMinimum(answerQueue);
+	public void convertToK(ProblemConversionQueue problemConversionQueue) {
+		problemConversionQueue.addProblemStep(this);
+		setToMinimum(problemConversionQueue);
 
-		setRightSidesToPositive(answerQueue);
+		setRightSidesToPositive(problemConversionQueue);
 
-		processNegativeParts(answerQueue);
+		processNegativeParts(problemConversionQueue);
 
-		setToEquations(answerQueue);
+		setToEquations(problemConversionQueue);
+		problemConversionQueue.addMessage("canonicalProblemMessage");
 
 	}
 
-	private void setToMinimum(AnswerQueue answerQueue) {
+	private void setToMinimum(ProblemConversionQueue problemConversionQueue) {
 
-		answerQueue.addMessage("allToMinimum");
+		problemConversionQueue.addMessage("allToMinimum");
 		if (this.optimum != Optimum.MINIMUM) {
-			answerQueue.addMessage("toMinimumConversionRule");
+			problemConversionQueue.addMessage("toMinimumConversionRule");
 			this.optimum = Optimum.MINIMUM;
 			for (Variable variable : this.zfunction) {
 				variable.changeSign();
 			}
-			answerQueue.addProblemStep(this);
+			problemConversionQueue.addProblemStep(this);
 			return;
 		} else {
-			answerQueue.addMessage("alreadyMinimum");
+			problemConversionQueue.addMessage("alreadyMinimum");
 		}
 
 	}
 
-	private void setRightSidesToPositive(AnswerQueue answerQueue) {
-		answerQueue.addMessage("rightSidesToPositiveRule");
+	private void setRightSidesToPositive(ProblemConversionQueue problemConversionQueue) {
+		problemConversionQueue.addMessage("rightSidesToPositiveRule");
 		for (Restriction restriction : restrictions) {
 			restriction.rightSideToPositive();
 		}
-		answerQueue.addProblemStep(this);
+		problemConversionQueue.addProblemStep(this);
 	}
 
-	private void setToEquations(AnswerQueue answerQueue) {
-		answerQueue.addMessage("toEquationsRule");
+	private void setToEquations(ProblemConversionQueue problemConversionQueue) {
+		problemConversionQueue.addMessage("toEquationsRule");
 		for (Restriction restriction : restrictions) {
 			Variable newVar = restriction.setToEquation(maxIndex);
 			if (newVar != null) {
@@ -85,7 +85,7 @@ public class Problem extends AbstractProblem {
 				// we add with zero to keep table shape consistency
 				for (int i = 0; i < restrictions.size(); i++) {
 					if (restrictions.get(i).getVarCount() < zfunction.size()) {
-						answerQueue.addProblemStep(this);
+						problemConversionQueue.addProblemStep(this);
 						addVarToRestriction(i, toAdd);
 					} else {
 						// we are at the restriction already set to equation
@@ -101,9 +101,9 @@ public class Problem extends AbstractProblem {
 		restrictions.set(restrIndex, updated);
 	}
 
-	private void processNegativeParts(AnswerQueue answerQueue) {
+	private void processNegativeParts(ProblemConversionQueue problemConversionQueue) {
 
-		answerQueue.addMessage("processNegativeParts");
+		problemConversionQueue.addMessage("processNegativeParts");
 		int varsPassed = 0;
 		Iterator<Variable> zfuncIter = zfunction.iterator();
 		Boolean processedOne = false;
@@ -131,13 +131,13 @@ public class Problem extends AbstractProblem {
 					restrictions.set(restrictionIndex, changedRestriction);
 				}
 				processedOne = true;
-				answerQueue.addProblemStep(this);
+				problemConversionQueue.addProblemStep(this);
 			}
 
 		}
 		if (processedOne == false) {
-			answerQueue.addMessage("noNegativesAtRightSide");
-			answerQueue.addProblemStep(this);
+			problemConversionQueue.addMessage("noNegativesAtRightSide");
+			problemConversionQueue.addProblemStep(this);
 		}
 	}
 

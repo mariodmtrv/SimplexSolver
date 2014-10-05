@@ -1,6 +1,10 @@
 package org.fmi.or.simplexator.algorithm.converter;
 
+import java.util.Locale;
 import java.util.Vector;
+
+import org.fmi.or.simplexator.algorithm.answerer.AnswerSearcher;
+import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 
 public class MProblem extends Problem {
 	public MProblem(Problem other) {
@@ -8,6 +12,13 @@ public class MProblem extends Problem {
 	}
 
 	public void convertToMProblem() {
+		ProblemConversionQueue problemConversionQueue = new ProblemConversionQueue(
+				new Locale("bg", "BG"));
+		convertToMProblem(problemConversionQueue);
+	}
+
+	public void convertToMProblem(ProblemConversionQueue queue) {
+		queue.addMessage("mProblemConversion");
 		int uniquenessMap[] = getUniquenessMap();
 		boolean MVarNeeded[] = new boolean[restrictionsCount];
 		for (int i = 0; i < MVarNeeded.length; i++) {
@@ -27,9 +38,9 @@ public class MProblem extends Problem {
 		}
 		if (shouldConvertToM) {
 			// should convert
-			
-			// UI.printMessage("Необходимо е да преобразуваме към М-задача, защото нямаме достатъчно променливи, за да образуваме базис (необходими са толкова базисни променливи, колкото са ограниченията).");
-			// UI.printMessage("В съответните ограничения добавяме нова променлива, която е неотрицателна и коефициентът й в Z-функцията е М. Тук М е някакво фиксирано крайно много голямо число.");
+
+			// UI.printMessage("Ð�ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ðµ Ð´Ð° Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð·ÑƒÐ²Ð°Ð¼Ðµ ÐºÑŠÐ¼ Ðœ-Ð·Ð°Ð´Ð°Ñ‡Ð°, Ð·Ð°Ñ‰Ð¾Ñ‚Ð¾ Ð½Ñ�Ð¼Ð°Ð¼Ðµ Ð´Ð¾Ñ�Ñ‚Ð°Ñ‚ÑŠÑ‡Ð½Ð¾ Ð¿Ñ€Ð¾Ð¼ÐµÐ½Ð»Ð¸Ð²Ð¸, Ð·Ð° Ð´Ð° Ð¾Ð±Ñ€Ð°Ð·ÑƒÐ²Ð°Ð¼Ðµ Ð±Ð°Ð·Ð¸Ñ� (Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¸ Ñ�Ð° Ñ‚Ð¾Ð»ÐºÐ¾Ð²Ð° Ð±Ð°Ð·Ð¸Ñ�Ð½Ð¸ Ð¿Ñ€Ð¾Ð¼ÐµÐ½Ð»Ð¸Ð²Ð¸, ÐºÐ¾Ð»ÐºÐ¾Ñ‚Ð¾ Ñ�Ð° Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ñ�Ñ‚Ð°).");
+			// UI.printMessage("Ð’ Ñ�ÑŠÐ¾Ñ‚Ð²ÐµÑ‚Ð½Ð¸Ñ‚Ðµ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ñ� Ð´Ð¾Ð±Ð°Ð²Ñ�Ð¼Ðµ Ð½Ð¾Ð²Ð° Ð¿Ñ€Ð¾Ð¼ÐµÐ½Ð»Ð¸Ð²Ð°, ÐºÐ¾Ñ�Ñ‚Ð¾ Ðµ Ð½ÐµÐ¾Ñ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»Ð½Ð° Ð¸ ÐºÐ¾ÐµÑ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚ÑŠÑ‚ Ð¹ Ð² Z-Ñ„ÑƒÐ½ÐºÑ†Ð¸Ñ�Ñ‚Ð° Ðµ Ðœ. Ð¢ÑƒÐº Ðœ Ðµ Ð½Ñ�ÐºÐ°ÐºÐ²Ð¾ Ñ„Ð¸ÐºÑ�Ð¸Ñ€Ð°Ð½Ð¾ ÐºÑ€Ð°Ð¹Ð½Ð¾ Ð¼Ð½Ð¾Ð³Ð¾ Ð³Ð¾Ð»Ñ�Ð¼Ð¾ Ñ‡Ð¸Ñ�Ð»Ð¾.");
 			for (int i = 0; i < MVarNeeded.length; i++) {
 				if (MVarNeeded[i]) {
 					this.varCount++;
@@ -48,21 +59,27 @@ public class MProblem extends Problem {
 							addVarToRestriction(j, zeroMVar);
 						}
 					}
+					queue.addProblemStep(this);
+					queue.addMessage("mProblemStepConversion");
+
 				} else {
 					// now doby is a free equation
 				}
 			}
 		} else {
+
 			// no convertion
+			queue.addMessage("mProblemWasGiven");
 		}
-		//  UI.printProblem(problem);
+		queue.addProblemStep(this);
+		queue.addMessage("mProblemReady");
 	}
-/**
- * uniquenessMap[i]:
- *        -1 => is not unique (or is unique but the coefficient is <0)
- *        n => restriction where is unique (and coefficient >0)
- *        
- * */
+
+	/**
+	 * uniquenessMap[i]: -1 => is not unique (or is unique but the coefficient
+	 * is <0) n => restriction where is unique (and coefficient >0)
+	 * 
+	 * */
 	public int[] getUniquenessMap() {
 		int uniquenessPosition[] = new int[this.varCount];
 		for (int i = 0; i < uniquenessPosition.length; i++) {

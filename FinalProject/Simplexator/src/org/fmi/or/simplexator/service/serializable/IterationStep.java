@@ -1,4 +1,4 @@
-package org.fmi.or.simplexator.service;
+package org.fmi.or.simplexator.service.serializable;
 
 import java.util.List;
 

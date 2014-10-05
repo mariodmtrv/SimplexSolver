@@ -15,11 +15,12 @@ import javax.ws.rs.core.Response;
 
 import org.fmi.or.simplexator.algorithm.converter.EquationSign;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
+import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Optimum;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
-import org.fmi.or.simplexator.answerqueue.WebAnswerQueue;
+import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 import org.fmi.or.simplexator.service.serializable.TransformationStep;
 
 @Path("/solve")
@@ -27,8 +28,8 @@ public class SimplexatorService {
 	@GET
 	@Produces("application/json")
 	@Path("/get-all-steps")
-	public WebAnswerQueue getSteps() {
-		WebAnswerQueue queue = new WebAnswerQueue(new Locale("bg", "BG"));
+	public ProblemConversionQueue getSteps() {
+		ProblemConversionQueue queue = new ProblemConversionQueue(new Locale("bg", "BG"));
 		List<Variable> zfunction = new LinkedList<Variable>();
 		zfunction.add(new Variable(new Fraction(2), 1));
 		zfunction.add(new Variable(new Fraction(1), 2));
@@ -67,7 +68,7 @@ public class SimplexatorService {
 		Problem problem = new Problem(zfunction, restrictions, optimum,
 				hasNegativePart);
 		problem.convertToK(queue);
-		queue.generateLocalizedMessages();
+		
 		/*
 		 * List<TransformationStep> steps = new ArrayList<>(); steps.add(new
 		 * TransformationStep(queue.getProblemSteps().get(0))); steps.add(new
@@ -120,12 +121,12 @@ public class SimplexatorService {
 		TransformationStep step = new TransformationStep(problem);
 		return step;
 	}
-
-	@POST
-	@Consumes("application/json")
-	public Response createProduct(Product product) {
-		String result = "Product created : " + product;
-		return Response.status(201).entity(result).build();
-	}
+	/*
+	 * @POST
+	 * 
+	 * @Consumes("application/json") public Response createProduct(Product
+	 * product) { String result = "Product created : " + product; return
+	 * Response.status(201).entity(result).build(); }
+	 */
 
 }

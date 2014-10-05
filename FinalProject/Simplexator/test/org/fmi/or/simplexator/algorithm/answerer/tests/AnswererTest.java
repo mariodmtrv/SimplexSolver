@@ -27,7 +27,7 @@ public class AnswererTest {
 	
 	@Test
 	public void testSampleConversionMToKToL() {
-		// define problems
+		// define serializableProblemSteps
 		List<Variable> zfunction = new LinkedList<Variable>();
 		zfunction.add(new Variable(new Fraction(2), 1));
 		zfunction.add(new Variable(new Fraction(1), 2));
@@ -115,7 +115,7 @@ public class AnswererTest {
 
 	@Test
 	public void testSeveralHasNegativeParts() {
-		// define problems
+		// define serializableProblemSteps
 		List<Variable> zfunction = new LinkedList<Variable>();
 		zfunction.add(new Variable(new Fraction(2), 1));
 		zfunction.add(new Variable(new Fraction(1), 2));
@@ -206,7 +206,7 @@ public class AnswererTest {
 
 	// @Test
 	public void testNonZeroCoefInM() {
-		// define problems
+		// define serializableProblemSteps
 		List<Variable> zfunction = new LinkedList<Variable>();
 		zfunction.add(new Variable(new Fraction(2), 1));
 		zfunction.add(new Variable(new Fraction(1), 2));

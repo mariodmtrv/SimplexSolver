@@ -7,12 +7,12 @@ import java.util.ResourceBundle;
 
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 
-public abstract class AnswerQueue {
+public class ProblemConversionQueue {
 	protected List<Problem> problemSteps;
 	private List<String> messageIdentifiers;
 	protected ResourceBundle localizationBundle;
 
-	public AnswerQueue(Locale locale) {
+	public ProblemConversionQueue(Locale locale) {
 		localizationBundle = ResourceBundle.getBundle(
 				"resources/ConversionMessages", locale);
 		problemSteps = new ArrayList<>();
