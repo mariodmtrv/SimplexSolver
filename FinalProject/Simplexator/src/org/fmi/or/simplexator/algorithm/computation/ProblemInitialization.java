@@ -143,7 +143,8 @@ public class ProblemInitialization {
 		calculateInitialCosts();
 	
 		// Ui.printCosts();
-		IterationStep step;
+		
+		IterationStep step = new IterationStep(this.simplexTable);
 		Integer[] keyElemCoords= null;
 		step.setKeyElemCoords(keyElemCoords);
 		

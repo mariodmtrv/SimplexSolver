@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.answerer.Answer;
@@ -21,10 +22,11 @@ import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 import org.fmi.or.simplexator.algorithm.converter.tests.MProblemConversionTest;
+import org.fmi.or.simplexator.answerqueue.IterationQueue;
 import org.junit.Test;
 
 public class AnswererTest {
-	
+
 	@Test
 	public void testSampleConversionMToKToL() {
 		// define serializableProblemSteps
@@ -63,16 +65,16 @@ public class AnswererTest {
 		hasNegativePart.add(true);
 		hasNegativePart.add(false);
 		hasNegativePart.add(false);
-		
+
 		Problem p = new Problem(zfunction, restrictions, optimum,
 				hasNegativePart);
-		
+
 		Problem kp = new Problem(p);
 		kp.convertToK();
-		
+
 		MProblem mp = new MProblem(kp);
 		mp.convertToMProblem();
-		
+
 		// define answers
 		Vector<Fraction> mVector = new Vector<Fraction>();
 		mVector.add(new Fraction(0, 1));
@@ -83,7 +85,7 @@ public class AnswererTest {
 		mVector.add(new Fraction(2, 1));
 		mVector.add(new Fraction(0, 1));
 		Answer mAnswer = new Answer(mVector);
-		
+
 		Vector<Fraction> kVector = new Vector<Fraction>();
 		kVector.add(new Fraction(0, 1));
 		kVector.add(new Fraction(1, 1));
@@ -92,23 +94,23 @@ public class AnswererTest {
 		kVector.add(new Fraction(0, 1));
 		kVector.add(new Fraction(2, 1));
 		Answer kAnswer = new Answer(kVector);
-		
+
 		Vector<Fraction> lVector = new Vector<Fraction>();
 		lVector.add(new Fraction(-1, 1));
 		lVector.add(new Fraction(7, 1));
 		lVector.add(new Fraction(0, 1));
 		Answer lAnswer = new Answer(lVector);
-		
+
 		// test:
 		AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
-		Answer returnedMToK = mtok.convertMToK(); 
-		if(!returnedMToK.equals(kAnswer)) {
+		Answer returnedMToK = mtok.convertMToK();
+		if (!returnedMToK.equals(kAnswer)) {
 			fail("");
 		}
-		
+
 		AnswerConverter ktol = new AnswerConverter(p, kAnswer);
 		Answer returnedKToL = ktol.convertKToL();
-		if(!returnedKToL.equals(lAnswer)) {
+		if (!returnedKToL.equals(lAnswer)) {
 			fail("");
 		}
 	}
@@ -150,17 +152,17 @@ public class AnswererTest {
 		Vector<Boolean> hasNegativePart = new Vector<>();
 		hasNegativePart.add(true);
 		hasNegativePart.add(false);
-		hasNegativePart.add(true);		// several negative !!!
-		
+		hasNegativePart.add(true); // several negative !!!
+
 		Problem p = new Problem(zfunction, restrictions, optimum,
 				hasNegativePart);
-		
+
 		Problem kp = new Problem(p);
 		kp.convertToK();
-		
+
 		MProblem mp = new MProblem(kp);
 		mp.convertToMProblem();
-		
+
 		// define answers
 		// Warning!: Answers are fake
 		Vector<Fraction> mVector = new Vector<Fraction>();
@@ -173,7 +175,7 @@ public class AnswererTest {
 		mVector.add(new Fraction(6, 1));
 		mVector.add(new Fraction(0, 1));
 		Answer mAnswer = new Answer(mVector);
-		
+
 		Vector<Fraction> kVector = new Vector<Fraction>();
 		kVector.add(new Fraction(0, 1));
 		kVector.add(new Fraction(1, 1));
@@ -183,23 +185,23 @@ public class AnswererTest {
 		kVector.add(new Fraction(5, 1));
 		kVector.add(new Fraction(6, 1));
 		Answer kAnswer = new Answer(kVector);
-		
+
 		Vector<Fraction> lVector = new Vector<Fraction>();
 		lVector.add(new Fraction(-1, 1));
 		lVector.add(new Fraction(2, 1));
 		lVector.add(new Fraction(-1, 1));
 		Answer lAnswer = new Answer(lVector);
-		
+
 		// test:
 		AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
-		Answer returnedMToK = mtok.convertMToK(); 
-		if(!returnedMToK.equals(kAnswer)) {
+		Answer returnedMToK = mtok.convertMToK();
+		if (!returnedMToK.equals(kAnswer)) {
 			fail("");
 		}
-		
+
 		AnswerConverter ktol = new AnswerConverter(p, kAnswer);
 		Answer returnedKToL = ktol.convertKToL();
-		if(!returnedKToL.equals(lAnswer)) {
+		if (!returnedKToL.equals(lAnswer)) {
 			fail("");
 		}
 	}
@@ -242,16 +244,16 @@ public class AnswererTest {
 		hasNegativePart.add(true);
 		hasNegativePart.add(false);
 		hasNegativePart.add(false);
-		
+
 		Problem p = new Problem(zfunction, restrictions, optimum,
 				hasNegativePart);
-		
+
 		Problem kp = new Problem(p);
 		kp.convertToK();
-		
+
 		MProblem mp = new MProblem(kp);
 		mp.convertToMProblem();
-		
+
 		// define answers
 		Vector<Fraction> mVector = new Vector<Fraction>();
 		mVector.add(new Fraction(0, 1));
@@ -260,17 +262,17 @@ public class AnswererTest {
 		mVector.add(new Fraction(0, 1));
 		mVector.add(new Fraction(0, 1));
 		mVector.add(new Fraction(2, 1));
-		mVector.add(new Fraction(5, 1));	// this is from M
+		mVector.add(new Fraction(5, 1)); // this is from M
 		Answer mAnswer = new Answer(mVector);
-		
+
 		// test:
 		AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
-		Answer returnedMToK = mtok.convertMToK(); 
-		if(returnedMToK != null) {
+		Answer returnedMToK = mtok.convertMToK();
+		if (returnedMToK != null) {
 			fail("");
 		}
 	}
-	
+
 	// @Test
 	public void testMinimum() {
 		MProblemConversionTest t = new MProblemConversionTest();
@@ -279,7 +281,8 @@ public class AnswererTest {
 		mProblem.convertToMProblem();
 
 		ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
-		SimplexTable simtable = mProblemInit.makeFirstIteration();
+		IterationQueue queue = new IterationQueue(new Locale("BG", "bg"));
+		SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
 
 		// now test...
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
@@ -304,9 +307,9 @@ public class AnswererTest {
 		Problem p = t.testCanonicalProblemMaximum();
 		MProblem mProblem = new MProblem(p);
 		mProblem.convertToMProblem();
-
-		ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
-		SimplexTable simtable = mProblemInit.makeFirstIteration();
+        ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
+		
+        SimplexTable simtable = mProblemInit.makeFirstIteration();
 
 		// now test..
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);

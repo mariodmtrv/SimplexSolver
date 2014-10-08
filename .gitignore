@@ -3,7 +3,6 @@
 #################
 
 *.pydevproject
-.project
 .metadata
 bin/
 tmp/
@@ -12,9 +11,9 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.classpath
 .settings/
 .loadpath
+*FinalProject/Simplexator/gwt-unitCache/
 
 # External tool builders
 .externalToolBuilders/

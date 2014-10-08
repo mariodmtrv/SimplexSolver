@@ -2,10 +2,13 @@ package org.fmi.or.simplexator.algorithm.computation.tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Locale;
+
 import org.fmi.or.simplexator.algorithm.computation.ProblemInitialization;
 import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.tests.MProblemConversionTest;
+import org.fmi.or.simplexator.answerqueue.IterationQueue;
 import org.junit.Test;
 
 public class ProblemInitializationTest {
@@ -20,7 +23,8 @@ public class ProblemInitializationTest {
 		ProblemInitialization mProblemInit = 
 				new ProblemInitialization(mProblem);
 		// now test...
-		mProblemInit.makeFirstIteration();
+		IterationQueue queue= new IterationQueue(new Locale("BG", "bg"));
+		mProblemInit.makeFirstIteration(queue);
 		
 		}
 	@Test
@@ -33,7 +37,8 @@ public class ProblemInitializationTest {
 		ProblemInitialization mProblemInit = 
 				new ProblemInitialization(mProblem);
 		// now test...
-		mProblemInit.makeFirstIteration();
+		IterationQueue queue= new IterationQueue(new Locale("BG", "bg"));
+		mProblemInit.makeFirstIteration(queue);
 		
 		}
 }
