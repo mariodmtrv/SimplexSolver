@@ -24,9 +24,12 @@ function printProblem()
 {
 	var currentProblem = problemManager.getCurrentProblem();
 
+	$("#problemDescription div:last").css('float', 'left');
 	$("#problemDescription").append("<div></div>");
 	var problemDiv = $("#problemDescription div:last");
-	var z = "Z"; // TODO: print "Z", "Z_K" or "Z_M"
+	$(problemDiv).css('margin', '5px 20px');
+
+	var z = "\\(Z" + (currentProblem.isM ? "_M" : (currentProblem.isK ? "_K" : "")) + "\\)";
 	problemDiv.append("<span>" + currentProblem.extremum + " " + z + " = </span>");
 
 	// print Z-function
@@ -433,6 +436,7 @@ function printAnswer()
 	$("#answers").append("<div></div>");
 	var div = $("#answers div:last");
 	$(div).load("templates/answers_grid_template.html", function(){
+		$(div).prepend("<p>Answer to " + (currentProblem.isM ? "M-" : (currentProblem.isK ? "K-" : "original ")) + "problem</p>");
 		$(div).find(".points").append("<caption>Vertices:</caption>");
 		$(div).find(".points").append("<tr></tr>");
 		for (var v in currentProblem.variables)

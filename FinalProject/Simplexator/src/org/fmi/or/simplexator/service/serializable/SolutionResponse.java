@@ -1,8 +1,11 @@
 package org.fmi.or.simplexator.service.serializable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.fmi.or.simplexator.algorithm.computation.ProblemInitialization;
+import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
 import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
@@ -18,6 +21,9 @@ public class SolutionResponse {
 
 	public SolutionResponse(Problem problem) {
 		this.problem = problem;
+		this.serializableProblemSteps = new ArrayList<>();
+		this.messages = new ArrayList<>();
+		this.iterations = new ArrayList<>();
 	}
 
 	public void solve() {
@@ -30,6 +36,8 @@ public class SolutionResponse {
 		for (Problem problem : problemConversionQueue.getProblemSteps()) {
 			serializableProblemSteps.add(new TransformationStep(problem));
 		}
+		ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
+		SimplexTable simtable = mProblemInit.makeFirstIteration();
 		messages.addAll(problemConversionQueue.localizeMessages());
 
 	}

@@ -1,9 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="index.css">
-    
+    <title>Simplexator</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <script type="text/javascript" src="lib/jquery-1.11.1.js"></script>
 
     <script type="text/javascript"
@@ -21,16 +22,96 @@
     <script src="js/colors.js"></script>
     <script src="js/steps.js"></script>
     <script src="js/table.js"></script>
+	<script src="js/bootstrap.min.js"></script>
   </head>
   <body>
-    <form id="problemParameters">
-      <select id="type">
-        <option value="MIN">MIN</option>
-        <option value="MAX">MAX</option>
-      </select>
-      <input id="numVars" type="number" min="2" max="10" value="2" name="numVars"/>
-      <input id="numRestrictions" type="number" min="2" max="10" value="2" name="numRestrictions"/>
-      <button type="button" id="nextCreate">Next</button>
+    <header>
+	<div class="navbar navbar-default">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Simplexator</a>
+  </div>
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+<!--   
+   <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Active</a></li>
+      <li><a href="#">Link</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li class="dropdown-header">Dropdown header</li>
+          <li><a href="#">Separated link</a></li>
+          <li><a href="#">One more separated link</a></li>
+        </ul>
+      </li>
+    </ul>
+    <form class="navbar-form navbar-left">
+      <input type="text" class="form-control col-lg-8" placeholder="Search">
+    </form>
+    -->
+	<ul class="nav navbar-nav navbar-right">
+      <li><a href="#">Повече за...</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Полезни ресурси <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Защо наистина работи (учебник)</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Катедра ВОИС</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+   
+    </header>
+  <div class="jumbotron">
+  <h2>Симплекс методът стъпка по стъпка</h2>
+  
+  <div>
+  <span>
+    Знаеш ли, че...
+  </span>
+  <div>
+   Симплекс методът бил измислен от ... в Русия, който го сметнал за незначителна задачка, на фона на заниманията му с функционален анализ 
+   Когато бил преоткрит в Щатите около половин век по-късно се превърнал
+   в революционно откритие, което подобрило ефективността на много производствени процеси.
+  </div>
+  </div>
+    <form id="problemParameters" class="form-horizontal">
+	  <fieldset>
+    <legend>Избери си задача</legend>
+	<div class="form-group">
+		 <label for="inputEmail" class="col-lg-2 control-label">Вид на целевата функция</label>
+		 <div class="col-lg-10"> 
+		  <select id="type">
+			<option value="MIN">MIN</option>
+			<option value="MAX">MAX</option>
+		  </select>
+		  </div>
+	  </div>
+	 <div class="form-group">
+     <label for="numVars" class="col-lg-2 control-label">Променливи</label> 
+	  <div class="col-lg-10">
+			<input id="numVars" type="number" min="2" max="10" value="2" name="numVars"/>
+	  </div>
+	   </div>
+	<div class="form-group">
+		<label for="numVars" class="col-lg-2 control-label">Ограничения</label>
+	 <div class="col-lg-10"> 
+		<input id="numRestrictions" type="number" min="2" max="10" value="2" name="numRestrictions"/>
+	 </div>	  
+	 </div>
+      <button type="button" id="nextCreate" class="btn btn-primary" >Продължи</button>
+	 </fieldset>
     </form>
 
     <article id="setProblem" style="display: none">
@@ -41,15 +122,14 @@
       <table id="checkPositive">
       </table>
       <button type="button" id="nextSendProblem">Next</button>
-      <!--<a href="table.html">Next</a>-->
     </article>
 
 
 
-    <article id="problemDescription">
+    <article id="problemDescription" style="display: none" style="float: none">
     </article>
 
-    <article id="tables">
+    <article id="tables" style="display: none">
       <h2>Simplex Table:</h2>
       <h3>Previous Iterations:</h3>
       <div id="previousTable">
@@ -60,12 +140,21 @@
       <button type="button" id="next">Next</button>
     </article>
 
-    <article id="answers">
+    <article id="answers" style="display: none">
       <h2>Optimal answers:</h2>
     </article>
 
-    <article id="log">
+    <article id="log" style="display: none">
       <h2>Message Log:</h2>
+      <div id="scrollable">
+      </div>
     </article>
+</div>
+<!--
+    <footer>
+      <p>Марио Димитров, Димитър Мутафчиев</p>
+      <p>2014 - ФМИ, Софийски университет "Св. Климент Охридски"</p>
+    </footer>
+	-->
   </body>
 </html>

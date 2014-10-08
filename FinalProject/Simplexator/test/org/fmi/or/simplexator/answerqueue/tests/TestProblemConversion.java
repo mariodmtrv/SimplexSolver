@@ -15,6 +15,7 @@ import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
+import org.fmi.or.simplexator.service.serializable.SolutionResponse;
 import org.junit.Test;
 
 public class TestProblemConversion {
@@ -58,10 +59,8 @@ public class TestProblemConversion {
 		Locale locale = new Locale("bg", "BG");
 		ProblemConversionQueue answerQueue = new ProblemConversionQueue(locale);
 		problem.convertToK(answerQueue);
-		
-		System.out.println(answerQueue.localizeMessages());
-		System.out.println(answerQueue.getProblemSteps().get(0).getOptimum());
-		System.out.println(answerQueue.getProblemSteps().get(1).getOptimum());
+		SolutionResponse response = new SolutionResponse(problem);
+		response.solve();
 	}
 
 	@Test

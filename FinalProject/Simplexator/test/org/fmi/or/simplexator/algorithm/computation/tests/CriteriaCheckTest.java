@@ -10,12 +10,13 @@ import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 import org.fmi.or.simplexator.algorithm.converter.VariableType;
+import org.fmi.or.simplexator.answerqueue.IterationQueue;
 import org.junit.Test;
 
 public class CriteriaCheckTest {
 	
 	@Test
-	public void testGoToNextIteration1() {
+	public void testGoToNextIteration1(IterationQueue queue) {
 		SimplexTable simtable = new SimplexTable(7, 3);
 		
 		// set basis

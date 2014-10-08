@@ -11,6 +11,8 @@ import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
+import org.fmi.or.simplexator.answerqueue.IterationQueue;
+import org.fmi.or.simplexator.service.serializable.IterationStep;
 
 public class ProblemInitialization {
 	private MProblem problem;
@@ -19,6 +21,7 @@ public class ProblemInitialization {
 	private boolean isBasisValid(Vector<Variable> initialBasis) {
 		if (initialBasis.size() != problem.getRestrictionsCount()) {
 			// Ui.throwError("РќРµРѕР±С…РѕРґРёРјРё СЃР° problem.getRestrictionsCount()РїСЂРѕРјРµРЅР»РёРІРё, РІРёРµ РґРѕР±Р°РІРёС…С‚Рµ initialBasis.size()");
+		
 			return false;
 		}
 
@@ -133,12 +136,22 @@ public class ProblemInitialization {
 		setInitialBasis();
 	}
 
-	public SimplexTable makeFirstIteration() {
-		initializeTable();
+	public SimplexTable makeFirstIteration(IterationQueue queue) {
+		
+		initializeTable(queue);
 		// Ui.printTable(table,zfunc);
 		calculateInitialCosts();
+	
 		// Ui.printCosts();
-
+		IterationStep step;
+		Integer[] keyElemCoords= null;
+		step.setKeyElemCoords(keyElemCoords);
+		
+		Integer[] newKeyElemCoords=new Integer[2];
+		newKeyElemCoords[0]= 1;
+		newKeyElemCoords[0]= 1;
+		step.setNewKeyElemCoords(newKeyElemCoords);
+		queue.addProblem(step);
 		return simplexTable;
 	}
 
@@ -151,7 +164,9 @@ public class ProblemInitialization {
 		}
 	}
 
-	private void initializeTable() {
+	private void initializeTable(IterationQueue queue) {
+		queue.addMessage("beginIteration");
+		queue.addMessage("getFirstBasis");
 		for (int i = 0; i < problem.getRestrictionsCount(); i++) {
 			Fraction[] tableRow = new Fraction[problem.getVarCount()];
 			// the vars + vector b (right sides)
