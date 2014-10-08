@@ -8,6 +8,7 @@ import org.fmi.or.simplexator.algorithm.computation.ProblemInitialization;
 import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
 import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
+import org.fmi.or.simplexator.answerqueue.IterationQueue;
 import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -37,7 +38,8 @@ public class SolutionResponse {
 			serializableProblemSteps.add(new TransformationStep(problem));
 		}
 		ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
-		SimplexTable simtable = mProblemInit.makeFirstIteration();
+		IterationQueue queue= new IterationQueue(new Locale("BG", "bg"));
+		SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
 		messages.addAll(problemConversionQueue.localizeMessages());
 
 	}

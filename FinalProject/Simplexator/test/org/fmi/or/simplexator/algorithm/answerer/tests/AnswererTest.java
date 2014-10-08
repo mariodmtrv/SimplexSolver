@@ -308,8 +308,8 @@ public class AnswererTest {
 		MProblem mProblem = new MProblem(p);
 		mProblem.convertToMProblem();
         ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
-		
-        SimplexTable simtable = mProblemInit.makeFirstIteration();
+        IterationQueue queue= new IterationQueue(new Locale("BG", "bg"));
+        SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
 
 		// now test..
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
