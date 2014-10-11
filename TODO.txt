@@ -4,15 +4,14 @@ TODO
 JAVA
 * Add "problemType" attribute to Problem classes (to indicate if it is L, K or M)		[Mario]
 * De-couple L -> K conversion from K -> M conversion									[Mario]
-* Message logging																		[Mario]
+* Java response	objects																	[Both]
 * Java AJAX response																	[Mario]
 * LaTeX document print																	[Mario]
 * Main method class																		[Mario]
 * Test application!																		[Both]
-* Class AnswerSearcher																	[Dimiter]
 
 JS
 * Message log print																		[Dimiter]
-* CSS tables size + more descriptions													[Dimiter]
-* Include MathJax locally																[Dimiter]
+* CSS																					[Both]
+* Include MathJax locally																[Both]
 * Fix $.load() for Chrome																[Dimiter]
