@@ -3,7 +3,6 @@ package org.fmi.or.simplexator.algorithm.computation;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.computation.Pair;
 import org.fmi.or.simplexator.answerqueue.IterationQueue;
-import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 
 public class CriteriaCheck {
 	private SimplexTable simplexTable;
@@ -23,6 +22,7 @@ public class CriteriaCheck {
 		int toInclude = optimalityCriterion();
 		if(toInclude == -1) {
 			// optimality reached
+			
 			queue.addMessage("CriteriaCheck.optimalityCriterionSuccess");
 			queue.addMessage("CriteriaCheck.endLoopMessage");
 			return new Pair<Integer, Integer>(-1, -1);

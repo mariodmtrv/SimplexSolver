@@ -6,6 +6,7 @@ import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.VariableType;
 import org.fmi.or.simplexator.answerqueue.SolvingQueue;
+import org.fmi.or.simplexator.service.serializable.SolutionResponse;
 
 /**
  * Convert the answer of another problem obtained by the algorithm (oldAnswer)
@@ -65,7 +66,6 @@ public class AnswerConverter {
 			newDirection.setSize(problem.getVarCount());
 			newAnswer.pushVertex(newDirection);
 		}
-		
 		
 		return newAnswer;
 	}

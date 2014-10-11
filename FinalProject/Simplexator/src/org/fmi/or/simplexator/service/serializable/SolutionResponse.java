@@ -37,8 +37,8 @@ public class SolutionResponse {
 		for (Problem problem : problemConversionQueue.getProblemSteps()) {
 			serializableProblemSteps.add(new TransformationStep(problem));
 		}
-		ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
 		IterationQueue queue= new IterationQueue(new Locale("BG", "bg"));
+		ProblemInitialization mProblemInit = new ProblemInitialization(mProblem, queue);
 		SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
 		messages.addAll(problemConversionQueue.localizeMessages());
 

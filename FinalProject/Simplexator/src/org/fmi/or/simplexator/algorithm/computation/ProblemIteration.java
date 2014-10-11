@@ -6,6 +6,7 @@ import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 import org.fmi.or.simplexator.answerqueue.IterationQueue;
+import org.fmi.or.simplexator.service.serializable.IterationStep;
 
 public class ProblemIteration {
 
@@ -84,7 +85,13 @@ public class ProblemIteration {
 				// UI.highlightTableElement(i,j);
 			}
 		}
+		
 		queue.addMessage("Iteration.fillTable");
+		IterationStep step = new IterationStep(newSimplexTable);
+		// set the "newKeyElemCoords" filed for the previous iteration first
+		queue.setNewKeyElementCoordsForLastIteration(keyElementCoords);
+		// then push the new step
+		queue.addProblem(step);
 		
 		return newSimplexTable;
 	}
