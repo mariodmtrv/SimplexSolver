@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.VariableType;
+import org.fmi.or.simplexator.answerqueue.SolvingQueue;
 
 /**
  * Convert the answer of another problem obtained by the algorithm (oldAnswer)
@@ -28,7 +29,7 @@ public class AnswerConverter {
 		return null; // TODO
 	}
 	
-	public Answer convertMToK() {
+	public Answer convertMToK(SolvingQueue queue) {
 		Answer newAnswer = new Answer();
 		
 		
@@ -38,6 +39,8 @@ public class AnswerConverter {
 			
 			for(int j = problem.getVarCount(); j < newVertex.size(); j++) {
 				if(!newVertex.get(j).isEqualTo(Fraction.ZERO)) {
+					queue.addMessage("Answer.MAnswerMVarsNonZero");
+					queue.addMessage("Answer.KAndLEmpty");
 					return null;
 				}
 			}
@@ -53,6 +56,8 @@ public class AnswerConverter {
 			
 			for(int j = problem.getVarCount(); j < newDirection.size(); j++) {
 				if(!newDirection.get(j).isEqualTo(Fraction.ZERO)) {
+					queue.addMessage("Answer.MAnswerMVarsNonZero");
+					queue.addMessage("Answer.KAndLEmpty");
 					return null;
 				}
 			}
@@ -65,8 +70,9 @@ public class AnswerConverter {
 		return newAnswer;
 	}
 	
-	public Answer convertKToL() {
+	public Answer convertKToL(SolvingQueue queue) {
 		Answer newAnswer = new Answer();
+		queue.addMessage("Answer.KAnswer");
 		
 		
 		// find variables added as "+" & "-"
@@ -114,6 +120,7 @@ public class AnswerConverter {
 		}
 		
 		
+		queue.addMessage("Answer.LAnswer");
 		return newAnswer;
 	}
 }

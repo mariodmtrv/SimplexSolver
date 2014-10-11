@@ -35,46 +35,47 @@ public class Problem extends AbstractProblem {
 		convertToK(problemConversionQueue);
 	}
 
-	public void convertToK(ProblemConversionQueue problemConversionQueue) {
-		problemConversionQueue.addProblemStep(this);
-		setToMinimum(problemConversionQueue);
+	public void convertToK(ProblemConversionQueue queue) {
+		queue.addProblemStep(this);
+		queue.addMessage("ConvertToK.introduction");
+		setToMinimum(queue);
 
-		setRightSidesToPositive(problemConversionQueue);
+		setRightSidesToPositive(queue);
 
-		processNegativeParts(problemConversionQueue);
+		processNegativeParts(queue);
 
-		setToEquations(problemConversionQueue);
-		problemConversionQueue.addMessage("canonicalProblemMessage");
+		setToEquations(queue);
+		queue.addMessage("ConvertToK.conclusion");
 
 	}
 
-	private void setToMinimum(ProblemConversionQueue problemConversionQueue) {
+	private void setToMinimum(ProblemConversionQueue queue) {
 
-		problemConversionQueue.addMessage("allToMinimum");
+		queue.addMessage("ConvertToK.minimumNeeded");
 		if (this.optimum != Optimum.MINIMUM) {
-			problemConversionQueue.addMessage("toMinimumConversionRule");
+			queue.addMessage("ConvertToK.toMinimum");
 			this.optimum = Optimum.MINIMUM;
 			for (Variable variable : this.zfunction) {
 				variable.changeSign();
 			}
-			problemConversionQueue.addProblemStep(this);
+			queue.addProblemStep(this);
 			return;
 		} else {
-			problemConversionQueue.addMessage("alreadyMinimum");
+			queue.addMessage("ConvertToK.alreadyMinimum");
 		}
 
 	}
 
-	private void setRightSidesToPositive(ProblemConversionQueue problemConversionQueue) {
-		problemConversionQueue.addMessage("rightSidesToPositiveRule");
+	private void setRightSidesToPositive(ProblemConversionQueue queue) {
+		queue.addMessage("ConvertToK.rightSidesToPositiveRule");
 		for (Restriction restriction : restrictions) {
 			restriction.rightSideToPositive();
 		}
-		problemConversionQueue.addProblemStep(this);
+		queue.addProblemStep(this);
 	}
 
-	private void setToEquations(ProblemConversionQueue problemConversionQueue) {
-		problemConversionQueue.addMessage("toEquationsRule");
+	private void setToEquations(ProblemConversionQueue queue) {
+		queue.addMessage("ConvertToK.toEquationsRule");
 		for (Restriction restriction : restrictions) {
 			Variable newVar = restriction.setToEquation(maxIndex);
 			if (newVar != null) {
@@ -85,7 +86,7 @@ public class Problem extends AbstractProblem {
 				// we add with zero to keep table shape consistency
 				for (int i = 0; i < restrictions.size(); i++) {
 					if (restrictions.get(i).getVarCount() < zfunction.size()) {
-						problemConversionQueue.addProblemStep(this);
+						queue.addProblemStep(this);
 						addVarToRestriction(i, toAdd);
 					} else {
 						// we are at the restriction already set to equation
@@ -101,9 +102,9 @@ public class Problem extends AbstractProblem {
 		restrictions.set(restrIndex, updated);
 	}
 
-	private void processNegativeParts(ProblemConversionQueue problemConversionQueue) {
+	private void processNegativeParts(ProblemConversionQueue queue) {
 
-		problemConversionQueue.addMessage("processNegativeParts");
+		queue.addMessage("ConvertToK.processNegativeParts");
 		int varsPassed = 0;
 		Iterator<Variable> zfuncIter = zfunction.iterator();
 		Boolean processedOne = false;
@@ -131,13 +132,13 @@ public class Problem extends AbstractProblem {
 					restrictions.set(restrictionIndex, changedRestriction);
 				}
 				processedOne = true;
-				problemConversionQueue.addProblemStep(this);
+				queue.addProblemStep(this);
 			}
 
 		}
 		if (processedOne == false) {
-			problemConversionQueue.addMessage("noNegativesAtRightSide");
-			problemConversionQueue.addProblemStep(this);
+			queue.addMessage("ConvertToK.noNegativesAtRightSide");
+			queue.addProblemStep(this);
 		}
 	}
 

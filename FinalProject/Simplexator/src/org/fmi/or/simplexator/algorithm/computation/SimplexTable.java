@@ -5,6 +5,8 @@ import java.util.Vector;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 import org.fmi.or.simplexator.algorithm.converter.VariableType;
+import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
+import org.fmi.or.simplexator.answerqueue.SolvingQueue;
 
 public class SimplexTable {
 
@@ -252,5 +254,24 @@ public class SimplexTable {
 	
 	public void setMCostElementAt(Fraction setValue, int j) {
 		MCost.setElementAt(setValue, j);
+	}
+	
+	// if there is an optimal answer, the simplex table contains it;
+	// we take it
+	public Vector<Fraction> returnAnswerFromTable(SolvingQueue queue) {
+		Vector<Fraction> answer = new Vector<Fraction>(zfunctionCoefficients.size());
+		
+		for (int i = 0; i < answer.size(); i++) {
+			answer.setElementAt(Fraction.ZERO, i);
+		}
+		
+		for (int i = 0; i < this.rightSideValues.size(); i++) {
+			int index = this.basisIndeces.get(i);
+			answer.setElementAt(this.rightSideValues.get(i), index);
+		}
+		
+		queue.addMessage("Answer.moreAnswersHint");
+		queue.addMessage("Answer.MAnswer");
+		return answer;
 	}
 }

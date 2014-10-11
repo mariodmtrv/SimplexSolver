@@ -2,6 +2,8 @@ package org.fmi.or.simplexator.algorithm.computation;
 
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.computation.Pair;
+import org.fmi.or.simplexator.answerqueue.IterationQueue;
+import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 
 public class CriteriaCheck {
 	private SimplexTable simplexTable;
@@ -17,23 +19,27 @@ public class CriteriaCheck {
 	 * else: <-1,-1> => optimality reached, no more iterations;
 	 * 		 <-1, varToGetIn> => unbounded, no more iterations;
 	 */
-	public Pair<Integer,Integer> checkCriteriaAndFindNewBasis() {
+	public Pair<Integer,Integer> checkCriteriaAndFindNewBasis(IterationQueue queue) {
 		int toInclude = optimalityCriterion();
 		if(toInclude == -1) {
 			// optimality reached
-			// UI.printMessage("Симплекс методът завършва успешно! Достигнахме до оптимално решение.");
-			//return null;
+			queue.addMessage("CriteriaCheck.optimalityCriterionSuccess");
+			queue.addMessage("CriteriaCheck.endLoopMessage");
 			return new Pair<Integer, Integer>(-1, -1);
 		}
 		else {
+			queue.addMessage("CriteriaCheck.optimalityCriterionFailed");
+			
 			if(findNewBasis(toInclude) == false) {
 				// min Z = -infinity
-				// UI.printMessage("М-задачата е неограничена, т.е. min(Z)=-infinity.");
-				//return null;
+				queue.addMessage("CriteriaCheck.unboundednessCriterionSuccess");
+				queue.addMessage("CriteriaCheck.endLoopMessage");
+				queue.addMessage("Answer.KAndLUnbounded");
 				return new Pair<Integer, Integer>(-1, toInclude);
 			}
 			// no special case, we should continue to the next iteration
-			// UI.printMessage("Нито един критерий не е изпълнен, затова симплекс методът продължава със следващата итерация.");
+			queue.addMessage("CriteriaCheck.unboundednessCriterionFailed");
+			queue.addMessage("CriteriaCheck.newIteration");
 			return this.keyElementCoords;
 		}
 	}
@@ -47,7 +53,6 @@ public class CriteriaCheck {
 					Fraction.ZERO))
 				return false;
 		}
-		// UI.printMessage("Критерият за Неограниченост е в сила.");
 		return true;
 	}
 
@@ -94,11 +99,8 @@ public class CriteriaCheck {
 			return false;
 		}
 		
-		// UI.printMessage(---explain_process_of_var_changing---);
 		this.keyElementCoords = new Pair<Integer,Integer>(indexOutVar, newBaseVar);
 		// Fraction keyElement = simplexTable.getTableElement(indexOutVar, newBaseVar);
-		// UI.highlightElement(indexOutVar, newBaseVar);
-		// UI.drawNewTable();
 		
 		return true;
 	}

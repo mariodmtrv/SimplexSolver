@@ -18,7 +18,8 @@ public class MProblem extends Problem {
 	}
 
 	public void convertToMProblem(ProblemConversionQueue queue) {
-		queue.addMessage("mProblemConversion");
+		//queue.addMessage("mProblemConversion");
+		queue.addMessage("ConvertToM.explainBasis");
 		int uniquenessMap[] = getUniquenessMap();
 		boolean MVarNeeded[] = new boolean[restrictionsCount];
 		for (int i = 0; i < MVarNeeded.length; i++) {
@@ -38,9 +39,10 @@ public class MProblem extends Problem {
 		}
 		if (shouldConvertToM) {
 			// should convert
-
-			// UI.printMessage("Ð�ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ðµ Ð´Ð° Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð·ÑƒÐ²Ð°Ð¼Ðµ ÐºÑŠÐ¼ Ðœ-Ð·Ð°Ð´Ð°Ñ‡Ð°, Ð·Ð°Ñ‰Ð¾Ñ‚Ð¾ Ð½Ñ�Ð¼Ð°Ð¼Ðµ Ð´Ð¾Ñ�Ñ‚Ð°Ñ‚ÑŠÑ‡Ð½Ð¾ Ð¿Ñ€Ð¾Ð¼ÐµÐ½Ð»Ð¸Ð²Ð¸, Ð·Ð° Ð´Ð° Ð¾Ð±Ñ€Ð°Ð·ÑƒÐ²Ð°Ð¼Ðµ Ð±Ð°Ð·Ð¸Ñ� (Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¸ Ñ�Ð° Ñ‚Ð¾Ð»ÐºÐ¾Ð²Ð° Ð±Ð°Ð·Ð¸Ñ�Ð½Ð¸ Ð¿Ñ€Ð¾Ð¼ÐµÐ½Ð»Ð¸Ð²Ð¸, ÐºÐ¾Ð»ÐºÐ¾Ñ‚Ð¾ Ñ�Ð° Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ñ�Ñ‚Ð°).");
-			// UI.printMessage("Ð’ Ñ�ÑŠÐ¾Ñ‚Ð²ÐµÑ‚Ð½Ð¸Ñ‚Ðµ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ñ� Ð´Ð¾Ð±Ð°Ð²Ñ�Ð¼Ðµ Ð½Ð¾Ð²Ð° Ð¿Ñ€Ð¾Ð¼ÐµÐ½Ð»Ð¸Ð²Ð°, ÐºÐ¾Ñ�Ñ‚Ð¾ Ðµ Ð½ÐµÐ¾Ñ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»Ð½Ð° Ð¸ ÐºÐ¾ÐµÑ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚ÑŠÑ‚ Ð¹ Ð² Z-Ñ„ÑƒÐ½ÐºÑ†Ð¸Ñ�Ñ‚Ð° Ðµ Ðœ. Ð¢ÑƒÐº Ðœ Ðµ Ð½Ñ�ÐºÐ°ÐºÐ²Ð¾ Ñ„Ð¸ÐºÑ�Ð¸Ñ€Ð°Ð½Ð¾ ÐºÑ€Ð°Ð¹Ð½Ð¾ Ð¼Ð½Ð¾Ð³Ð¾ Ð³Ð¾Ð»Ñ�Ð¼Ð¾ Ñ‡Ð¸Ñ�Ð»Ð¾.");
+			queue.addMessage("ConvertToM.introduction");
+			
+			// UI.printMessage("Ã�ï¿½Ã�ÂµÃ�Â¾Ã�Â±Ã‘â€¦Ã�Â¾Ã�Â´Ã�Â¸Ã�Â¼Ã�Â¾ Ã�Âµ Ã�Â´Ã�Â° Ã�Â¿Ã‘â‚¬Ã�ÂµÃ�Â¾Ã�Â±Ã‘â‚¬Ã�Â°Ã�Â·Ã‘Æ’Ã�Â²Ã�Â°Ã�Â¼Ã�Âµ Ã�ÂºÃ‘Å Ã�Â¼ Ã�Å“-Ã�Â·Ã�Â°Ã�Â´Ã�Â°Ã‘â€¡Ã�Â°, Ã�Â·Ã�Â°Ã‘â€°Ã�Â¾Ã‘â€šÃ�Â¾ Ã�Â½Ã‘ï¿½Ã�Â¼Ã�Â°Ã�Â¼Ã�Âµ Ã�Â´Ã�Â¾Ã‘ï¿½Ã‘â€šÃ�Â°Ã‘â€šÃ‘Å Ã‘â€¡Ã�Â½Ã�Â¾ Ã�Â¿Ã‘â‚¬Ã�Â¾Ã�Â¼Ã�ÂµÃ�Â½Ã�Â»Ã�Â¸Ã�Â²Ã�Â¸, Ã�Â·Ã�Â° Ã�Â´Ã�Â° Ã�Â¾Ã�Â±Ã‘â‚¬Ã�Â°Ã�Â·Ã‘Æ’Ã�Â²Ã�Â°Ã�Â¼Ã�Âµ Ã�Â±Ã�Â°Ã�Â·Ã�Â¸Ã‘ï¿½ (Ã�Â½Ã�ÂµÃ�Â¾Ã�Â±Ã‘â€¦Ã�Â¾Ã�Â´Ã�Â¸Ã�Â¼Ã�Â¸ Ã‘ï¿½Ã�Â° Ã‘â€šÃ�Â¾Ã�Â»Ã�ÂºÃ�Â¾Ã�Â²Ã�Â° Ã�Â±Ã�Â°Ã�Â·Ã�Â¸Ã‘ï¿½Ã�Â½Ã�Â¸ Ã�Â¿Ã‘â‚¬Ã�Â¾Ã�Â¼Ã�ÂµÃ�Â½Ã�Â»Ã�Â¸Ã�Â²Ã�Â¸, Ã�ÂºÃ�Â¾Ã�Â»Ã�ÂºÃ�Â¾Ã‘â€šÃ�Â¾ Ã‘ï¿½Ã�Â° Ã�Â¾Ã�Â³Ã‘â‚¬Ã�Â°Ã�Â½Ã�Â¸Ã‘â€¡Ã�ÂµÃ�Â½Ã�Â¸Ã‘ï¿½Ã‘â€šÃ�Â°).");
+			// UI.printMessage("Ã�â€™ Ã‘ï¿½Ã‘Å Ã�Â¾Ã‘â€šÃ�Â²Ã�ÂµÃ‘â€šÃ�Â½Ã�Â¸Ã‘â€šÃ�Âµ Ã�Â¾Ã�Â³Ã‘â‚¬Ã�Â°Ã�Â½Ã�Â¸Ã‘â€¡Ã�ÂµÃ�Â½Ã�Â¸Ã‘ï¿½ Ã�Â´Ã�Â¾Ã�Â±Ã�Â°Ã�Â²Ã‘ï¿½Ã�Â¼Ã�Âµ Ã�Â½Ã�Â¾Ã�Â²Ã�Â° Ã�Â¿Ã‘â‚¬Ã�Â¾Ã�Â¼Ã�ÂµÃ�Â½Ã�Â»Ã�Â¸Ã�Â²Ã�Â°, Ã�ÂºÃ�Â¾Ã‘ï¿½Ã‘â€šÃ�Â¾ Ã�Âµ Ã�Â½Ã�ÂµÃ�Â¾Ã‘â€šÃ‘â‚¬Ã�Â¸Ã‘â€ Ã�Â°Ã‘â€šÃ�ÂµÃ�Â»Ã�Â½Ã�Â° Ã�Â¸ Ã�ÂºÃ�Â¾Ã�ÂµÃ‘â€žÃ�Â¸Ã‘â€ Ã�Â¸Ã�ÂµÃ�Â½Ã‘â€šÃ‘Å Ã‘â€š Ã�Â¹ Ã�Â² Z-Ã‘â€žÃ‘Æ’Ã�Â½Ã�ÂºÃ‘â€ Ã�Â¸Ã‘ï¿½Ã‘â€šÃ�Â° Ã�Âµ Ã�Å“. Ã�Â¢Ã‘Æ’Ã�Âº Ã�Å“ Ã�Âµ Ã�Â½Ã‘ï¿½Ã�ÂºÃ�Â°Ã�ÂºÃ�Â²Ã�Â¾ Ã‘â€žÃ�Â¸Ã�ÂºÃ‘ï¿½Ã�Â¸Ã‘â‚¬Ã�Â°Ã�Â½Ã�Â¾ Ã�ÂºÃ‘â‚¬Ã�Â°Ã�Â¹Ã�Â½Ã�Â¾ Ã�Â¼Ã�Â½Ã�Â¾Ã�Â³Ã�Â¾ Ã�Â³Ã�Â¾Ã�Â»Ã‘ï¿½Ã�Â¼Ã�Â¾ Ã‘â€¡Ã�Â¸Ã‘ï¿½Ã�Â»Ã�Â¾.");
 			for (int i = 0; i < MVarNeeded.length; i++) {
 				if (MVarNeeded[i]) {
 					this.varCount++;
@@ -60,7 +62,7 @@ public class MProblem extends Problem {
 						}
 					}
 					queue.addProblemStep(this);
-					queue.addMessage("mProblemStepConversion");
+					queue.addMessage("ConvertToM.explainAddingMVars");
 
 				} else {
 					// now doby is a free equation
@@ -69,10 +71,10 @@ public class MProblem extends Problem {
 		} else {
 
 			// no convertion
-			queue.addMessage("mProblemWasGiven");
+			queue.addMessage("ConvertToM.mProblemWasGiven");
 		}
 		queue.addProblemStep(this);
-		queue.addMessage("mProblemReady");
+		queue.addMessage("ConvertToM.conclusion");
 	}
 
 	/**

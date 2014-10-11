@@ -86,7 +86,7 @@ public class ProblemInitialization {
 		return true;
 	}
 
-	private void setInitialBasis() {
+	private void setInitialBasis(IterationQueue queue) {
 		/* user inputs until the basis is correct */
 		simplexTable.setBasis(getInitialBasis());
 		while ((!isBasisValid(simplexTable.getBasis()))) {
@@ -99,6 +99,8 @@ public class ProblemInitialization {
 			
 			simplexTable.setBasisIndecesElementAt(basisVarIndex, i);
 		}
+		
+		queue.addMessage("FirstIteration.fillFirstBasis");
 	}
 
 	private static Vector<Variable> setBasisFromUI() {
@@ -128,12 +130,13 @@ public class ProblemInitialization {
 		return (Vector<Variable>) basisFromUI;
 	}
 
-	public ProblemInitialization(MProblem problem) {
+	public ProblemInitialization(MProblem problem, IterationQueue queue) {
 		this.problem = problem;
 		simplexTable = new SimplexTable(problem.getVarCount(),
 				problem.getRestrictionsCount());
+		queue.addMessage("drawEmptyTable");
 		initializeZfunction();
-		setInitialBasis();
+		setInitialBasis(queue);
 	}
 
 	public SimplexTable makeFirstIteration(IterationQueue queue) {
@@ -141,8 +144,10 @@ public class ProblemInitialization {
 		initializeTable(queue);
 		// Ui.printTable(table,zfunc);
 		calculateInitialCosts();
-	
 		// Ui.printCosts();
+		
+		queue.addMessage("FirstIteration.fillCosts");
+		queue.addMessage("FirstIteration.fillValues");
 		
 		IterationStep step = new IterationStep(this.simplexTable);
 		Integer[] keyElemCoords= null;
@@ -166,8 +171,8 @@ public class ProblemInitialization {
 	}
 
 	private void initializeTable(IterationQueue queue) {
-		queue.addMessage("beginIteration");
-		queue.addMessage("getFirstBasis");
+		//queue.addMessage("beginIteration");
+		//queue.addMessage("getFirstBasis");
 		for (int i = 0; i < problem.getRestrictionsCount(); i++) {
 			Fraction[] tableRow = new Fraction[problem.getVarCount()];
 			// the vars + vector b (right sides)
@@ -184,8 +189,12 @@ public class ProblemInitialization {
 			// TODO: fill in the formula
 			// resultNumValue = ;
 			// resultMValue = ;
+			
 		}
+		queue.addMessage("FirstIteration.fillMainTable");
+		queue.addMessage("FirstIteration.fillRightSide");
 	}
+	
 private void calculateResultCosts(){
 	Fraction numCost = new Fraction(Fraction.ZERO);
 	Fraction MCost = new Fraction(Fraction.ZERO);
@@ -205,6 +214,7 @@ private void calculateResultCosts(){
 	this.simplexTable.setResultMValue(MCost);
 	this.simplexTable.setResultNumValue(numCost);
 }
+
 	private void calculateInitialCosts() {
 		for (int j = 0; j < problem.getVarCount(); ++j) {
 			Fraction sumC = Fraction.ZERO;

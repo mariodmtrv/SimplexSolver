@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
+import org.fmi.or.simplexator.answerqueue.IterationQueue;
 
 public class ProblemIteration {
 
@@ -29,13 +30,15 @@ public class ProblemIteration {
 		newSimplexTable.setBasisElementAt(varIn, indexVarOut);
 	}
 	
-	public SimplexTable makeIteration() {
+	public SimplexTable makeIteration(IterationQueue queue) {
 		// new table has same parameters as the other, but it is blank,
 		// except for the zfunctionCoefs, basis and basisIndeces
 		SimplexTable newSimplexTable = new SimplexTable(this.oldSimplexTable);
+		queue.addMessage("drawEmptyTable");
 		
 		// change basis of newSimplexTable
 		changeBasis(newSimplexTable);
+		queue.addMessage("Iteration.fillBasisInTable");
 		
 		// fill keyElem's row
 		// UI.printMessage("Редът на ключовия елемент се преписва от старата таблица като преди това се разделя на стойността на ключовия елемент.");
@@ -58,6 +61,9 @@ public class ProblemIteration {
 			}
 			// UI.highlightColumns(simplexTable.getBasisIndecesElement(i));
 		}
+		
+		queue.addMessage("Iteration.fillBasisColumns");
+		queue.addMessage("Iteration.fillKeyRow");
 
 		// fill rest
 		// UI.printMessage("Останалите клетки попълваме по правилото на правоъгълника.");
@@ -78,6 +84,7 @@ public class ProblemIteration {
 				// UI.highlightTableElement(i,j);
 			}
 		}
+		queue.addMessage("Iteration.fillTable");
 		
 		return newSimplexTable;
 	}
@@ -110,99 +117,5 @@ public class ProblemIteration {
 						oldSimplexTable.getSimplexTableItem(p, j).divide(
 								keyElement)));
 	}
-
-	// everything down this line is obsolete ?????????????????????????????????????
-	/*public void makeIteration(Pair<Integer, Integer> keyElementCoords) {
-		// refill table
-		// UI.fillKeyElementRowAndExplain(array,row,content);
-		// UI.explainThatTheColumnsOfBaseElemsAreWithZeroesOnlyAndOne1();
-		// UI.showTheRectangleRuleMessage();
-
-		// the logic in the code will be different than the one on paper
-		// (because of different data structures used, i.e. the simplex table is
-		// split in several variables),
-		// however this is hidden from the user
-
-		Fraction keyElement = new Fraction(simplexTable.getTableElement(
-				keyElementCoords.getFirst(), keyElementCoords.getSecond()));
-
-		// fill Table table
-		for (int i = 0; i < simplexTable.getRestrictionsCount(); i++) {
-			for (int j = 0; j < simplexTable.getVarCount(); j++) {
-				Fraction setValue = rectangleRule(keyElementCoords, i, j);
-				simplexTable.setTableElement(i, j, setValue);
-			}
-		}
-
-		// fill costs
-		for (int j = 0; j < simplexTable.getVarCount(); j++) {
-			Fraction setValue = rectangleRuleSpecialCase(keyElementCoords,
-					simplexTable.getRestrictionsCount(), j);
-			simplexTable.setNumCostElementAt(setValue,j);
-
-			setValue = rectangleRuleSpecialCase(keyElementCoords,
-					simplexTable.getRestrictionsCount() + 1, j);
-			simplexTable.setMCostElementAt(setValue,j);
-		}
-
-		// fill right side vector
-		for (int i = 0; i < simplexTable.getRestrictionsCount(); i++) {
-			Fraction setValue = rectangleRuleSpecialCase(keyElementCoords, i,
-					simplexTable.getVarCount());
-			simplexTable.setRightSideValuesElementAt(setValue, i);
-		}
-
-		// fill Z-value
-		Fraction setValue = rectangleRuleSpecialCase(keyElementCoords,
-				simplexTable.getRestrictionsCount(), simplexTable.getVarCount());
-		simplexTable.setResultNumValue(setValue);
-		setValue = rectangleRuleSpecialCase(keyElementCoords,
-				simplexTable.getRestrictionsCount() + 1,
-				simplexTable.getVarCount());
-		simplexTable.setResultMValue(setValue);
-	}
-
-	private Fraction rectangleRule(Pair<Integer, Integer> keyElementCoords,
-			int i, int j) {
-		int p = keyElementCoords.getFirst();
-		int q = keyElementCoords.getSecond();
-		Fraction keyElement = simplexTable.getTableElement(p, q);
-
-		if (p == i && q == j)
-			return new Fraction(1);
-		else if (p == i)
-			return simplexTable.getTableElement(i, j).divide(
-					simplexTable.getTableElement(p, q));
-		else if (q == j)
-			return new Fraction(0);
-
-		return simplexTable.getTableElement(i, j)
-				.subtract(
-						simplexTable.getTableElement(i, q).multiply(
-								simplexTable.getTableElement(p, j).divide(
-										keyElement)));
-	}
-
-	// helps fill these elements of the simplex table that are separate data
-	// structures, not part of the Table-type var
-	private Fraction rectangleRuleSpecialCase(
-			Pair<Integer, Integer> keyElementCoords, int i, int j) {
-		int p = keyElementCoords.getFirst();
-		int q = keyElementCoords.getSecond();
-		Fraction keyElement = simplexTable.getTableElement(p, q);
-
-		if (j == simplexTable.getVarCount()
-				&& i >= simplexTable.getRestrictionsCount()) {
-			// fill Z-value
-
-		} else if (j == simplexTable.getVarCount()) {
-			// fill right side vector
-
-		} else if (i >= simplexTable.getRestrictionsCount()) {
-			// fill costs
-
-		}
-		return rectangleRule(keyElementCoords, i, j);
-	}*/
 
 }
