@@ -7,7 +7,10 @@
     src: url('fonts/Serif/cmunbx.ttf');
     font-weight: bold;
   }
+input{
+margin:10px;
 
+}
 body {
 	font-family: "Computer Modern", "Times New Roman", serif;
 }

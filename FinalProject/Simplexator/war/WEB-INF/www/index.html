@@ -75,23 +75,12 @@
     </header>
   <div class="jumbotron">
   <h2>Симплекс методът стъпка по стъпка</h2>
-  
-  <div>
-  <span>
-    Знаеш ли, че...
-  </span>
-  <div>
-   Симплекс методът бил измислен от ... в Русия, който го сметнал за незначителна задачка, на фона на заниманията му с функционален анализ 
-   Когато бил преоткрит в Щатите около половин век по-късно се превърнал
-   в революционно откритие, което подобрило ефективността на много производствени процеси.
-  </div>
-  </div>
     <form id="problemParameters" class="form-horizontal">
 	  <fieldset>
     <legend>Избери си задача</legend>
 	<div class="form-group">
 		 <label for="inputEmail" class="col-lg-2 control-label">Вид на целевата функция</label>
-		 <div class="col-lg-10"> 
+		 <div class="col-lg-4"> 
 		  <select id="type">
 			<option value="MIN">MIN</option>
 			<option value="MAX">MAX</option>
@@ -100,14 +89,14 @@
 	  </div>
 	 <div class="form-group">
      <label for="numVars" class="col-lg-2 control-label">Променливи</label> 
-	  <div class="col-lg-10">
-			<input id="numVars" type="number" min="2" max="10" value="2" name="numVars"/>
+	  <div class="col-lg-4">
+			<input size="6" id="numVars" type="number" min="2" max="10" value="2" name="numVars"/>
 	  </div>
 	   </div>
 	<div class="form-group">
 		<label for="numVars" class="col-lg-2 control-label">Ограничения</label>
-	 <div class="col-lg-10"> 
-		<input id="numRestrictions" type="number" min="2" max="10" value="2" name="numRestrictions"/>
+	 <div class="col-lg-4"> 
+		<input size="6"  id="numRestrictions" type="number" min="2" max="10" value="2" name="numRestrictions"/>
 	 </div>	  
 	 </div>
       <button type="button" id="nextCreate" class="btn btn-primary" >Продължи</button>
@@ -121,7 +110,7 @@
       </table>
       <table id="checkPositive">
       </table>
-      <button type="button" id="nextSendProblem">Next</button>
+      <button type="button" id="nextSendProblem" class="btn btn-primary">Next</button>
     </article>
 
 
@@ -137,7 +126,7 @@
       <h3>Current Iteration:</h3>
       <div id="problemTable">
       </div>
-      <button type="button" id="next">Next</button>
+      <button type="button" id="next" class="btn btn-primary">Next</button>
     </article>
 
     <article id="answers" style="display: none">
