@@ -10,6 +10,5 @@ JAVA
 
 JS
 * Message log print																		[Dimiter]
-* CSS																					[Both]
 * Include MathJax locally																[Both]
 * Fix $.load() for Chrome																[Dimiter]
