@@ -36,45 +36,23 @@
     <a class="navbar-brand" href="#">Simplexator</a>
   </div>
   <div class="navbar-collapse collapse navbar-responsive-collapse">
-<!--   
-   <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Active</a></li>
-      <li><a href="#">Link</a></li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li class="divider"></li>
-          <li class="dropdown-header">Dropdown header</li>
-          <li><a href="#">Separated link</a></li>
-          <li><a href="#">One more separated link</a></li>
-        </ul>
-      </li>
-    </ul>
-    <form class="navbar-form navbar-left">
-      <input type="text" class="form-control col-lg-8" placeholder="Search">
-    </form>
-    -->
-	<ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right">
       <li><a href="#">Повече за...</a></li>
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Полезни ресурси <b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Полезни ресурси<b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Защо наистина работи (учебник)</a></li>
-          <li><a href="#">Something else here</a></li>
+          <li><a href="http://www.fmi.uni-sofia.bg/fmi/or/OR/Lectures/or.pdf">Защо наистина работи? (Учебник)</a></li>
+          <li><a href="http://www.fmi.uni-sofia.bg/fmi/statist/">Катедра ВОИС, ФМИ</a></li>
           <li class="divider"></li>
-          <li><a href="#">Катедра ВОИС</a></li>
+          <li><a href="#">Github repository</a></li>
         </ul>
       </li>
     </ul>
   </div>
-</div>
-   
+  </div>
     </header>
   <div class="jumbotron">
-  <h2>Симплекс методът стъпка по стъпка</h2>
+  <h2>Симплекс методът - стъпка по стъпка</h2>
     <form id="problemParameters" class="form-horizontal">
 	  <fieldset>
     <legend>Избери си задача</legend>
@@ -88,15 +66,15 @@
 		  </div>
 	  </div>
 	 <div class="form-group">
-     <label for="numVars" class="col-lg-2 control-label">Променливи</label> 
+     <label for="numVars" class="col-lg-2 control-label">Брой Променливи</label> 
 	  <div class="col-lg-4">
 			<input size="6" id="numVars" type="number" min="2" max="10" value="2" name="numVars"/>
 	  </div>
 	   </div>
 	<div class="form-group">
-		<label for="numVars" class="col-lg-2 control-label">Ограничения</label>
+		<label for="numVars" class="col-lg-2 control-label">Брой Ограничения</label>
 	 <div class="col-lg-4"> 
-		<input size="6"  id="numRestrictions" type="number" min="2" max="10" value="2" name="numRestrictions"/>
+		<input size="6"  id="numRestrictions" type="number" min="1" max="10" value="2" name="numRestrictions"/>
 	 </div>	  
 	 </div>
       <button type="button" id="nextCreate" class="btn btn-primary" >Продължи</button>
@@ -110,7 +88,7 @@
       </table>
       <table id="checkPositive">
       </table>
-      <button type="button" id="nextSendProblem" class="btn btn-primary">Next</button>
+      <button type="button" id="nextSendProblem" class="btn btn-primary">Продължи</button>
     </article>
 
 
@@ -119,22 +97,22 @@
     </article>
 
     <article id="tables" style="display: none">
-      <h2>Simplex Table:</h2>
-      <h3>Previous Iterations:</h3>
+      <h2>Симплекс таблица:</h2>
+      <h3>Предишни итерации:</h3>
       <div id="previousTable">
       </div>
-      <h3>Current Iteration:</h3>
+      <h3>Текуща итерация:</h3>
       <div id="problemTable">
       </div>
-      <button type="button" id="next" class="btn btn-primary">Next</button>
+      <button type="button" id="next" class="btn btn-primary">Продължи</button>
     </article>
 
     <article id="answers" style="display: none">
-      <h2>Optimal answers:</h2>
+      <h2>Оптимални отговори:</h2>
     </article>
 
     <article id="log" style="display: none">
-      <h2>Message Log:</h2>
+      <h2>Съобщения:</h2>
       <div id="scrollable">
       </div>
     </article>
