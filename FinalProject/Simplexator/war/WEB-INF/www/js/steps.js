@@ -179,9 +179,7 @@ function fillMainTable()
 
 function fillCosts()
 {
-	unHighlight("costsTable");
-	$(".hoverEnabled").off('mouseenter mouseleave');
-	$(".hoverEnabled").removeClass("hoverEnabled");
+	unHighlight("rightSideTable");
 
 	var currentIteration = problemManager.getCurrentIteration();
 
@@ -207,7 +205,7 @@ function fillCosts()
 
 	$("#log #scrollable").prepend("<p>" + problemManager.getCurrentMessage() + "</p>");
 	
-	highlightAll("rightSideTable", "cyan");
+	highlightAll("costsTable", "red");
 }
 
 
@@ -224,13 +222,15 @@ function fillRightSideVector()
 
 	$("#log #scrollable").prepend("<p>" + problemManager.getCurrentMessage() + "</p>");
 
-	highlightAll("costsTable", "red");
+	highlightAll("rightSideTable", "cyan");
 }
 
 
 function fillRightSideValue()
 {
-	unHighlight("rightSideTable");
+	$(".hoverEnabled").off('mouseenter mouseleave');
+	$(".hoverEnabled").removeClass("hoverEnabled");
+	unHighlight("costsTable");
 
 	var currentIteration = problemManager.getCurrentIteration();
 
