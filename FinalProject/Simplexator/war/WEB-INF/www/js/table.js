@@ -11,8 +11,8 @@ function initializeStepSwitcher(problemManager)
 			1: makeBlankSimplexTable,
 			2: fillBasis,
 			3: fillMainTable,
-			4: fillCosts,
-			5: fillRightSideVector,
+			4: fillRightSideVector,
+			5: fillCosts,
 			6: fillRightSideValue,
 			7: checkOptimalityCriterion,
 			8: checkUnboundednessCriterion,		// if iterations array is empty, then skip to printAnswer
