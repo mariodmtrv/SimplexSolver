@@ -3,6 +3,7 @@ package org.fmi.or.simplexator.algorithm.computation;
 import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
+import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 import org.fmi.or.simplexator.algorithm.converter.VariableType;
 import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
@@ -274,4 +275,5 @@ public class SimplexTable {
 		queue.addMessage("Answer.MAnswer");
 		return answer;
 	}
+	
 }
