@@ -482,7 +482,7 @@ function printAnswer()
 
 	$("#answers").append("<div></div>");
 	var div = $("#answers div:last");
-	$(div).load("templates/answers_grid_template.html", function(){
+	$(div).load("answers_grid_template.html", function(){
 		$(div).prepend("<p>Answer to " + (currentProblem.isM ? "M-" : (currentProblem.isK ? "K-" : "original ")) + "problem</p>");
 		$(div).find(".points").append("<caption>Vertices:</caption>");
 		$(div).find(".points").append("<tr></tr>");
