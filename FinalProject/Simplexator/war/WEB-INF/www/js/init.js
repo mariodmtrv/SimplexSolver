@@ -177,7 +177,13 @@ var HARDCODED_RESPONSE = {
         ],
         directions: [["1", "2", "3"],["1", "2", "3"]]
       }
-      ]
+      ],
+      messageLog: ["k1","k2","k3","k4","k5","k6","k7",
+                   "m1","m2","m3a","m4",
+                   "0","b","f1","f2","f3","f4",
+                   "cc1","cc2","cc3",
+                   "0","b","i2","i3","i4",
+                   "cc1","cc2","TODO: answers messages"]
     };
 var HARDCODED_RESPONSE = JSON.stringify(HARDCODED_RESPONSE);
 

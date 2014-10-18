@@ -75,6 +75,21 @@ function printProblem()
 	// print xi >= 0
 	problemDiv.append("<span>" + currentProblem.nonNegativeVars.join(", ") + " \\(\\geq\\) 0</span>");
 
+	// print all messages related to this problem conversion
+	if(currentProblem.isM)
+	{
+		for (var i = 0; i < 4; i++)
+		{
+			$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
+		};
+	}else if (currentProblem.isK)
+	{
+		for (var i = 0; i < 7; i++)
+		{
+			$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
+		};
+	}
+
 	MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }
 
@@ -119,6 +134,7 @@ function makeBlankSimplexTable()
 		};
 
 		$("#next").toggle();
+		$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 	});
 }
@@ -135,6 +151,8 @@ function fillBasis()
 	}
 
 	highlightAll("basisTable", "yellow");
+
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 }
 
 
@@ -153,6 +171,7 @@ function fillMainTable()
 		}
 	}
 
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 	highlightAll("mainTable", "cyan");
 }
 
@@ -183,6 +202,7 @@ function fillCosts()
 		}
 	}
 
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 	highlightAll("costsTable", "red");
 }
 
@@ -200,6 +220,7 @@ function fillRightSideVector()
 		$("#problemTable .rightSideTable tr").eq(i + 1).children("td").html(currentIteration.rightSide[i]);
 	}
 
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 	highlightAll("rightSideTable", "cyan");
 }
 
@@ -212,6 +233,8 @@ function fillRightSideValue()
 
 	$("#problemTable .rightSideValueTable td:first").html(currentIteration.numValue);
 	$("#problemTable .rightSideValueTable td:last").html(currentIteration.MValue);
+
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 
 	highlightColumn("basisTable", "yellow", 2);
 	highlightAll("rightSideTable", "cyan");
@@ -243,6 +266,8 @@ function fillBasisColumns()
 		$("#problemTable .costsTable tr:first td").eq(column_indexes[j]).html(currentIteration.costs[0][column_indexes[j]]);
 		$("#problemTable .costsTable tr:last td").eq(column_indexes[j]).html(currentIteration.costs[1][column_indexes[j]]);
 	}
+
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 }
 
 
@@ -262,6 +287,8 @@ function fillKeyElementRow()
 	};
 
 	$("#problemTable .rightSideTable tr").eq(keyElementRow).children("td:first").html(currentIteration.rightSide[keyElementRow - 1]);
+
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 }
 
 
@@ -370,6 +397,8 @@ function fillTableRectangleRule()
 	showRectangleRuleHover(cell, [1, 0], currentIteration.keyElemCoords);
 	highlightCell("rightSideValueTable", "cyan", 0, 0);
 	highlightCell("rightSideValueTable", "cyan", 1, 0);
+
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 }
 
 
@@ -387,10 +416,14 @@ function checkOptimalityCriterion()
 
 	if(currentIteration.newKeyElemCoords[1] == -1)
 	{
+		$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
+		$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 		return;
 	}
 
 	highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 1 + 2);
+
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 }
 
 
@@ -402,12 +435,18 @@ function checkUnboundednessCriterion()
 
 	if(currentIteration.newKeyElemCoords[0] == -1)
 	{
+		$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
+		$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
+		$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 		return;
 	}
 
 	//highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 1 + 2);
 	highlightColumn("mainTable", "green", currentIteration.newKeyElemCoords[1] + 1);
 	highlightAll("rightSideTable", "cyan");
+
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
+	$("#log #scrollable").append("<p>" + problemManager.getCurrentMessage() + "</p>");
 }
 
 

@@ -7,6 +7,7 @@ function initializeProblemManager(responseFromServer)
 		this.problems = response.problems;
 		this.iterations = response.iterations;
 		this.answers = response.answers;
+		this.messageLog = response.messageLog;
 
 		// get parameters of M-Problem
 		this.numVars = this.problems[2].variables.length;
@@ -33,6 +34,13 @@ function initializeProblemManager(responseFromServer)
 
 		this.getProblemForCurrentAnswer = function(){
 			return self.problems[self.problems.length - 1 - self.index];
+		};
+
+		// methods for iterating the response message log
+		this.msgIndex = 0;
+		this.getCurrentMessage = function(){
+			var i = self.msgIndex++;
+			return self.messageLog[i];
 		};
 	};
 }
