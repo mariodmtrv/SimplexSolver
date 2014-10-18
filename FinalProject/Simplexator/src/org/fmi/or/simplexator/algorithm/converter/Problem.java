@@ -107,7 +107,7 @@ public class Problem extends AbstractProblem {
 		queue.addMessage("ConvertToK.processNegativeParts");
 		int varsPassed = 0;
 		Iterator<Variable> zfuncIter = zfunction.iterator();
-		Boolean processedOne = false;
+		//Boolean processedOne = false;
 		for (Boolean hnp : hasNegativePart) {
 			Variable variable = (Variable) zfuncIter.next();
 			varsPassed++;
@@ -131,15 +131,15 @@ public class Problem extends AbstractProblem {
 					changedRestriction.bipartizeVariable(varIndex);
 					restrictions.set(restrictionIndex, changedRestriction);
 				}
-				processedOne = true;
+				//processedOne = true;
 				queue.addProblemStep(this);
 			}
 
 		}
-		if (processedOne == false) {
-			queue.addMessage("ConvertToK.noNegativesAtRightSide");
+		/*if (processedOne == false) {
+			
 			queue.addProblemStep(this);
-		}
+		}*/
 	}
 
 	public String toString() {

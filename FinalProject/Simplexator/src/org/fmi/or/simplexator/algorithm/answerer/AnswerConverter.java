@@ -32,7 +32,7 @@ public class AnswerConverter {
 	
 	public Answer convertMToK(SolvingQueue queue) {
 		Answer newAnswer = new Answer();
-		
+		queue.addMessage("Answer.MAnswer");
 		
 		// convert vertices
 		for(int i = 0; i < oldAnswer.getVertices().size(); i++) {

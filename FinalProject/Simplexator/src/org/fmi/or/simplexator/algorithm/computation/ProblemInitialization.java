@@ -243,10 +243,9 @@ private void calculateResultCosts(){
 			}
 			simplexTable.addNumCost(j, sumC);
 			simplexTable.addMCost(j, sumM);
-			
-			calculateResultCosts();
 		}
-
+		
+		calculateResultCosts();
 	}
 	
 }
