@@ -436,6 +436,11 @@ function checkUnboundednessCriterion()
 
 	var currentIteration = problemManager.getCurrentIteration();
 
+	if(currentIteration.newKeyElemCoords[1] == -1)
+	{
+		return;
+	}
+
 	if(currentIteration.newKeyElemCoords[0] == -1)
 	{
 		$("#log #scrollable").prepend("<p>" + problemManager.getCurrentMessage() + "</p>");

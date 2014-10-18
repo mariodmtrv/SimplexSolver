@@ -183,7 +183,8 @@ var HARDCODED_RESPONSE = {
                    "0","b","f1","f2","f3","f4",
                    "cc1","cc2","cc3",
                    "0","b","i2","i3","i4",
-                   "cc1","cc2","TODO: answers messages"]
+                   "cc1","cc2",
+                   "TODO: answers messages"]
     };
 var HARDCODED_RESPONSE = JSON.stringify(HARDCODED_RESPONSE);
 
