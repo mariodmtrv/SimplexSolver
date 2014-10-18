@@ -2,6 +2,7 @@ package org.fmi.or.simplexator.algorithm.computation.tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Locale;
 import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.computation.CriteriaCheck;
@@ -98,7 +99,8 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis(q);
 
 		Pair<Integer,Integer> compareTo=new Pair<Integer, Integer>(0, 1);
 		if(!newBasis.equals(compareTo)) {
@@ -178,7 +180,8 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis(q);
 
 		Pair<Integer,Integer> compareTo=new Pair<Integer, Integer>(1, 2);
 		if(!newBasis.equals(compareTo)) {
@@ -272,7 +275,8 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis(q);
 
 		Pair<Integer,Integer> compareTo=new Pair<Integer, Integer>(-1, -1);
 		if(!newBasis.equals(compareTo)) {
@@ -353,7 +357,8 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis(q);
 
 		Pair<Integer,Integer> compareTo=new Pair<Integer, Integer>(-1, -1);
 		if(!newBasis.equals(compareTo)) {
@@ -445,7 +450,8 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis(q);
 
 		Pair<Integer,Integer> compareTo=new Pair<Integer, Integer>(-1, 1);
 		if(!newBasis.equals(compareTo)) {
@@ -526,7 +532,8 @@ public class CriteriaCheckTest {
 		
 		// now test...
 		CriteriaCheck cc = new CriteriaCheck(simtable);
-		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis();
+		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
+		Pair<Integer,Integer> newBasis=cc.checkCriteriaAndFindNewBasis(q);
 		
 		Pair<Integer,Integer> compareTo = new Pair<Integer, Integer>(-1, 2);
 		if(!newBasis.equals(compareTo)) {

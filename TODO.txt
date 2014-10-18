@@ -1,14 +1,11 @@
 TODO
 ----
 
-JAVA
-* Java response	objects																	[Both]
-* Java AJAX response																	[Mario]
-* LaTeX document print																	[Mario]
-* Main method class																		[Mario]
-* Test application!																		[Both]
-
-JS
-* Message log print																		[Dimiter]
-* Include MathJax locally																[Both]
-* Fix $.load() for Chrome																[Dimiter]
+* JS AJAX
+* Java AJAX
+* LaTeX file
+* Handle bad answers
+* Tests (Java)
+* CSS Font fix
+* MathJax locally
+* Cross-browser support

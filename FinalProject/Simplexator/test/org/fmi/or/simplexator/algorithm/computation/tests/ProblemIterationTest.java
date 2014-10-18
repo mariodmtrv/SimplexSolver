@@ -31,12 +31,13 @@ public class ProblemIterationTest {
 		
 		// now test...
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
-		Pair<Integer,Integer> keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
+		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
+		Pair<Integer,Integer> keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(q);
 		while(keyElementCoords.getFirst() != -1) {
 			ProblemIteration mProblemIter = new ProblemIteration(mProblem, simtable, keyElementCoords);
-			simtable = mProblemIter.makeIteration();
+			simtable = mProblemIter.makeIteration(q);
 			critCheck = new CriteriaCheck(simtable);
-			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
+			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(q);
 		}
 	}
 	
@@ -55,12 +56,13 @@ public class ProblemIterationTest {
 		
 		// now test..
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
-		Pair<Integer,Integer> keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
+		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
+		Pair<Integer,Integer> keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(q);
 		while(keyElementCoords.getFirst() != -1) {
 			ProblemIteration mProblemIter = new ProblemIteration(mProblem, simtable, keyElementCoords);
-			simtable = mProblemIter.makeIteration();
+			simtable = mProblemIter.makeIteration(q);
 			critCheck = new CriteriaCheck(simtable);
-			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
+			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(q);
 		}
 		
 	}

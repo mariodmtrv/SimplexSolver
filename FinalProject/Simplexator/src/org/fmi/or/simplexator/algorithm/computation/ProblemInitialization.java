@@ -130,16 +130,17 @@ public class ProblemInitialization {
 		return (Vector<Variable>) basisFromUI;
 	}
 
-	public ProblemInitialization(MProblem problem, IterationQueue queue) {
+	public ProblemInitialization(MProblem problem) {
 		this.problem = problem;
 		simplexTable = new SimplexTable(problem.getVarCount(),
 				problem.getRestrictionsCount());
-		queue.addMessage("drawEmptyTable");
 		initializeZfunction();
-		setInitialBasis(queue);
+		
 	}
 
 	public SimplexTable makeFirstIteration(IterationQueue queue) {
+		queue.addMessage("drawEmptyTable");
+		setInitialBasis(queue);
 		
 		initializeTable(queue);
 		// Ui.printTable(table,zfunc);
