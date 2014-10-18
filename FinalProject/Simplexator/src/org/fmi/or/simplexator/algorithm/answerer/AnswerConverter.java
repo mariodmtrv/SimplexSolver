@@ -4,9 +4,7 @@ import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
-import org.fmi.or.simplexator.algorithm.converter.VariableType;
-import org.fmi.or.simplexator.answerqueue.SolvingQueue;
-import org.fmi.or.simplexator.service.serializable.SolutionResponse;
+import org.fmi.or.simplexator.answerqueue.AnswerQueue;
 
 /**
  * Convert the answer of another problem obtained by the algorithm (oldAnswer)
@@ -30,7 +28,7 @@ public class AnswerConverter {
 		return null; // TODO
 	}
 	
-	public Answer convertMToK(SolvingQueue queue) {
+	public Answer convertMToK(AnswerQueue queue) {
 		Answer newAnswer = new Answer();
 		queue.addMessage("Answer.MAnswer");
 		
@@ -42,6 +40,7 @@ public class AnswerConverter {
 				if(!newVertex.get(j).isEqualTo(Fraction.ZERO)) {
 					queue.addMessage("Answer.MAnswerMVarsNonZero");
 					queue.addMessage("Answer.KAndLEmpty");
+					queue.addAnswer((Answer) null);
 					return null;
 				}
 			}
@@ -59,6 +58,7 @@ public class AnswerConverter {
 				if(!newDirection.get(j).isEqualTo(Fraction.ZERO)) {
 					queue.addMessage("Answer.MAnswerMVarsNonZero");
 					queue.addMessage("Answer.KAndLEmpty");
+					queue.addAnswer((Answer) null);
 					return null;
 				}
 			}
@@ -67,10 +67,11 @@ public class AnswerConverter {
 			newAnswer.pushVertex(newDirection);
 		}
 		
+		queue.addAnswer(newAnswer);
 		return newAnswer;
 	}
 	
-	public Answer convertKToL(SolvingQueue queue) {
+	public Answer convertKToL(AnswerQueue queue) {
 		Answer newAnswer = new Answer();
 		queue.addMessage("Answer.KAnswer");
 		
@@ -121,6 +122,7 @@ public class AnswerConverter {
 		
 		
 		queue.addMessage("Answer.LAnswer");
+		queue.addAnswer(newAnswer);
 		return newAnswer;
 	}
 }

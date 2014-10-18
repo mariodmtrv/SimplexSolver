@@ -22,11 +22,11 @@ import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 import org.fmi.or.simplexator.algorithm.converter.tests.MProblemConversionTest;
+import org.fmi.or.simplexator.answerqueue.AnswerQueue;
 import org.fmi.or.simplexator.answerqueue.IterationQueue;
 import org.junit.Test;
 
 public class AnswererTest {
-
 	@Test
 	public void testSampleConversionMToKToL() {
 		// define serializableProblemSteps
@@ -34,7 +34,6 @@ public class AnswererTest {
 		zfunction.add(new Variable(new Fraction(2), 1));
 		zfunction.add(new Variable(new Fraction(1), 2));
 		zfunction.add(new Variable(new Fraction(2), 3));
-
 		Vector<Restriction> restrictions = new Vector<Restriction>();
 		List<Variable> firstRestr = new LinkedList<Variable>();
 		firstRestr.add(new Variable(new Fraction(1), 1));
@@ -42,14 +41,12 @@ public class AnswererTest {
 		firstRestr.add(new Variable(new Fraction(-1), 3));
 		Restriction first = new Restriction(firstRestr, EquationSign.LTE,
 				new Fraction(-1));
-
 		List<Variable> secondRestr = new LinkedList<Variable>();
 		secondRestr.add(new Variable(new Fraction(-1), 1));
 		secondRestr.add(new Variable(new Fraction(0), 2));
 		secondRestr.add(new Variable(new Fraction(-2), 3));
 		Restriction second = new Restriction(secondRestr, EquationSign.LTE,
 				new Fraction(3));
-
 		List<Variable> thirdRestr = new LinkedList<Variable>();
 		thirdRestr.add(new Variable(new Fraction(3), 1));
 		thirdRestr.add(new Variable(new Fraction(1), 2));
@@ -59,22 +56,17 @@ public class AnswererTest {
 		restrictions.add(first);
 		restrictions.add(second);
 		restrictions.add(third);
-
 		Optimum optimum = Optimum.MINIMUM;
 		Vector<Boolean> hasNegativePart = new Vector<>();
 		hasNegativePart.add(true);
 		hasNegativePart.add(false);
 		hasNegativePart.add(false);
-
 		Problem p = new Problem(zfunction, restrictions, optimum,
 				hasNegativePart);
-
 		Problem kp = new Problem(p);
 		kp.convertToK();
-
 		MProblem mp = new MProblem(kp);
 		mp.convertToMProblem();
-
 		// define answers
 		Vector<Fraction> mVector = new Vector<Fraction>();
 		mVector.add(new Fraction(0, 1));
@@ -85,7 +77,6 @@ public class AnswererTest {
 		mVector.add(new Fraction(2, 1));
 		mVector.add(new Fraction(0, 1));
 		Answer mAnswer = new Answer(mVector);
-
 		Vector<Fraction> kVector = new Vector<Fraction>();
 		kVector.add(new Fraction(0, 1));
 		kVector.add(new Fraction(1, 1));
@@ -94,22 +85,21 @@ public class AnswererTest {
 		kVector.add(new Fraction(0, 1));
 		kVector.add(new Fraction(2, 1));
 		Answer kAnswer = new Answer(kVector);
-
 		Vector<Fraction> lVector = new Vector<Fraction>();
 		lVector.add(new Fraction(-1, 1));
 		lVector.add(new Fraction(7, 1));
 		lVector.add(new Fraction(0, 1));
 		Answer lAnswer = new Answer(lVector);
-
 		// test:
 		AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
-		Answer returnedMToK = mtok.convertMToK();
+		AnswerQueue mq = new AnswerQueue(new Locale("BG", "bg"));
+		Answer returnedMToK = mtok.convertMToK(mq);
 		if (!returnedMToK.equals(kAnswer)) {
 			fail("");
 		}
-
 		AnswerConverter ktol = new AnswerConverter(p, kAnswer);
-		Answer returnedKToL = ktol.convertKToL();
+		AnswerQueue kq = new AnswerQueue(new Locale("BG", "bg"));
+		Answer returnedKToL = ktol.convertKToL(kq);
 		if (!returnedKToL.equals(lAnswer)) {
 			fail("");
 		}
@@ -122,7 +112,6 @@ public class AnswererTest {
 		zfunction.add(new Variable(new Fraction(2), 1));
 		zfunction.add(new Variable(new Fraction(1), 2));
 		zfunction.add(new Variable(new Fraction(2), 3));
-
 		Vector<Restriction> restrictions = new Vector<Restriction>();
 		List<Variable> firstRestr = new LinkedList<Variable>();
 		firstRestr.add(new Variable(new Fraction(1), 1));
@@ -130,14 +119,12 @@ public class AnswererTest {
 		firstRestr.add(new Variable(new Fraction(-1), 3));
 		Restriction first = new Restriction(firstRestr, EquationSign.LTE,
 				new Fraction(-1));
-
 		List<Variable> secondRestr = new LinkedList<Variable>();
 		secondRestr.add(new Variable(new Fraction(-1), 1));
 		secondRestr.add(new Variable(new Fraction(0), 2));
 		secondRestr.add(new Variable(new Fraction(-2), 3));
 		Restriction second = new Restriction(secondRestr, EquationSign.LTE,
 				new Fraction(3));
-
 		List<Variable> thirdRestr = new LinkedList<Variable>();
 		thirdRestr.add(new Variable(new Fraction(3), 1));
 		thirdRestr.add(new Variable(new Fraction(1), 2));
@@ -147,22 +134,17 @@ public class AnswererTest {
 		restrictions.add(first);
 		restrictions.add(second);
 		restrictions.add(third);
-
 		Optimum optimum = Optimum.MINIMUM;
 		Vector<Boolean> hasNegativePart = new Vector<>();
 		hasNegativePart.add(true);
 		hasNegativePart.add(false);
 		hasNegativePart.add(true); // several negative !!!
-
 		Problem p = new Problem(zfunction, restrictions, optimum,
 				hasNegativePart);
-
 		Problem kp = new Problem(p);
 		kp.convertToK();
-
 		MProblem mp = new MProblem(kp);
 		mp.convertToMProblem();
-
 		// define answers
 		// Warning!: Answers are fake
 		Vector<Fraction> mVector = new Vector<Fraction>();
@@ -175,7 +157,6 @@ public class AnswererTest {
 		mVector.add(new Fraction(6, 1));
 		mVector.add(new Fraction(0, 1));
 		Answer mAnswer = new Answer(mVector);
-
 		Vector<Fraction> kVector = new Vector<Fraction>();
 		kVector.add(new Fraction(0, 1));
 		kVector.add(new Fraction(1, 1));
@@ -185,22 +166,21 @@ public class AnswererTest {
 		kVector.add(new Fraction(5, 1));
 		kVector.add(new Fraction(6, 1));
 		Answer kAnswer = new Answer(kVector);
-
 		Vector<Fraction> lVector = new Vector<Fraction>();
 		lVector.add(new Fraction(-1, 1));
 		lVector.add(new Fraction(2, 1));
 		lVector.add(new Fraction(-1, 1));
 		Answer lAnswer = new Answer(lVector);
-
 		// test:
 		AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
-		Answer returnedMToK = mtok.convertMToK();
+		AnswerQueue mq = new AnswerQueue(new Locale("BG", "bg"));
+		Answer returnedMToK = mtok.convertMToK(mq);
 		if (!returnedMToK.equals(kAnswer)) {
 			fail("");
 		}
-
 		AnswerConverter ktol = new AnswerConverter(p, kAnswer);
-		Answer returnedKToL = ktol.convertKToL();
+		AnswerQueue kq = new AnswerQueue(new Locale("BG", "bg"));
+		Answer returnedKToL = ktol.convertKToL(kq);
 		if (!returnedKToL.equals(lAnswer)) {
 			fail("");
 		}
@@ -213,7 +193,6 @@ public class AnswererTest {
 		zfunction.add(new Variable(new Fraction(2), 1));
 		zfunction.add(new Variable(new Fraction(1), 2));
 		zfunction.add(new Variable(new Fraction(2), 3));
-
 		Vector<Restriction> restrictions = new Vector<Restriction>();
 		List<Variable> firstRestr = new LinkedList<Variable>();
 		firstRestr.add(new Variable(new Fraction(1), 1));
@@ -221,14 +200,12 @@ public class AnswererTest {
 		firstRestr.add(new Variable(new Fraction(-1), 3));
 		Restriction first = new Restriction(firstRestr, EquationSign.LTE,
 				new Fraction(-1));
-
 		List<Variable> secondRestr = new LinkedList<Variable>();
 		secondRestr.add(new Variable(new Fraction(-1), 1));
 		secondRestr.add(new Variable(new Fraction(0), 2));
 		secondRestr.add(new Variable(new Fraction(-2), 3));
 		Restriction second = new Restriction(secondRestr, EquationSign.LTE,
 				new Fraction(3));
-
 		List<Variable> thirdRestr = new LinkedList<Variable>();
 		thirdRestr.add(new Variable(new Fraction(3), 1));
 		thirdRestr.add(new Variable(new Fraction(1), 2));
@@ -238,22 +215,17 @@ public class AnswererTest {
 		restrictions.add(first);
 		restrictions.add(second);
 		restrictions.add(third);
-
 		Optimum optimum = Optimum.MINIMUM;
 		Vector<Boolean> hasNegativePart = new Vector<>();
 		hasNegativePart.add(true);
 		hasNegativePart.add(false);
 		hasNegativePart.add(false);
-
 		Problem p = new Problem(zfunction, restrictions, optimum,
 				hasNegativePart);
-
 		Problem kp = new Problem(p);
 		kp.convertToK();
-
 		MProblem mp = new MProblem(kp);
 		mp.convertToMProblem();
-
 		// define answers
 		Vector<Fraction> mVector = new Vector<Fraction>();
 		mVector.add(new Fraction(0, 1));
@@ -264,10 +236,10 @@ public class AnswererTest {
 		mVector.add(new Fraction(2, 1));
 		mVector.add(new Fraction(5, 1)); // this is from M
 		Answer mAnswer = new Answer(mVector);
-
 		// test:
 		AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
-		Answer returnedMToK = mtok.convertMToK();
+		AnswerQueue mq = new AnswerQueue(new Locale("BG", "bg"));
+		Answer returnedMToK = mtok.convertMToK(mq);
 		if (returnedMToK != null) {
 			fail("");
 		}
@@ -279,24 +251,21 @@ public class AnswererTest {
 		Problem p = t.testCanonicalProblemMinimum();
 		MProblem mProblem = new MProblem(p);
 		mProblem.convertToMProblem();
-
 		ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
 		IterationQueue queue = new IterationQueue(new Locale("BG", "bg"));
 		SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
-
 		// now test...
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
 		Pair<Integer, Integer> keyElementCoords = critCheck
-				.checkCriteriaAndFindNewBasis();
+				.checkCriteriaAndFindNewBasis(queue);
 		ProblemIteration mProblemIter;
 		while (keyElementCoords != null) {
 			mProblemIter = new ProblemIteration(mProblem, simtable,
 					keyElementCoords);
-			simtable = mProblemIter.makeIteration();
+			simtable = mProblemIter.makeIteration(queue);
 			critCheck = new CriteriaCheck(simtable);
-			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
+			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(queue);
 		}
-
 		// now the new test...
 		// TODO
 	}
@@ -307,23 +276,21 @@ public class AnswererTest {
 		Problem p = t.testCanonicalProblemMaximum();
 		MProblem mProblem = new MProblem(p);
 		mProblem.convertToMProblem();
-        ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
-        IterationQueue queue= new IterationQueue(new Locale("BG", "bg"));
-        SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
-
+		ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
+		IterationQueue queue = new IterationQueue(new Locale("BG", "bg"));
+		SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
 		// now test..
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
 		Pair<Integer, Integer> keyElementCoords = critCheck
-				.checkCriteriaAndFindNewBasis();
+				.checkCriteriaAndFindNewBasis(queue);
 		ProblemIteration mProblemIter;
 		while (keyElementCoords != null) {
 			mProblemIter = new ProblemIteration(mProblem, simtable,
 					keyElementCoords);
-			simtable = mProblemIter.makeIteration();
+			simtable = mProblemIter.makeIteration(queue);
 			critCheck = new CriteriaCheck(simtable);
-			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis();
+			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(queue);
 		}
-
 		// now the new test...
 		// TODO
 	}

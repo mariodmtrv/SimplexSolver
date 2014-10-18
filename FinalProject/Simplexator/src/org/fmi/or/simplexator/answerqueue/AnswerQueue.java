@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.fmi.or.simplexator.algorithm.answerer.Answer;
 import org.fmi.or.simplexator.service.serializable.PossibleAnswer;
 
 public class AnswerQueue extends SolvingQueue {
@@ -19,6 +20,11 @@ public class AnswerQueue extends SolvingQueue {
 		answers.add(answer);
 	}
 
+	public void addAnswer(Answer problemAnswer) {
+		PossibleAnswer answer = new PossibleAnswer(problemAnswer);
+		answers.add(answer);
+	}
+	
 	public List<PossibleAnswer> getProblemSteps() {
 		return answers;
 	}
