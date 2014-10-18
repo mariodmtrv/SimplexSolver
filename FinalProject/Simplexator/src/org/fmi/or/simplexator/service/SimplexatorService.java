@@ -1,5 +1,9 @@
 package org.fmi.or.simplexator.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +16,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.fmi.or.simplexator.algorithm.converter.EquationSign;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
@@ -20,6 +25,7 @@ import org.fmi.or.simplexator.algorithm.converter.Optimum;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
+import org.fmi.or.simplexator.answerqueue.FileGenerator;
 import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 import org.fmi.or.simplexator.service.serializable.TransformationStep;
 
@@ -29,7 +35,8 @@ public class SimplexatorService {
 	@Produces("application/json")
 	@Path("/get-all-steps")
 	public ProblemConversionQueue getSteps() {
-		ProblemConversionQueue queue = new ProblemConversionQueue(new Locale("bg", "BG"));
+		ProblemConversionQueue queue = new ProblemConversionQueue(new Locale(
+				"bg", "BG"));
 		List<Variable> zfunction = new LinkedList<Variable>();
 		zfunction.add(new Variable(new Fraction(2), 1));
 		zfunction.add(new Variable(new Fraction(1), 2));
@@ -68,7 +75,7 @@ public class SimplexatorService {
 		Problem problem = new Problem(zfunction, restrictions, optimum,
 				hasNegativePart);
 		problem.convertToK(queue);
-		
+
 		/*
 		 * List<TransformationStep> steps = new ArrayList<>(); steps.add(new
 		 * TransformationStep(queue.getProblemSteps().get(0))); steps.add(new
@@ -121,6 +128,7 @@ public class SimplexatorService {
 		TransformationStep step = new TransformationStep(problem);
 		return step;
 	}
+
 	/*
 	 * @POST
 	 * 
@@ -128,5 +136,17 @@ public class SimplexatorService {
 	 * product) { String result = "Product created : " + product; return
 	 * Response.status(201).entity(result).build(); }
 	 */
+	@GET
+	@Path("/latex")
+	@Produces("application/x-tex")
+	public Response getTextFile() {
+		FileGenerator generator = new FileGenerator();
+
+		ResponseBuilder response = Response.ok((Object) generator.getFile());
+		response.header("Content-Disposition",
+				"attachment; filename=\"tablesResult.tex\"");
+		return response.build();
+
+	}
 
 }
