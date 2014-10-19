@@ -196,27 +196,27 @@ $(document).ready(function(){
     var jsonProblem = JSON.stringify(getProblemInfo(problem));
 
     // send AJAX
-    $.get(
-      "localhost:8888/simplexatror/solve/get-all-steps",
-      jsonProblem,
-      function(data) {
-        var data = HARDCODED_RESPONSE;
-        var response = JSON.parse(data);
+    $.ajax({
+      type: "POST",
+      url: "simplexatror/solve/get-all-steps",
+      data: jsonProblem,
+      dataType: "json"
+    }).done(function(data) {
+      var data = HARDCODED_RESPONSE;
+      var response = JSON.parse(data);
 
-        $("#setProblem").toggle();
-        $("#problemDescription").toggle();
-        $("#tables").toggle();
-        $("#answers").toggle();
-        $("#log").toggle();
+      $("#setProblem").toggle();
+      $("#problemDescription").toggle();
+      $("#tables").toggle();
+      $("#answers").toggle();
+      $("#log").toggle();
 
-        problemManager = initializeProblemManager(response);
-        stepSwitcher = initializeStepSwitcher(problemManager);
-      }
-    );
-  });
+      problemManager = initializeProblemManager(response);
+      stepSwitcher = initializeStepSwitcher(problemManager);
+    });
   
-  //// here add an ajax call 
-  var latexResult = "hello this a latex file";
+    //// here add an ajax call 
+    var latexResult = "hello this a latex file";
 	  var formBlob = new Blob([latexResult], { type: 'application/x-tex' });
 	  $("#fileLink").attr("href", window.URL.createObjectURL(formBlob));
 });
