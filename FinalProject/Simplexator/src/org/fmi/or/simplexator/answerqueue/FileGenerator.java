@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.UUID;
 
+import org.apache.tools.ant.types.CommandlineJava.SysProperties;
+
 public class FileGenerator {
 	public FileGenerator() {
 
@@ -15,7 +17,9 @@ public class FileGenerator {
 		File file = null;
 		UUID id = UUID.randomUUID();
 		try {
-			file = new File(id.toString()+".tex");
+		
+			file = new File("/solutions/"+id.toString()+".tex");
+		
 			writer = new PrintWriter(file);
 			writer.println("This is a test message");
 			writer.flush();

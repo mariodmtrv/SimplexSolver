@@ -1,127 +1,174 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Simplexator</title>
-    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="static/css/index.css">
-    <script type="text/javascript" src="static/lib/jquery-1.11.1.js"></script>
+<head>
+<meta charset="UTF-8">
+<title>Simplexator</title>
+<link rel="stylesheet" type="text/css"
+	href="static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="static/css/index.css">
+<script type="text/javascript" src="static/lib/jquery-1.11.1.js"></script>
 
-    <script type="text/javascript"
-      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<script type="text/javascript"
+	src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
-    <!--<script type="text/javascript" 
+<!--<script type="text/javascript" 
       src="lib/MathJax-2.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local">
     </script>-->
-    <script type="text/x-mathjax-config">
+<script type="text/x-mathjax-config">
       MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
     </script>
 
-    <script src="static/js/init.js"></script>
-    <script src="static/js/response.js"></script>
-    <script src="static/js/colors.js"></script>
-    <script src="static/js/steps.js"></script>
-    <script src="static/js/table.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-  </head>
-  <body>
-    <header>
-	<div class="navbar navbar-default">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="#">Simplexator</a>
-  </div>
-  <div class="navbar-collapse collapse navbar-responsive-collapse">
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">Повече за...</a></li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Полезни ресурси<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="http://www.fmi.uni-sofia.bg/fmi/or/OR/Lectures/or.pdf">Защо наистина работи? (Учебник)</a></li>
-          <li><a href="http://www.fmi.uni-sofia.bg/fmi/statist/">Катедра ВОИС, ФМИ</a></li>
-          <li class="divider"></li>
-          <li><a href="#">Github repository</a></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-  </div>
-    </header>
-  <div class="jumbotron">
-  <h2>Симплекс методът - стъпка по стъпка</h2>
-    <form id="problemParameters" class="form-horizontal">
-	  <fieldset>
-    <legend>Избери си задача</legend>
-	<div class="form-group">
-		 <label for="inputEmail" class="col-lg-2 control-label">Вид на целевата функция</label>
-		 <div class="col-lg-4"> 
-		  <select id="type">
-			<option value="MIN">MIN</option>
-			<option value="MAX">MAX</option>
-		  </select>
-		  </div>
-	  </div>
-	 <div class="form-group">
-     <label for="numVars" class="col-lg-2 control-label">Брой Променливи</label> 
-	  <div class="col-lg-4">
-			<input size="6" id="numVars" type="number" min="2" max="10" value="2" name="numVars"/>
-	  </div>
-	   </div>
-	<div class="form-group">
-		<label for="numVars" class="col-lg-2 control-label">Брой Ограничения</label>
-	 <div class="col-lg-4"> 
-		<input size="6"  id="numRestrictions" type="number" min="1" max="10" value="2" name="numRestrictions"/>
-	 </div>	  
-	 </div>
-      <button type="button" id="nextCreate" class="btn btn-primary" >Продължи</button>
-	 </fieldset>
-    </form>
+<script src="static/js/init.js"></script>
+<script src="static/js/response.js"></script>
+<script src="static/js/colors.js"></script>
+<script src="static/js/steps.js"></script>
+<script src="static/js/table.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<header>
+		<div class="navbar navbar-default">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-responsive-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">Simplexator</a>
+			</div>
+			<div class="navbar-collapse collapse navbar-responsive-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#" onclick="$('#projectAbout').modal('show');">Повече
+							за...</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">Полезни ресурси<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a
+								href="http://www.fmi.uni-sofia.bg/fmi/or/OR/Lectures/or.pdf">Защо
+									наистина работи? (Учебник)</a></li>
+							<li><a href="http://www.fmi.uni-sofia.bg/fmi/statist/">Катедра
+									ВОИС, ФМИ</a></li>
+							<li class="divider"></li>
+							<li><a href="https://github.com/mariodmtrv/SimplexSolver">Github
+									repository</a></li>
+						</ul></li>
+				</ul>
+			</div>
+		</div>
 
-    <article id="setProblem" style="display: none">
-      <table id="zTable">
-      </table>
-      <table id="restrictTable">
-      </table>
-      <table id="checkPositive">
-      </table>
-      <button type="button" id="nextSendProblem" class="btn btn-primary">Продължи</button>
-    </article>
+		<div id="projectAbout" class="modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title">За проекта</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+						<div>
+							<a href="http://fmi.uni-sofia.bg" title="ФМИ при СУ"><img
+								src="static/resources/SU-logo.jpg" width="40px" height="40px" />
+							</a>Модулът за решаване на задачи с помощта на симплекс метода е
+							създаден за да подпомогне усвояването му чрез решаване по метода
+							стъпка по стъпка и да улесни създаването на изпитни примери.
+							Създаден с подкрепата на програма ЕОС през 2014 за нуждите на ФМИ
+							при СУ.
+						</div>
+						<span>Екип на разработката</span>
+						<ul>
+							<li>Венелин Черногоров - ръководител</li>
+							<li>Димитър Мутафчиев</li>
+							<li>Марио Димитров</li>
+						</ul>
+						<div>
+							<span>Кодът на проекта е наличен в GitHub под GNU GPL
+								лиценз Разгледайте го от тук</span> <a
+								href="https://github.com/mariodmtrv/SimplexSolver"> <img
+								src="static/resources/GitHub-Mark.png" width="40px"
+								title="Кодът в GitHub" height="40px" />
+							</a>
+						</div>
+
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="jumbotron">
+		<h2>Симплекс методът - стъпка по стъпка</h2>
+		<form id="problemParameters" class="form-horizontal">
+			<fieldset>
+				<legend>Избери си задача</legend>
+				<div class="form-group">
+					<label for="inputEmail" class="col-lg-2 control-label">Вид
+						на целевата функция</label>
+					<div class="col-lg-4">
+						<select id="type">
+							<option value="MIN">MIN</option>
+							<option value="MAX">MAX</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="numVars" class="col-lg-2 control-label">Брой
+						Променливи</label>
+					<div class="col-lg-4">
+						<input size="6" id="numVars" type="number" min="2" max="10"
+							value="2" name="numVars" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="numVars" class="col-lg-2 control-label">Брой
+						Ограничения</label>
+					<div class="col-lg-4">
+						<input size="6" id="numRestrictions" type="number" min="1"
+							max="10" value="2" name="numRestrictions" />
+					</div>
+				</div>
+				<button type="button" id="nextCreate" class="btn btn-primary">Продължи</button>
+			</fieldset>
+		</form>
+
+		<article id="setProblem" style="display: none">
+			<table id="zTable">
+			</table>
+			<table id="restrictTable">
+			</table>
+			<table id="checkPositive">
+			</table>
+			<button type="button" id="nextSendProblem" class="btn btn-primary">Продължи</button>
+		</article>
 
 
 
-    <article id="problemDescription" style="display: none" style="float: none">
-    </article>
+		<article id="problemDescription" style="display: none"
+			style="float: none"></article>
 
-    <article id="tables" style="display: none">
-      <h2>Симплекс таблица:</h2>
-      <h3>Предишни итерации:</h3>
-      <div id="previousTable">
-      </div>
-      <h3>Текуща итерация:</h3>
-      <div id="problemTable">
-      </div>
-      <button type="button" id="next" class="btn btn-primary">Продължи</button>
-    </article>
+		<article id="tables" style="display: none">
+			<h2>Симплекс таблица:</h2>
+			<h3>Предишни итерации:</h3>
+			<div id="previousTable"></div>
+			<h3>Текуща итерация:</h3>
+			<div id="problemTable"></div>
+			<button type="button" id="next" class="btn btn-primary">Продължи</button>
+		</article>
 
-    <article id="answers" style="display: none">
-      <h2>Оптимални отговори:</h2>
-    </article>
+		<article id="answers" style="display: none">
+			<h2>Оптимални отговори:</h2>
+		</article>
 
-    <article id="log" style="display: none">
-      <h2>Съобщения:</h2>
-      <div id="scrollable">
-      </div>
-    </article>
-</div>
-<!--
-    <footer>
-      <p>Марио Димитров, Димитър Мутафчиев</p>
-      <p>2014 - ФМИ, Софийски университет "Св. Климент Охридски"</p>
-    </footer>
-	-->
-  </body>
+		<article id="log" style="display: none">
+			<h2>Съобщения:</h2>
+			<div id="scrollable"></div>
+			<a id="fileLink" href="#" title="Изтегли LATEX файла"
+				class="btn btn-primary">Изтегли файла</a>
+		</article>
+	</div>
+</body>
 </html>

@@ -108,7 +108,7 @@ function makeBlankSimplexTable()
 	$("#next").toggle();
 
 	// load the simplex table template and fill the data for the current iteration
-	$("#problemTable").load("templates/simplex_table_template.html", function(){
+	$("#problemTable").load("static/templates/simplex_table_template.html", function(){
 
 		for (var v in problemManager.variables)
 		{
@@ -482,7 +482,7 @@ function printAnswer()
 
 	$("#answers").append("<div></div>");
 	var div = $("#answers div:last");
-	$(div).load("answers_grid_template.html", function(){
+	$(div).load("static/templates/answers_grid_template.html", function(){
 		$(div).prepend("<p>Answer to " + (currentProblem.isM ? "M-" : (currentProblem.isK ? "K-" : "original ")) + "problem</p>");
 		$(div).find(".points").append("<caption>Vertices:</caption>");
 		$(div).find(".points").append("<tr></tr>");

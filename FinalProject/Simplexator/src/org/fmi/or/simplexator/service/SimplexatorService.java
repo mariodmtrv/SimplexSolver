@@ -1,9 +1,11 @@
 package org.fmi.or.simplexator.service;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -138,15 +140,9 @@ public class SimplexatorService {
 	 */
 	@GET
 	@Path("/latex")
-	@Produces("application/x-tex")
-	public Response getTextFile() {
-		FileGenerator generator = new FileGenerator();
-
-		ResponseBuilder response = Response.ok((Object) generator.getFile());
-		response.header("Content-Disposition",
-				"attachment; filename=\"tablesResult.tex\"");
-		return response.build();
-
+	@Produces("text/plain")
+	public String getLatexContent() {
+		return "Latex content";
 	}
 
 }

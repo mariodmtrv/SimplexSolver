@@ -1,6 +1,9 @@
 package org.fmi.or.simplexator.algorithm.answerer;
 
 import java.util.Vector;
+
+import org.fmi.or.simplexator.algorithm.computation.Pair;
+import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 
 
@@ -21,6 +24,24 @@ public class Answer {
 		this.directions = new Vector<Vector<Fraction>>();
 	}
 	
+	public Answer(SimplexTable simtable) {
+		this.vertices = new Vector<Vector<Fraction>>();
+		this.directions = new Vector<Vector<Fraction>>();
+		
+		Vector<Fraction> optimalAnswer1 = new Vector<Fraction>();
+		for(int i=0; i < simtable.getVarCount(); i++) {
+			optimalAnswer1.add(Fraction.ZERO);
+		}
+		
+		for(int i=0; i < simtable.getRestrictionsCount(); i++) {
+			Fraction value = simtable.getRightSideValue(i);
+			int index = simtable.getBasisIndeces().get(i);
+			optimalAnswer1.set(index, value);
+		}
+		
+		vertices.add(optimalAnswer1);
+	}
+
 	public void pushVertex(Vector<Fraction> v) {
 		vertices.add(v);
 	}

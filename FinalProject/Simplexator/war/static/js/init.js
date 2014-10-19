@@ -214,6 +214,12 @@ $(document).ready(function(){
       /*}
     );*/
   });
+  
+  //// here add an ajax call 
+  var latexResult = "hello this a latex file";
+	  var formBlob = new Blob([latexResult], { type: 'application/x-tex' });
+	  $("#fileLink").attr("href", window.URL.createObjectURL(formBlob));
+console.log("");
 });
 
 
