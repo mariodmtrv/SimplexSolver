@@ -29,54 +29,23 @@ import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 import org.fmi.or.simplexator.answerqueue.FileGenerator;
 import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
+import org.fmi.or.simplexator.service.serializable.InputProblem;
 import org.fmi.or.simplexator.service.serializable.TransformationStep;
 
 @Path("/solve")
 public class SimplexatorService {
 	@GET
-	@Produces("application/json")
+	//@Produces("application/json")
 	@Path("/get-all-steps")
+	@Consumes("application/json")
+	public void test(InputProblem problem){
+		System.out.println(problem.toString());
+	}
 	public ProblemConversionQueue getSteps() {
 		ProblemConversionQueue queue = new ProblemConversionQueue(new Locale(
 				"bg", "BG"));
-		List<Variable> zfunction = new LinkedList<Variable>();
-		zfunction.add(new Variable(new Fraction(2), 1));
-		zfunction.add(new Variable(new Fraction(1), 2));
-		zfunction.add(new Variable(new Fraction(2), 3));
-
-		Vector<Restriction> restrictions = new Vector<Restriction>();
-		List<Variable> firstRestr = new LinkedList<Variable>();
-		firstRestr.add(new Variable(new Fraction(1), 1));
-		firstRestr.add(new Variable(new Fraction(0), 2));
-		firstRestr.add(new Variable(new Fraction(-1), 3));
-		Restriction first = new Restriction(firstRestr, EquationSign.LTE,
-				new Fraction(-1));
-
-		List<Variable> secondRestr = new LinkedList<Variable>();
-		secondRestr.add(new Variable(new Fraction(-1), 1));
-		secondRestr.add(new Variable(new Fraction(0), 2));
-		secondRestr.add(new Variable(new Fraction(-2), 3));
-		Restriction second = new Restriction(secondRestr, EquationSign.LTE,
-				new Fraction(3));
-
-		List<Variable> thirdRestr = new LinkedList<Variable>();
-		thirdRestr.add(new Variable(new Fraction(3), 1));
-		thirdRestr.add(new Variable(new Fraction(1), 2));
-		thirdRestr.add(new Variable(new Fraction(1), 3));
-		Restriction third = new Restriction(thirdRestr, EquationSign.EQ,
-				new Fraction(4));
-		restrictions.add(first);
-		restrictions.add(second);
-		restrictions.add(third);
-
-		Optimum optimum = Optimum.MINIMUM;
-		Vector<Boolean> hasNegativePart = new Vector<>();
-		hasNegativePart.add(true);
-		hasNegativePart.add(false);
-		hasNegativePart.add(false);
-		Problem problem = new Problem(zfunction, restrictions, optimum,
-				hasNegativePart);
-		problem.convertToK(queue);
+		
+		//problem.convertToK(queue);
 
 		/*
 		 * List<TransformationStep> steps = new ArrayList<>(); steps.add(new
