@@ -196,10 +196,10 @@ $(document).ready(function(){
     var jsonProblem = JSON.stringify(getProblemInfo(problem));
 
     // send AJAX
-    /*$.get(
-      "",
+    $.get(
+      "localhost:8888/simplexatror/solve/get-all-steps",
       jsonProblem,
-      function(data) {*/
+      function(data) {
         var data = HARDCODED_RESPONSE;
         var response = JSON.parse(data);
 
@@ -211,15 +211,14 @@ $(document).ready(function(){
 
         problemManager = initializeProblemManager(response);
         stepSwitcher = initializeStepSwitcher(problemManager);
-      /*}
-    );*/
+      }
+    );
   });
   
   //// here add an ajax call 
   var latexResult = "hello this a latex file";
 	  var formBlob = new Blob([latexResult], { type: 'application/x-tex' });
 	  $("#fileLink").attr("href", window.URL.createObjectURL(formBlob));
-console.log("");
 });
 
 
