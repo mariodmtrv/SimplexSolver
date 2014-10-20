@@ -91,13 +91,23 @@ public class LaTeXBuilder {
 			latex.append("& ");
 			latex.append(simtable.getNumCost(j).toString());
 			if (!simtable.getMCost(j).equals(Fraction.M)) {
-				latex.append(simtable.getMCost(j).toString() + "M ");
+				if(simtable.getMCost(j).isEqualOrHigher(Fraction.ZERO)) {
+					latex.append("+" + simtable.getMCost(j).toString() + "M ");
+				}
+				else {
+					latex.append(simtable.getMCost(j).toString() + "M ");
+				}
 			}
 		}
 		latex.append("& ");
 		latex.append(simtable.getResultNumValue().toString());
 		if (!simtable.getResultMValue().equals(Fraction.M)) {
-			latex.append(simtable.getResultMValue().toString() + "M ");
+			if(simtable.getResultMValue().isEqualOrHigher(Fraction.ZERO)) {
+				latex.append("+" + simtable.getResultMValue().toString() + "M ");
+			}
+			else {
+				latex.append(simtable.getResultMValue().toString() + "M ");
+			}
 		}
 
 		latex.append("\\hline");
