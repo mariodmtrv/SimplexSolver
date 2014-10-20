@@ -30,7 +30,7 @@ public class AnswerQueue extends SolvingQueue {
 		answers.add(answer);
 	}
 	
-	public List<PossibleAnswer> getProblemSteps() {
+	public List<PossibleAnswer> getAnswers() {
 		return answers;
 	}
 

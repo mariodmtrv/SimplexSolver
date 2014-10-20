@@ -1,15 +1,7 @@
 package org.fmi.or.simplexator.service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Vector;
 
 import javax.ws.rs.Consumes;
@@ -17,28 +9,15 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.fmi.or.simplexator.algorithm.answerer.Answer;
-import org.fmi.or.simplexator.algorithm.answerer.AnswerConverter;
-import org.fmi.or.simplexator.algorithm.computation.CriteriaCheck;
-import org.fmi.or.simplexator.algorithm.computation.Pair;
-import org.fmi.or.simplexator.algorithm.computation.ProblemInitialization;
-import org.fmi.or.simplexator.algorithm.computation.ProblemIteration;
-import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
 import org.fmi.or.simplexator.algorithm.converter.EquationSign;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
-import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Optimum;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
-import org.fmi.or.simplexator.answerqueue.AnswerQueue;
-import org.fmi.or.simplexator.answerqueue.FileGenerator;
-import org.fmi.or.simplexator.answerqueue.IterationQueue;
-import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 import org.fmi.or.simplexator.service.serializable.InputProblem;
+import org.fmi.or.simplexator.service.serializable.SolutionResponse;
 import org.fmi.or.simplexator.service.serializable.TransformationStep;
 
 @Path("/solve")
@@ -49,19 +28,11 @@ public class SimplexatorService {
 	@Path("/get-all-steps")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public void test(InputProblem inputProblem) {
-		Problem problem = inputProblem.getProblem();
-		ProblemConversionQueue queue = new ProblemConversionQueue(new Locale(
-				"bg", "BG"));
-		problem.convertToK(queue);
-		MProblem mproblem = new MProblem(problem);
-		mproblem.convertToMProblem(queue);
-		// test:
-		ProblemInitialization mProblemInit = new ProblemInitialization(mp);
-		IterationQueue queue = new IterationQueue(new Locale("BG", "bg"));
-		SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
-
-		
+	public SolutionResponse test(InputProblem inputProblem) {
+		SolutionResponse response = new SolutionResponse(
+				inputProblem.getProblem());
+		response.solve();
+		return response;
 	}
 
 	/*

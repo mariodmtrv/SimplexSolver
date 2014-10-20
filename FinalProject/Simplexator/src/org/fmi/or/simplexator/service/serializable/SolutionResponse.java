@@ -4,14 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.fmi.or.simplexator.algorithm.answerer.Answer;
-import org.fmi.or.simplexator.algorithm.answerer.AnswerConverter;
-import org.fmi.or.simplexator.algorithm.computation.CriteriaCheck;
-import org.fmi.or.simplexator.algorithm.computation.Pair;
-import org.fmi.or.simplexator.algorithm.computation.ProblemInitialization;
-import org.fmi.or.simplexator.algorithm.computation.ProblemIteration;
-import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
-import org.fmi.or.simplexator.algorithm.converter.MProblem;
+import org.fmi.or.simplexator.algorithm.computation.SimplexMethodSolver;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.answerqueue.AnswerQueue;
 import org.fmi.or.simplexator.answerqueue.IterationQueue;
@@ -25,6 +18,8 @@ public class SolutionResponse {
 	List<TransformationStep> serializableProblemSteps;
 	List<String> messages;
 	List<IterationStep> iterations;
+	List<PossibleAnswer> answers;
+	String latexResult;
 
 	public SolutionResponse(Problem problem) {
 		this.problem = problem;
@@ -35,55 +30,64 @@ public class SolutionResponse {
 
 	public void solve() {
 		// conversion
-		ProblemConversionQueue problemConversionQueue = new ProblemConversionQueue(
-				new Locale("bg", "BG"));
-		problem.convertToK(problemConversionQueue);
-		MProblem mProblem = new MProblem(problem);
-		mProblem.convertToMProblem(problemConversionQueue);
-		for (Problem problem : problemConversionQueue.getProblemSteps()) {
+		SimplexMethodSolver solver = new SimplexMethodSolver();
+		Locale locale = new Locale("bg", "BG");
+		ProblemConversionQueue pcq = new ProblemConversionQueue(locale);
+
+		IterationQueue iterq = new IterationQueue(locale);
+		AnswerQueue ansq = new AnswerQueue(locale);
+		solver.solveProblem(problem, pcq, iterq, ansq);
+		for (Problem problem : pcq.getProblemSteps()) {
 			serializableProblemSteps.add(new TransformationStep(problem));
 		}
-		IterationQueue iterationQueue= new IterationQueue(new Locale("BG", "bg"));
-		ProblemInitialization mProblemInit = new ProblemInitialization(mProblem);
-		SimplexTable simtable = mProblemInit.makeFirstIteration(iterationQueue);
-		messages.addAll(problemConversionQueue.localizeMessages());
-		CriteriaCheck critCheck = new CriteriaCheck(simtable);
-		Pair<Integer, Integer> keyElementCoords = critCheck
-				.checkCriteriaAndFindNewBasis(queue);
+		this.messages.addAll(pcq.localizeMessages());
+		this.iterations = iterq.getProblemSteps();
+		this.messages.addAll(iterq.localizeMessages());
 
-		ProblemIteration mProblemIter;
-		while (keyElementCoords.getFirst() != -1) {
-			mProblemIter = new ProblemIteration(mp, simtable, keyElementCoords);
+		this.answers = ansq.getAnswers();
+		this.messages.addAll(ansq.localizeMessages());
+		LaTeXBuilder builder = new LaTeXBuilder();
+	}
 
-			simtable = mProblemIter.makeIteration(queue);
+	public List<TransformationStep> getSerializableProblemSteps() {
+		return serializableProblemSteps;
+	}
 
-			critCheck = new CriteriaCheck(simtable);
-			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(queue);
-		}
+	public void setSerializableProblemSteps(
+			List<TransformationStep> serializableProblemSteps) {
+		this.serializableProblemSteps = serializableProblemSteps;
+	}
 
-		// handle answers:
-		if (keyElementCoords.getFirst() == -1
-				&& keyElementCoords.getFirst() == -1) {
-			// optimal answer found
+	public List<String> getMessages() {
+		return messages;
+	}
 
-			Answer mAnswer = new Answer(simtable);
+	public void setMessages(List<String> messages) {
+		this.messages = messages;
+	}
 
-			AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
-			AnswerQueue mq = new AnswerQueue(new Locale("BG", "bg"));
-			Answer kAnswer = mtok.convertMToK(mq);
+	public List<IterationStep> getIterations() {
+		return iterations;
+	}
 
-			if (kAnswer == null) {
-				// invalid M-answer => problem has no solution
+	public void setIterations(List<IterationStep> iterations) {
+		this.iterations = iterations;
+	}
 
-			} else {
-				AnswerConverter ktol = new AnswerConverter(p, kAnswer);
-				AnswerQueue kq = new AnswerQueue(new Locale("BG", "bg"));
-				Answer lAnswer = ktol.convertKToL(kq);
-			}
-		} else {
-			// M is unbounded
+	public List<PossibleAnswer> getAnswers() {
+		return answers;
+	}
 
-		}
+	public void setAnswers(List<PossibleAnswer> answers) {
+		this.answers = answers;
+	}
+
+	public String getLatexResult() {
+		return latexResult;
+	}
+
+	public void setLatexResult(String latexResult) {
+		this.latexResult = latexResult;
 	}
 
 }

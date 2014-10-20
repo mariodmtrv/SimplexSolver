@@ -10,19 +10,19 @@ $(document).ready(function(){
 
     $("#zTable").append("<tr></tr>");
     $("#zTable tr").append("<td>" + type + " Z = </td>");
-    $("#zTable tr").append("<td><input size=\"3\"/>\\(x_1\\)</td>");
+    $("#zTable tr").append("<td><input value=\"2\" size=\"3\"/>\\(x_1\\)</td>");
     for(i=2; i <= numVars; i++){
-        $("#zTable tr").append("<td>+<input  size=\"3\"/>\\(x_" + i + "\\)</td>");
+        $("#zTable tr").append("<td>+<input value=\"2\" size=\"3\"/>\\(x_" + i + "\\)</td>");
     }
 
     for (var i = 0; i < numRestrictions; i++) {
       var row = $("#restrictTable").append("<tr></tr>");
-      $("#restrictTable tr").eq(i).append("<td><input  size=\"3\"/>\\(x_1\\)</td>");
+      $("#restrictTable tr").eq(i).append("<td><input value=\"2\" size=\"3\"/>\\(x_1\\)</td>");
       for (var j = 2; j <= numVars; j++) {
-        $("#restrictTable tr").eq(i).append("<td>+<input size=\"3\"/>\\(x_" + j + "\\)</td>");
+        $("#restrictTable tr").eq(i).append("<td>+<input value=\"2\" size=\"3\"/>\\(x_" + j + "\\)</td>");
       };
       $("#restrictTable tr").eq(i).append("<td><select class=\"sign\"><option value=\"GTE\">\\( \\geq \\)</option><option value=\"LTE\">\\( \\leq \\)</option><option value=\"EQ\">\\( = \\)</option></select></td>");
-      $("#restrictTable tr").eq(i).append("<td><input size=\"3\" class=\"rightSide\"/></td>");
+      $("#restrictTable tr").eq(i).append("<td><input value=\"2\" size=\"3\" class=\"rightSide\"/></td>");
     };
 
     var checks = $("#checkPositive").append("<tr></tr>");
@@ -217,7 +217,6 @@ $(document).ready(function(){
       stepSwitcher = initializeStepSwitcher(problemManager);
     });
   
-    //// here add an ajax call 
     var latexResult = "hello this a latex file";
 	  var formBlob = new Blob([latexResult], { type: 'application/x-tex' });
 	  $("#fileLink").attr("href", window.URL.createObjectURL(formBlob));
