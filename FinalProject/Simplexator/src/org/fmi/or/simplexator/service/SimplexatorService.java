@@ -34,12 +34,13 @@ import org.fmi.or.simplexator.service.serializable.TransformationStep;
 
 @Path("/solve")
 public class SimplexatorService {
-	@GET
+	
 	//@Produces("application/json")
+	@POST
 	@Path("/get-all-steps")
 	@Consumes("application/json")
-	public void test(InputProblem problem){
-		System.out.println(problem.toString());
+	public void test(InputProblem inputProblem){
+		System.out.println(inputProblem.getProblem());
 	}
 	public ProblemConversionQueue getSteps() {
 		ProblemConversionQueue queue = new ProblemConversionQueue(new Locale(

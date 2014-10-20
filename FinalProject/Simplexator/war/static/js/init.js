@@ -198,8 +198,10 @@ $(document).ready(function(){
     // send AJAX
     $.ajax({
       type: "POST",
-      url: "simplexatror/solve/get-all-steps",
+      url: "simplexator/solve/get-all-steps",
       data: jsonProblem,
+      async:false,
+      contentType: "application/json; charset=utf-8",
       dataType: "json"
     }).done(function(data) {
       var data = HARDCODED_RESPONSE;
@@ -219,6 +221,7 @@ $(document).ready(function(){
     var latexResult = "hello this a latex file";
 	  var formBlob = new Blob([latexResult], { type: 'application/x-tex' });
 	  $("#fileLink").attr("href", window.URL.createObjectURL(formBlob));
+});
 });
 
 
@@ -243,7 +246,7 @@ function getProblemInfo(problem) {
       else {
         restrRow.push($("input", this).val());
       }
-    })
+    });
     problem.restrictions.push(restrRow);
   });
 

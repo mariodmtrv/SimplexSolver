@@ -74,23 +74,37 @@ public class InputProblem {
 	}
 
 	public Problem getProblem() {
+		int varsCount = Integer.parseInt(numVars);
+		int restrCount = Integer.parseInt(numRestrictions);
 		List<Variable> zfunction = new LinkedList<Variable>();
-		zfunction.add(new Variable(new Fraction(2), 1));
-		zfunction.add(new Variable(new Fraction(1), 2));
-		zfunction.add(new Variable(new Fraction(2), 3));
+		for (int varIndex = 0; varIndex < varsCount; varIndex++) {
+			zfunction.add(new Variable(new Fraction(zfunc.get(varIndex)),
+					varIndex + 1));
+		}
 
 		Vector<Restriction> restrictions = new Vector<Restriction>();
-		List<Variable> firstRestr = new LinkedList<Variable>();
-		firstRestr.add(new Variable(new Fraction(1), 1));
-		firstRestr.add(new Variable(new Fraction(0), 2));
-		firstRestr.add(new Variable(new Fraction(-1), 3));
-		Restriction first = new Restriction(firstRestr, EquationSign.LTE,
-				new Fraction(-1));
-		Optimum optimum = Optimum.MINIMUM;
+
+		for (int restrIndex = 0; restrIndex < restrCount; restrIndex++) {
+			List<String> restrictionString = this.restrictions.get(restrIndex);
+			List<Variable> restrictionVars = new LinkedList<Variable>();
+			for (int varIndex = 0; varIndex < varsCount; varIndex++) {
+				restrictionVars.add(new Variable(new Fraction(restrictionString
+						.get(varIndex)), varIndex + 1));
+			}
+			Restriction transformedRestriction = new Restriction(
+					restrictionVars, EquationSign.toSign(restrictionString
+							.get(varsCount)), new Fraction(
+							restrictionString.get(varsCount + 1)));
+		}
+		Optimum optimum = Optimum.fromString(type);
 		Vector<Boolean> hasNegativePart = new Vector<>();
-		hasNegativePart.add(true);
-		hasNegativePart.add(false);
-		hasNegativePart.add(false);
+		for (String isPos : isPositive) {
+			if (isPos.equals("true")) {
+				hasNegativePart.add(false);
+			} else if (isPos.equals("false")) {
+				hasNegativePart.add(true);
+			}
+		}
 		Problem problem = new Problem(zfunction, restrictions, optimum,
 				hasNegativePart);
 		return problem;
