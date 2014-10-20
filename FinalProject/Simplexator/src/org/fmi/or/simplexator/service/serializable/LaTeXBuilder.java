@@ -9,6 +9,10 @@ public class LaTeXBuilder {
 
 	private StringBuilder latex;
 
+	public LaTeXBuilder() {
+		this.latex = new StringBuilder();
+	}
+
 	public void beginDocument() {
 		// StringBuilder latex = new StringBuilder();
 		latex.append("\\documentclass[a4paper]{article}" + "\\begin{document}");
