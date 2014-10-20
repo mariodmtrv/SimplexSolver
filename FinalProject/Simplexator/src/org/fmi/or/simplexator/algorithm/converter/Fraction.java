@@ -3,7 +3,6 @@ package org.fmi.or.simplexator.algorithm.converter;
 import java.text.ParseException;
 import java.util.regex.Pattern;
 
-
 public class Fraction {
 	private Integer numerator;
 	private Integer denominator;
@@ -65,13 +64,13 @@ public class Fraction {
 		return check.numerator;
 
 	}
-	
+
 	public boolean equals(Object obj) {
 		Fraction other = (Fraction) obj;
-	    if(this == other) { 
-	        return true;
-	    }
-	    return this.compareTo(other) == 0;
+		if (this == other) {
+			return true;
+		}
+		return this.compareTo(other) == 0;
 	}
 
 	public Fraction(int num, int denom) {
@@ -162,12 +161,12 @@ public class Fraction {
 		return (this.compareTo(other) > 0);
 	}
 
-
 	public String toString() {
 		if (this.numerator == 0) {
 			return "0";
 		}
 		if (this.denominator == 1) {
+
 			return this.numerator.toString();
 		}
 		if (this.numerator < 0) {
@@ -176,13 +175,23 @@ public class Fraction {
 		}
 		return "\\frac{" + this.numerator + "}{" + this.denominator + "}";
 	}
-	
+
 	public String toMathJaxString() {
 		if (this.numerator == 0) {
 			return "\\(0\\)";
 		}
 		if (this.denominator == 1) {
-			return "\\(" + this.numerator.toString() + "\\)";
+			if (numerator % 7_000_003 == 0) {
+				Integer mCoef = this.numerator / 7_000_003;
+				if (mCoef > 1) {
+					return "\\(" + mCoef.toString() + "M\\)";
+				} else {
+					return "\\(M\\)";
+
+				}
+			} else {
+				return "\\(" + this.numerator.toString() + "\\)";
+			}
 		}
 		if (this.numerator < 0) {
 			return "\\(-" + "^{" + Math.abs(this.numerator) + "}/_{"

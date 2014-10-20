@@ -46,6 +46,7 @@ public class SolutionResponse {
 		}
 		this.messageLog.addAll(pcq.localizeMessages());
 		this.iterations = iterq.getProblemSteps();
+		
 		this.messageLog.addAll(iterq.localizeMessages());
 
 		this.answers = ansq.getAnswers();
