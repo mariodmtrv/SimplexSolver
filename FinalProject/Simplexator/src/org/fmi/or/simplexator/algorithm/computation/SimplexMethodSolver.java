@@ -1,76 +1,83 @@
 package org.fmi.or.simplexator.algorithm.computation;
 
-import java.util.List;
-import java.util.Vector;
-
-import org.fmi.or.simplexator.algorithm.converter.Fraction;
+import org.fmi.or.simplexator.algorithm.answerer.Answer;
+import org.fmi.or.simplexator.algorithm.answerer.AnswerConverter;
 import org.fmi.or.simplexator.algorithm.converter.MProblem;
-import org.fmi.or.simplexator.algorithm.converter.Restriction;
-import org.fmi.or.simplexator.algorithm.converter.Variable;
+import org.fmi.or.simplexator.algorithm.converter.Problem;
+import org.fmi.or.simplexator.answerqueue.AnswerQueue;
+import org.fmi.or.simplexator.answerqueue.IterationQueue;
+import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 
 
 public class SimplexMethodSolver {
 	
-	private void solveProblem() {
-		/*
-		 * void main()
-		 * {
-		 * 	getInputFromUser;
-		 * 	makeProblem;
-		 * 	convertToK;
-		 * 	convertToM;
-		 * 	table = makeFirstIteration(MProblem);
-		 * 	while(!(table = checkCriteriaAndChangeBasis(table)))
-		 * 	{
-		 * 		table = makeIteration(table);
-		 * 	}
-		 * 	// now "table" has the first optimal answer
-		 * 	findAllAnswers(table);
-		 * 	return to Zlateva & Chernogorov;
-		 * }
-		 */
+	/**
+	 * public int solveProblem(Problem p, ProblemConversionQueue pcq, IterationQueue iterq, AnswerQueue ansq)
+	 * 
+	 * Solves the problem using the Simplex Method and fills the queues.
+	 *
+	 * @param p 		input problem
+	 * @param pcq		empty queue for problem conversions
+	 * @param iterq		empty queue for problem iterations
+	 * @param ansq		empty queue for answers
+	 * 
+	 * @return          0, if optimal solution was found
+	 * 					-1, if problem has no solution
+	 * 					-2, if problem is unbounded
+	 */
+	public int solveProblem(Problem p, ProblemConversionQueue pcq, IterationQueue iterq, AnswerQueue ansq) {
+		//Problem p = new Problem(zfunction, restrictions, optimum,
+		//		hasNegativePart);
 		
-		/*
-		 * void main()
-		 * {
-		 * 	userData = getInputFromUser;
-		 * 	Problem p = makeProblem(userData);
-		 * 	Problem kp = convertToK(p);
-		 * 	MProblem mp = convertToM(kp);
-		 * 	SimplexTable simtable = problemInitialization(mp);
-		 * 	while(	(basisChange = checkCriteriaAndFindNewBasis(simtable)) != invalid	)
-		 * 	{
-		 * 		simtable = makeIteration(simtable, basisChange);
-		 * 	}
-		 * 	// now "simtable" has the first optimal answer
-		 * 	Answer result = findAllAnswers(simtable);
-		 * 	// "result" holds the solution (is there one) and all possible optimal answers
-		 *  Answer realanswer = convertToPrimaryProblem(result);
-		 *  // find the answer to the problem that the user orignally input
-		 * 	return to Zlateva & Chernogorov;
-		 * }
-		 */
+		Problem kp = new Problem(p);
+		kp.convertToK(pcq);
 		
-		/*
-		 * void main()
-		 * {
-		 * 	userData = getInputFromUser;
-		 * 	Problem p = makeProblem(userData);
-		 * 	Problem kp = convertToK(p);
-		 * 	MProblem mp = convertToM(kp);
-		 * 	SimplexTable simtable = problemInitialization(mp);
-		 * 	while(	(basisChange = checkCriteriaAndFindNewBasis(simtable)) != invalid	)
-		 * 	{
-		 * 		simtable = makeIteration(simtable, basisChange);
-		 * 	}
-		 * 	// now "simtable" has the first optimal answer
-		 * 	AnswerSearcher result = findAllAnswers(simtable);
-		 * 	// "result" holds the solution (is there one) and all possible optimal answers
-		 *  AnswerConverter realanswer = convert(result);
-		 *  // find the answer to the problem that the user orignally input
-		 * 	return to Zlateva & Chernogorov;
-		 * }
-		 */
+		MProblem mp = new MProblem(kp);
+		mp.convertToMProblem(pcq);
+		
+		// solve:
+		ProblemInitialization mProblemInit = new ProblemInitialization(mp);
+		SimplexTable simtable = mProblemInit.makeFirstIteration(iterq);
+		
+		CriteriaCheck critCheck = new CriteriaCheck(simtable);
+		Pair<Integer, Integer> keyElementCoords = critCheck
+				.checkCriteriaAndFindNewBasis(iterq);
+		
+		ProblemIteration mProblemIter;
+		while (keyElementCoords.getFirst() != -1) {
+			mProblemIter = new ProblemIteration(mp, simtable,
+					keyElementCoords);
+			
+			simtable = mProblemIter.makeIteration(iterq);
+			
+			critCheck = new CriteriaCheck(simtable);
+			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(iterq);
+		}
+		
+		// handle answers:
+		if(keyElementCoords.getFirst() == -1 && keyElementCoords.getFirst() == -1) {
+			// optimal answer found
+			
+			Answer mAnswer = new Answer(simtable);
+			
+			AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
+			Answer kAnswer = mtok.convertMToK(ansq);
+			
+			if(kAnswer == null) {
+				// invalid M-answer => problem has no solution
+				return -1;
+			}
+			else {
+				AnswerConverter ktol = new AnswerConverter(p, kAnswer);
+				Answer lAnswer = ktol.convertKToL(ansq);
+			}
+		}
+		else {
+			// M is unbounded
+			return -2;
+		}
+		
+		return 0;
 	}
 	
 }
