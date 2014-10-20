@@ -29,8 +29,7 @@ public class SimplexatorService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public SolutionResponse test(InputProblem inputProblem) {
-		SolutionResponse response = new SolutionResponse(
-				inputProblem.getProblem());
+		SolutionResponse response = new SolutionResponse(createProblem());
 		response.solve();
 		return response;
 	}
@@ -89,6 +88,47 @@ public class SimplexatorService {
 		problem.convertToK();
 		TransformationStep step = new TransformationStep(problem);
 		return step;
+	}
+
+	private Problem createProblem() {
+		List<Variable> zfunction = new LinkedList<Variable>();
+		zfunction.add(new Variable(new Fraction(2), 1));
+		zfunction.add(new Variable(new Fraction(1), 2));
+		zfunction.add(new Variable(new Fraction(2), 3));
+
+		Vector<Restriction> restrictions = new Vector<Restriction>();
+		List<Variable> firstRestr = new LinkedList<Variable>();
+		firstRestr.add(new Variable(new Fraction(1), 1));
+		firstRestr.add(new Variable(new Fraction(0), 2));
+		firstRestr.add(new Variable(new Fraction(-1), 3));
+		Restriction first = new Restriction(firstRestr, EquationSign.LTE,
+				new Fraction(-1));
+
+		List<Variable> secondRestr = new LinkedList<Variable>();
+		secondRestr.add(new Variable(new Fraction(-1), 1));
+		secondRestr.add(new Variable(new Fraction(0), 2));
+		secondRestr.add(new Variable(new Fraction(-2), 3));
+		Restriction second = new Restriction(secondRestr, EquationSign.LTE,
+				new Fraction(3));
+
+		List<Variable> thirdRestr = new LinkedList<Variable>();
+		thirdRestr.add(new Variable(new Fraction(3), 1));
+		thirdRestr.add(new Variable(new Fraction(1), 2));
+		thirdRestr.add(new Variable(new Fraction(1), 3));
+		Restriction third = new Restriction(thirdRestr, EquationSign.EQ,
+				new Fraction(4));
+		restrictions.add(first);
+		restrictions.add(second);
+		restrictions.add(third);
+
+		Optimum optimum = Optimum.MINIMUM;
+		Vector<Boolean> hasNegativePart = new Vector<>();
+		hasNegativePart.add(true);
+		hasNegativePart.add(false);
+		hasNegativePart.add(false);
+		Problem problem = new Problem(zfunction, restrictions, optimum,
+				hasNegativePart);
+		return problem;
 	}
 
 	/*

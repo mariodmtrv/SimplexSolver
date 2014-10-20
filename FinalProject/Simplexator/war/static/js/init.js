@@ -204,9 +204,7 @@ $(document).ready(function(){
       contentType: "application/json; charset=utf-8",
       dataType: "json"
     }).done(function(data) {
-      var data = HARDCODED_RESPONSE;
       var response = JSON.parse(data);
-
       $("#setProblem").toggle();
       $("#problemDescription").toggle();
       $("#tables").toggle();
