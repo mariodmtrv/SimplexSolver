@@ -20,6 +20,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.fmi.or.simplexator.algorithm.answerer.Answer;
+import org.fmi.or.simplexator.algorithm.answerer.AnswerConverter;
+import org.fmi.or.simplexator.algorithm.computation.CriteriaCheck;
+import org.fmi.or.simplexator.algorithm.computation.Pair;
+import org.fmi.or.simplexator.algorithm.computation.ProblemInitialization;
+import org.fmi.or.simplexator.algorithm.computation.ProblemIteration;
+import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
 import org.fmi.or.simplexator.algorithm.converter.EquationSign;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.MProblem;
@@ -27,34 +34,46 @@ import org.fmi.or.simplexator.algorithm.converter.Optimum;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
+import org.fmi.or.simplexator.answerqueue.AnswerQueue;
 import org.fmi.or.simplexator.answerqueue.FileGenerator;
+import org.fmi.or.simplexator.answerqueue.IterationQueue;
 import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 import org.fmi.or.simplexator.service.serializable.InputProblem;
 import org.fmi.or.simplexator.service.serializable.TransformationStep;
 
 @Path("/solve")
 public class SimplexatorService {
-	
-	//@Produces("application/json")
+
+	// @Produces("application/json")
 	@POST
 	@Path("/get-all-steps")
 	@Consumes("application/json")
-	public void test(InputProblem inputProblem){
-		System.out.println(inputProblem.getProblem());
-	}
-	public ProblemConversionQueue getSteps() {
+	@Produces("application/json")
+	public void test(InputProblem inputProblem) {
+		Problem problem = inputProblem.getProblem();
 		ProblemConversionQueue queue = new ProblemConversionQueue(new Locale(
 				"bg", "BG"));
-		
-		//problem.convertToK(queue);
+		problem.convertToK(queue);
+		MProblem mproblem = new MProblem(problem);
+		mproblem.convertToMProblem(queue);
+		// test:
+		ProblemInitialization mProblemInit = new ProblemInitialization(mp);
+		IterationQueue queue = new IterationQueue(new Locale("BG", "bg"));
+		SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
 
-		/*
-		 * List<TransformationStep> steps = new ArrayList<>(); steps.add(new
-		 * TransformationStep(queue.getProblemSteps().get(0))); steps.add(new
-		 * TransformationStep(queue.getProblemSteps().get(1)));
-		 */return queue;
+		
 	}
 
+	/*
+	 * public ProblemConversionQueue getSteps() { ProblemConversionQueue queue =
+	 * new ProblemConversionQueue();
+	 * 
+	 * // problem.convertToK(queue);
+	 * 
+	 * /* List<TransformationStep> steps = new ArrayList<>(); steps.add(new
+	 * TransformationStep(queue.getProblemSteps().get(0))); steps.add(new
+	 * TransformationStep(queue.getProblemSteps().get(1))); return queue; }
+	 */
 	@GET
 	@Produces("application/json")
 	@Path("/get-step")
