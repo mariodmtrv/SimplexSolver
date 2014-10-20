@@ -7,6 +7,7 @@ import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.answerqueue.AnswerQueue;
 import org.fmi.or.simplexator.answerqueue.IterationQueue;
 import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
+import org.fmi.or.simplexator.service.serializable.LaTeXBuilder;
 
 
 public class SimplexMethodSolver {
@@ -20,12 +21,13 @@ public class SimplexMethodSolver {
 	 * @param pcq		empty queue for problem conversions
 	 * @param iterq		empty queue for problem iterations
 	 * @param ansq		empty queue for answers
+	 * @param latex		for generating the LaTeX file
 	 * 
 	 * @return          0, if optimal solution was found
 	 * 					-1, if problem has no solution
 	 * 					-2, if problem is unbounded
 	 */
-	public int solveProblem(Problem p, ProblemConversionQueue pcq, IterationQueue iterq, AnswerQueue ansq) {
+	public int solveProblem(Problem p, ProblemConversionQueue pcq, IterationQueue iterq, AnswerQueue ansq, LaTeXBuilder latex) {
 		//Problem p = new Problem(zfunction, restrictions, optimum,
 		//		hasNegativePart);
 		
@@ -35,6 +37,9 @@ public class SimplexMethodSolver {
 		MProblem mp = new MProblem(kp);
 		mp.convertToMProblem(pcq);
 		
+		latex.beginDocument();
+		latex.preambleForSimplexTable(mp);
+		
 		// solve:
 		ProblemInitialization mProblemInit = new ProblemInitialization(mp);
 		SimplexTable simtable = mProblemInit.makeFirstIteration(iterq);
@@ -42,6 +47,8 @@ public class SimplexMethodSolver {
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
 		Pair<Integer, Integer> keyElementCoords = critCheck
 				.checkCriteriaAndFindNewBasis(iterq);
+		
+		latex.iterationToString(simtable, keyElementCoords);
 		
 		ProblemIteration mProblemIter;
 		while (keyElementCoords.getFirst() != -1) {
@@ -52,7 +59,12 @@ public class SimplexMethodSolver {
 			
 			critCheck = new CriteriaCheck(simtable);
 			keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(iterq);
+			
+			latex.iterationToString(simtable, keyElementCoords);
 		}
+		
+		latex.appendixForSimplexTable();
+		latex.endDocument();
 		
 		// handle answers:
 		if(keyElementCoords.getFirst() == -1 && keyElementCoords.getFirst() == -1) {

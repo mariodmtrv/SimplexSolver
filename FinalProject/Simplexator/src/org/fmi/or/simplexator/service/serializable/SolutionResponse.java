@@ -36,7 +36,8 @@ public class SolutionResponse {
 
 		IterationQueue iterq = new IterationQueue(locale);
 		AnswerQueue ansq = new AnswerQueue(locale);
-		solver.solveProblem(problem, pcq, iterq, ansq);
+		LaTeXBuilder builder = new LaTeXBuilder();
+		solver.solveProblem(problem, pcq, iterq, ansq, builder);
 		for (Problem problem : pcq.getProblemSteps()) {
 			serializableProblemSteps.add(new TransformationStep(problem));
 		}
@@ -46,7 +47,7 @@ public class SolutionResponse {
 
 		this.answers = ansq.getAnswers();
 		this.messages.addAll(ansq.localizeMessages());
-		LaTeXBuilder builder = new LaTeXBuilder();
+		this.latexResult = builder.toString();
 	}
 
 	public List<TransformationStep> getSerializableProblemSteps() {
