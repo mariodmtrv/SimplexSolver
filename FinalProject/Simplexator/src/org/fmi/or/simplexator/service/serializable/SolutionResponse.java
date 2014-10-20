@@ -16,7 +16,7 @@ public class SolutionResponse {
 	private Problem problem;
 	@JsonProperty("problems")
 	List<TransformationStep> serializableProblemSteps;
-	List<String> messages;
+	List<String> messageLog;
 	List<IterationStep> iterations;
 	List<PossibleAnswer> answers;
 	String latexResult;
@@ -24,7 +24,7 @@ public class SolutionResponse {
 	public SolutionResponse(Problem problem) {
 		this.problem = problem;
 		this.serializableProblemSteps = new ArrayList<>();
-		this.messages = new ArrayList<>();
+		this.messageLog = new ArrayList<>();
 		this.iterations = new ArrayList<>();
 	}
 
@@ -38,15 +38,18 @@ public class SolutionResponse {
 		AnswerQueue ansq = new AnswerQueue(locale);
 		LaTeXBuilder builder = new LaTeXBuilder();
 		solver.solveProblem(problem, pcq, iterq, ansq, builder);
-		for (Problem problem : pcq.getProblemSteps()) {
+		// TODO Fix this sublist
+
+		List<Problem> steps = pcq.getProblemSteps().subList(0, 3);
+		for (Problem problem : steps) {
 			serializableProblemSteps.add(new TransformationStep(problem));
 		}
-		this.messages.addAll(pcq.localizeMessages());
+		this.messageLog.addAll(pcq.localizeMessages());
 		this.iterations = iterq.getProblemSteps();
-		this.messages.addAll(iterq.localizeMessages());
+		this.messageLog.addAll(iterq.localizeMessages());
 
 		this.answers = ansq.getAnswers();
-		this.messages.addAll(ansq.localizeMessages());
+		this.messageLog.addAll(ansq.localizeMessages());
 		this.latexResult = builder.toString();
 	}
 
@@ -59,12 +62,12 @@ public class SolutionResponse {
 		this.serializableProblemSteps = serializableProblemSteps;
 	}
 
-	public List<String> getMessages() {
-		return messages;
+	public List<String> getMessageLog() {
+		return messageLog;
 	}
 
-	public void setMessages(List<String> messages) {
-		this.messages = messages;
+	public void setMessageLog(List<String> messages) {
+		this.messageLog = messages;
 	}
 
 	public List<IterationStep> getIterations() {

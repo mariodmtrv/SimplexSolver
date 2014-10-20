@@ -39,7 +39,8 @@ function initializeProblemManager(responseFromServer)
 		// methods for iterating the response message log
 		this.msgIndex = 0;
 		this.getCurrentMessage = function(){
-			var i = self.msgIndex++;
+			 var i = self.msgIndex;
+			 self.msgIndex += 1;
 			return self.messageLog[i];
 		};
 	};
