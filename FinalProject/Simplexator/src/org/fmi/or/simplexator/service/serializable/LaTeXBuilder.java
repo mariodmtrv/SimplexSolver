@@ -7,25 +7,27 @@ import org.fmi.or.simplexator.algorithm.converter.MProblem;
 
 public class LaTeXBuilder {
 
-	public String beginDocument() {
-		StringBuilder latex = new StringBuilder();
+	private StringBuilder latex;
+
+	public void beginDocument() {
+		// StringBuilder latex = new StringBuilder();
 		latex.append("\\documentclass[a4paper]{article}" + "\\begin{document}");
-		return latex.toString();
+		// return latex.toString();
 	}
 
-	public String endDocument() {
-		StringBuilder latex = new StringBuilder();
+	public void endDocument() {
+		// StringBuilder latex = new StringBuilder();
 		latex.append("\\end{document}");
-		return latex.toString();
+		// return latex.toString();
 	}
 
 	// TODO
-	public String problemToSring() {
-		return null;
+	public void problemToSring() {
+		// return null;
 	}
 
-	public String preambleForSimplexTable(MProblem problem) {
-		StringBuilder latex = new StringBuilder();
+	public void preambleForSimplexTable(MProblem problem) {
+		// StringBuilder latex = new StringBuilder();
 
 		int numberOfColumns = problem.getVarCount() + 3;
 		latex.append("\\[" + "\\begin{array}{|*{" + numberOfColumns + "}{c|}}");
@@ -46,18 +48,18 @@ public class LaTeXBuilder {
 		}
 		latex.append("& 0 \\\\");
 
-		return latex.toString();
+		// return latex.toString();
 	}
 
-	public String appendixForSimplexTable() {
-		StringBuilder latex = new StringBuilder();
+	public void appendixForSimplexTable() {
+		// StringBuilder latex = new StringBuilder();
 		latex.append("\\end{array}" + "\\]");
-		return latex.toString();
+		// return latex.toString();
 	}
 
-	public String iterationToString(SimplexTable simtable,
+	public void iterationToString(SimplexTable simtable,
 			Pair<Integer, Integer> key) {
-		StringBuilder latex = new StringBuilder();
+		// StringBuilder latex = new StringBuilder();
 
 		latex.append("\\hline");
 		for (int i = 0; i < simtable.getBasisSize(); i++) {
@@ -95,12 +97,16 @@ public class LaTeXBuilder {
 		}
 
 		latex.append("\\hline");
-		return latex.toString();
+		// return latex.toString();
 	}
 
 	// TODO
-	public String answerToString() {
-		return null;
+	public void answerToString() {
+		// return null;
+	}
+
+	public String toString() {
+		return latex.toString();
 	}
 
 }
