@@ -14,7 +14,8 @@ local.properties
 .settings/
 .loadpath
 *FinalProject/Simplexator/gwt-unitCache/
-
+*FinalProject/Simplexator/war/simplexator/
+*FinalProject/Simplexator/war/WEB-INF/deploy/
 # External tool builders
 .externalToolBuilders/
 
