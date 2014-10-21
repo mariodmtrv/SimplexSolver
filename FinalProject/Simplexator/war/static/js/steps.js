@@ -1,9 +1,9 @@
 // pretty print the coefficient
 function printCoef(c, isFirst)
 {
-	var sign = c < 0 ? "-" : (isFirst ? "" : "+");
-	var value = (Math.abs(c) == 1 || c == 0) ? "" : Math.abs(c).toString();
-	return sign + (value == "NaN" ? "M" : value);
+	 var sign = c[2] == "-" ? "" : (isFirst ? "" : "+");
+	 var value = (c == "\\(1\\)" || c == "\\(0\\)") ? "" : c;
+	 return sign + value;
 }
 
 

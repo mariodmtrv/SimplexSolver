@@ -33,14 +33,13 @@ public class SolutionResponse {
 		SimplexMethodSolver solver = new SimplexMethodSolver();
 		Locale locale = new Locale("bg", "BG");
 		ProblemConversionQueue pcq = new ProblemConversionQueue(locale);
-
 		IterationQueue iterq = new IterationQueue(locale);
 		AnswerQueue ansq = new AnswerQueue(locale);
 		LaTeXBuilder builder = new LaTeXBuilder();
 		solver.solveProblem(problem, pcq, iterq, ansq, builder);
-		// TODO Fix this sublist
+		
 
-		List<Problem> steps = pcq.getProblemSteps().subList(0, 3);
+		List<Problem> steps = pcq.getProblemSteps();
 		for (Problem problem : steps) {
 			serializableProblemSteps.add(new TransformationStep(problem));
 		}
