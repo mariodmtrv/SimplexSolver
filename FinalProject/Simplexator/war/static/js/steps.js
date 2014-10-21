@@ -75,19 +75,11 @@ function printProblem()
 	// print xi >= 0
 	problemDiv.append("<span>" + currentProblem.nonNegativeVars.join(", ") + " \\(\\geq\\) 0</span>");
 
-	// print all messages related to this problem conversion
-	if(currentProblem.isM)
-	{
-		for (var i = 0; i < 4; i++)
-		{
-			$("#log #scrollable").prepend("<p>" + problemManager.getCurrentMessage() + "</p>");
-		};
-	}else if (currentProblem.isK)
-	{
-		for (var i = 0; i < 7; i++)
-		{
-			$("#log #scrollable").prepend("<p>" + problemManager.getCurrentMessage() + "</p>");
-		};
+	// print all messages related to this problem conversion step
+	var currentMessage = problemManager.getCurrentMessage();
+	while(currentMessage != "STEP") {
+		$("#log #scrollable").prepend("<p>" + currentMessage + "</p>");
+		currentMessage = problemManager.getCurrentMessage();
 	}
 
 	MathJax.Hub.Queue(["Typeset",MathJax.Hub]);

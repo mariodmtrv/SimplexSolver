@@ -38,6 +38,7 @@ public class Problem extends AbstractProblem {
 	public void convertToK(ProblemConversionQueue queue) {
 		queue.addProblemStep(this);
 		queue.addMessage("ConvertToK.introduction");
+		queue.addMessage("STEP");
 		setToMinimum(queue);
 
 		setRightSidesToPositive(queue);
@@ -58,6 +59,7 @@ public class Problem extends AbstractProblem {
 			for (Variable variable : this.zfunction) {
 				variable.changeSign();
 			}
+			queue.addMessage("STEP");
 			queue.addProblemStep(this);
 			return;
 		} else {
@@ -71,6 +73,7 @@ public class Problem extends AbstractProblem {
 		for (Restriction restriction : restrictions) {
 			restriction.rightSideToPositive();
 		}
+		queue.addMessage("STEP");
 		queue.addProblemStep(this);
 	}
 
@@ -86,6 +89,7 @@ public class Problem extends AbstractProblem {
 				// we add with zero to keep table shape consistency
 				for (int i = 0; i < restrictions.size(); i++) {
 					if (restrictions.get(i).getVarCount() < zfunction.size()) {
+						queue.addMessage("STEP");
 						queue.addProblemStep(this);
 						addVarToRestriction(i, toAdd);
 					} else {
@@ -132,6 +136,7 @@ public class Problem extends AbstractProblem {
 					restrictions.set(restrictionIndex, changedRestriction);
 				}
 				//processedOne = true;
+				queue.addMessage("STEP");
 				queue.addProblemStep(this);
 			}
 

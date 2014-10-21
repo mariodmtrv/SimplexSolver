@@ -62,6 +62,7 @@ public class MProblem extends Problem {
 							addVarToRestriction(j, zeroMVar);
 						}
 					}
+					queue.addMessage("STEP");
 					queue.addProblemStep(this);
 					queue.addMessage("ConvertToM.explainAddingMVars");
 
@@ -76,6 +77,7 @@ public class MProblem extends Problem {
 		}
 		queue.addProblemStep(this);
 		queue.addMessage("ConvertToM.conclusion");
+		queue.addMessage("STEP");
 	}
 
 	/**
