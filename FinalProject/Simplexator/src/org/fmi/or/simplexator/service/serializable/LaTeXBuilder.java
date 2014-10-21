@@ -15,13 +15,13 @@ public class LaTeXBuilder {
 
 	public void beginDocument() {
 		// StringBuilder latex = new StringBuilder();
-		latex.append("\\documentclass[a4paper]{article}" + "\\begin{document}");
+		latex.append("\\documentclass[a4paper]{article}\n" + "\\begin{document}\n");
 		// return latex.toString();
 	}
 
 	public void endDocument() {
 		// StringBuilder latex = new StringBuilder();
-		latex.append("\\end{document}");
+		latex.append("\\end{document}\n");
 		// return latex.toString();
 	}
 
@@ -34,30 +34,30 @@ public class LaTeXBuilder {
 		// StringBuilder latex = new StringBuilder();
 
 		int numberOfColumns = problem.getVarCount() + 3;
-		latex.append("\\[" + "\\begin{array}{|*{" + numberOfColumns + "}{c|}}");
+		latex.append("\\[\n" + "\\begin{array}{|*{" + numberOfColumns + "}{c|}}\n");
 
-		latex.append("\\hline &  ");
+		latex.append("\\hline\n &  ");
 		for (int j = 0; j < problem.getVarCount(); j++) {
 			latex.append("&" + problem.getVarByIndex(j).toString() + " ");
 		}
 
-		latex.append("&\\overline{\\mathbf{x}}_B\\\\"
+		latex.append("&\\overline{\\mathbf{x}}_B\\\\\n"
 				+ "\\cline{3-"
 				+ numberOfColumns
-				+ "}"
+				+ "}\n"
 				+ "\\raisebox{6pt}[0pt][0pt]{$\\mathbf{B}$}&\\raisebox{6pt}[0pt][0pt]{$\\mathbf{c}_B$}");
 		for (int i = 0; i < problem.getVarCount(); i++) {
 			latex.append("&" + problem.getZfunctionVariables()[i].toString()
 					+ " ");
 		}
-		latex.append("& 0 \\\\");
+		latex.append("& 0 \\\\\n");
 
 		// return latex.toString();
 	}
 
 	public void appendixForSimplexTable() {
 		// StringBuilder latex = new StringBuilder();
-		latex.append("\\end{array}" + "\\]");
+		latex.append("\\end{array}\n" + "\\]\n");
 		// return latex.toString();
 	}
 
@@ -83,10 +83,10 @@ public class LaTeXBuilder {
 			}
 
 			latex.append("&" + simtable.getRightSideValue(i).toString()
-					+ "\\\\");
+					+ "\\\\\n");
 		}
 
-		latex.append("\\hline" + "\\overline{\\mathbf{c}} &  ");
+		latex.append("\\hline\n" + "\\overline{\\mathbf{c}} &  ");
 		for (int j = 0; j < simtable.getVarCount(); j++) {
 			latex.append("& ");
 			latex.append(simtable.getNumCost(j).toString());
@@ -110,7 +110,7 @@ public class LaTeXBuilder {
 			}
 		}
 
-		latex.append("\\hline");
+		latex.append("\n\\hline");
 		// return latex.toString();
 	}
 
