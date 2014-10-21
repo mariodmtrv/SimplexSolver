@@ -5,17 +5,26 @@ import java.util.List;
 import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
+import org.fmi.or.simplexator.algorithm.computation.Table;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 
 public class IterationStep {
 	List<String> basis;
 	List<String> basisCoefs;
-	String table[][];
+	List<List<String>> table;
 	List<String> rightSide;
-	String[][] costs;
-	Integer[] keyElemCoords;
-	Integer[] newKeyElemCoords;
+	List<List<String>> costs;
+	List<Integer> keyElemCoords;
+	List<Integer> newKeyElemCoords;
+
+	public List<Integer> getKeyElemCoords() {
+		return keyElemCoords;
+	}
+
+	public void setKeyElemCoords(List<Integer> keyElemCoords) {
+		this.keyElemCoords = keyElemCoords;
+	}
 
 	public IterationStep(SimplexTable simplexTable) {
 		Vector<Variable> tableBasis = simplexTable.getBasis();
@@ -25,31 +34,40 @@ public class IterationStep {
 		}
 		Vector<Fraction> tableBasisCoeficients = simplexTable
 				.getZfunctionCoefficients();
-		
+
 		this.basisCoefs = new ArrayList<>();
 		Vector<Integer> tableBasisIndices = simplexTable.getBasisIndeces();
 		for (int i = 0; i < tableBasisIndices.size(); i++) {
 			basisCoefs.add(tableBasisCoeficients.get(tableBasisIndices.get(i))
 					.toMathJaxString());
 		}
-		
-		
-		this.keyElemCoords = new Integer[2];
-		this.newKeyElemCoords = new Integer[2];
 
-	}
+		this.table = new ArrayList<>();
+		for (int i = 0; i < simplexTable.getRestrictionsCount(); i++) {
+			List<String> row = new ArrayList<>();
+			for (int j = 0; j < simplexTable.getVarCount(); j++) {
+				row.add(simplexTable.getTableElement(i, j).toMathJaxString());
+			}
+			table.add(row);
+		}
+		this.costs = new ArrayList<>();
+		List<String> numCosts = new ArrayList<>();
+		List<String> mCosts = new ArrayList<>();
+		for (int i = 0; i < simplexTable.getVarCount(); i++) {
+			numCosts.add(simplexTable.getNumCost(i).toMathJaxString());
+			mCosts.add(simplexTable.getMCost(i).toMathJaxString());
+		}
+		this.costs.add(numCosts);
+		this.costs.add(mCosts);
 
-	public IterationStep(List<String> basis, List<String> basisCoefs,
-			String[][] table, List<String> rightSide, String[][] costs,
-			Integer[] keyElemCoords, Integer[] newKeyElemCoords) {
-		super();
-		this.basis = basis;
-		this.basisCoefs = basisCoefs;
-		this.table = table;
-		this.rightSide = rightSide;
-		this.costs = costs;
-		this.keyElemCoords = keyElemCoords;
-		this.newKeyElemCoords = newKeyElemCoords;
+		this.rightSide = new ArrayList<>();
+		for (int i = 0; i < simplexTable.getRestrictionsCount(); i++) {
+			rightSide.add(simplexTable.getRightSideValue(i).toMathJaxString());
+		}
+
+		this.keyElemCoords = new ArrayList<>();
+		this.newKeyElemCoords = new ArrayList<>();
+
 	}
 
 	public List<String> getBasis() {
@@ -68,11 +86,11 @@ public class IterationStep {
 		this.basisCoefs = basisCoefs;
 	}
 
-	public String[][] getTable() {
+	public List<List<String>> getTable() {
 		return table;
 	}
 
-	public void setTable(String[][] table) {
+	public void setTable(List<List<String>> table) {
 		this.table = table;
 	}
 
@@ -84,27 +102,19 @@ public class IterationStep {
 		this.rightSide = rightSide;
 	}
 
-	public String[][] getCosts() {
+	public List<List<String>> getCosts() {
 		return costs;
 	}
 
-	public void setCosts(String[][] costs) {
+	public void setCosts(List<List<String>> costs) {
 		this.costs = costs;
 	}
 
-	public Integer[] getKeyElemCoords() {
-		return keyElemCoords;
-	}
-
-	public void setKeyElemCoords(Integer[] keyElemCoords) {
-		this.keyElemCoords = keyElemCoords;
-	}
-
-	public Integer[] getNewKeyElemCoords() {
+	public List<Integer> getNewKeyElemCoords() {
 		return newKeyElemCoords;
 	}
 
-	public void setNewKeyElemCoords(Integer[] newKeyElemCoords) {
+	public void setNewKeyElemCoords(List<Integer> newKeyElemCoords) {
 		this.newKeyElemCoords = newKeyElemCoords;
 	}
 

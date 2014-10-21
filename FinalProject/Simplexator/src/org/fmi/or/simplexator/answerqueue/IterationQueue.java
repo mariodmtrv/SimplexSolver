@@ -22,15 +22,16 @@ public class IterationQueue extends SolvingQueue {
 	public List<IterationStep> getProblemSteps() {
 		return problemSteps;
 	}
-	
+
 	// set "newKeyElementCoords" of the last iteration pushed
-	public void setNewKeyElementCoordsForLastIteration(Pair<Integer, Integer> coords) {
+	public void setNewKeyElementCoordsForLastIteration(
+			Pair<Integer, Integer> coords) {
 		IterationStep lastStep = problemSteps.get(problemSteps.size() - 1);
-		Integer[] newKeyElemCoords = new Integer[2];
-		newKeyElemCoords[0] = coords.getFirst();
-		newKeyElemCoords[1] = coords.getSecond();
+		List<Integer> newKeyElemCoords = new ArrayList<>();
+		newKeyElemCoords.add(coords.getFirst());
+		newKeyElemCoords.add(coords.getSecond());
 		lastStep.setNewKeyElemCoords(newKeyElemCoords);
 		problemSteps.set(problemSteps.size() - 1, lastStep);
 	}
-	
+
 }

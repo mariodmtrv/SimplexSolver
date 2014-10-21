@@ -1,5 +1,6 @@
 package org.fmi.or.simplexator.algorithm.computation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -21,7 +22,7 @@ public class ProblemInitialization {
 	private boolean isBasisValid(Vector<Variable> initialBasis) {
 		if (initialBasis.size() != problem.getRestrictionsCount()) {
 			// Ui.throwError("РќРµРѕР±С…РѕРґРёРјРё СЃР° problem.getRestrictionsCount()РїСЂРѕРјРµРЅР»РёРІРё, РІРёРµ РґРѕР±Р°РІРёС…С‚Рµ initialBasis.size()");
-		
+
 			return false;
 		}
 
@@ -32,13 +33,15 @@ public class ProblemInitialization {
 			restrictionsTable[i] = currentRestriction.getVariables();
 		}
 
-		for(int i=0;i<initialBasis.size(); i++) {
+		for (int i = 0; i < initialBasis.size(); i++) {
 			Variable toModify = initialBasis.get(i);
 			int index = problem.getVarIndex(toModify);
-			Variable newCoef = new Variable(problem.getZfunctionVariables()[index].getCoefficient(), toModify.getIndex(),toModify.getType());
+			Variable newCoef = new Variable(
+					problem.getZfunctionVariables()[index].getCoefficient(),
+					toModify.getIndex(), toModify.getType());
 			initialBasis.set(i, newCoef);
 		}
-		
+
 		Vector<Variable> initialBasisDraft = initialBasis;
 		int initialBasisIndex = 0;
 
@@ -60,7 +63,8 @@ public class ProblemInitialization {
 						// order basis in proper order
 						// (initialbasis[n] is the variable that comes from the
 						// n-th restriction)
-						Variable swap = initialBasisDraft.get(initialBasisIndex);
+						Variable swap = initialBasisDraft
+								.get(initialBasisIndex);
 						initialBasis.set(initialBasisIndex,
 								initialBasisDraft.get(b));
 						initialBasis.set(b, swap);
@@ -96,24 +100,26 @@ public class ProblemInitialization {
 		for (int i = 0; i < simplexTable.getBasisSize(); i++) {
 			int basisVarIndex = problem.getVarIndex(simplexTable.getBasis()
 					.get(i));
-			
+
 			simplexTable.setBasisIndecesElementAt(basisVarIndex, i);
 		}
-		
+
 		queue.addMessage("FirstIteration.fillFirstBasis");
 	}
 
 	private static Vector<Variable> setBasisFromUI() {
 		Vector<Variable> vars = new Vector<>();
 		// hardcoding for test purposes
-		//basis for problem with minimum
+		// basis for problem with minimum
 		vars.add(new Variable(new Fraction(1), 2));
 		vars.add(new Variable(new Fraction(1), 5));
 		vars.add(new Variable(new Fraction(1), 6));
-		
-		//basis for problem with maximum
-		/*vars.add(new Variable(new Fraction(1), 3));
-		vars.add(new Variable(new Fraction(1), 6));*/
+
+		// basis for problem with maximum
+		/*
+		 * vars.add(new Variable(new Fraction(1), 3)); vars.add(new Variable(new
+		 * Fraction(1), 6));
+		 */
 		return vars;
 
 	}
@@ -135,28 +141,26 @@ public class ProblemInitialization {
 		simplexTable = new SimplexTable(problem.getVarCount(),
 				problem.getRestrictionsCount());
 		initializeZfunction();
-		
+
 	}
 
 	public SimplexTable makeFirstIteration(IterationQueue queue) {
 		queue.addMessage("drawEmptyTable");
 		setInitialBasis(queue);
-		
+
 		initializeTable(queue);
 		// Ui.printTable(table,zfunc);
 		calculateInitialCosts();
 		// Ui.printCosts();
-		
+
 		queue.addMessage("FirstIteration.fillCosts");
 		queue.addMessage("FirstIteration.fillValues");
-		
+
 		IterationStep step = new IterationStep(this.simplexTable);
-		Integer[] keyElemCoords= null;
+		List<Integer> keyElemCoords = new ArrayList<>();
 		step.setKeyElemCoords(keyElemCoords);
-		
-		Integer[] newKeyElemCoords=new Integer[2];
-		newKeyElemCoords[0]= 1;
-		newKeyElemCoords[0]= 1;
+
+		List<Integer> newKeyElemCoords = new ArrayList<Integer>();
 		step.setNewKeyElemCoords(newKeyElemCoords);
 		queue.addProblem(step);
 		return simplexTable;
@@ -172,8 +176,8 @@ public class ProblemInitialization {
 	}
 
 	private void initializeTable(IterationQueue queue) {
-		//queue.addMessage("beginIteration");
-		//queue.addMessage("getFirstBasis");
+		// queue.addMessage("beginIteration");
+		// queue.addMessage("getFirstBasis");
 		for (int i = 0; i < problem.getRestrictionsCount(); i++) {
 			Fraction[] tableRow = new Fraction[problem.getVarCount()];
 			// the vars + vector b (right sides)
@@ -190,31 +194,28 @@ public class ProblemInitialization {
 			// TODO: fill in the formula
 			// resultNumValue = ;
 			// resultMValue = ;
-			
+
 		}
 		queue.addMessage("FirstIteration.fillMainTable");
 		queue.addMessage("FirstIteration.fillRightSide");
 	}
-	
-private void calculateResultCosts(){
-	Fraction numCost = new Fraction(Fraction.ZERO);
-	Fraction MCost = new Fraction(Fraction.ZERO);
-	for(int i=0;i<simplexTable.getBasisSize(); i++) {
-		if (simplexTable.getBasis().get(i).getCoefficient()
-				.isEqualTo(Fraction.M))
-		{
-			MCost=MCost.subtract(simplexTable.getRightSideValue(i));
+
+	private void calculateResultCosts() {
+		Fraction numCost = new Fraction(Fraction.ZERO);
+		Fraction MCost = new Fraction(Fraction.ZERO);
+		for (int i = 0; i < simplexTable.getBasisSize(); i++) {
+			if (simplexTable.getBasis().get(i).getCoefficient()
+					.isEqualTo(Fraction.M)) {
+				MCost = MCost.subtract(simplexTable.getRightSideValue(i));
+			} else {
+				numCost = numCost.subtract(simplexTable.getBasis().get(i)
+						.getCoefficient()
+						.multiply(simplexTable.getRightSideValue(i)));
+			}
 		}
-		else
-		{
-			numCost = numCost.subtract(simplexTable.getBasis().get(i)
-					.getCoefficient()
-					.multiply(simplexTable.getRightSideValue(i)));
-		}
+		this.simplexTable.setResultMValue(MCost);
+		this.simplexTable.setResultNumValue(numCost);
 	}
-	this.simplexTable.setResultMValue(MCost);
-	this.simplexTable.setResultNumValue(numCost);
-}
 
 	private void calculateInitialCosts() {
 		for (int j = 0; j < problem.getVarCount(); ++j) {
@@ -245,8 +246,8 @@ private void calculateResultCosts(){
 			simplexTable.addNumCost(j, sumC);
 			simplexTable.addMCost(j, sumM);
 		}
-		
+
 		calculateResultCosts();
 	}
-	
+
 }
