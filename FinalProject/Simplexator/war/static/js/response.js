@@ -10,10 +10,10 @@ function initializeProblemManager(responseFromServer)
 		this.messageLog = response.messageLog;
 
 		// get parameters of M-Problem
-		this.numVars = this.problems[2].variables.length;
-		this.numRestrictions = this.problems[2].restrictions.length;
-		this.variables = this.problems[2].variables;
-		this.zFuncCoefs = this.problems[2].zFuncCoefs;
+		this.numVars = this.problems[this.problems.length - 1].variables.length;
+		this.numRestrictions = this.problems[this.problems.length - 1].restrictions.length;
+		this.variables = this.problems[this.problems.length - 1].variables;
+		this.zFuncCoefs = this.problems[this.problems.length - 1].zFuncCoefs;
 
 		// given a variable (string) return its index (integer)
 		this.getVarIndex = function(variable){

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import org.fmi.or.simplexator.algorithm.computation.Pair;
 import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
 import org.fmi.or.simplexator.algorithm.computation.Table;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
@@ -24,6 +25,12 @@ public class IterationStep {
 
 	public void setKeyElemCoords(List<Integer> keyElemCoords) {
 		this.keyElemCoords = keyElemCoords;
+	}
+	
+	public void setKeyElemCoords(Pair<Integer,Integer> keyElemCoords) {
+		this.keyElemCoords = new ArrayList<>();
+		this.keyElemCoords.set(0, keyElemCoords.getFirst());
+		this.keyElemCoords.set(1, keyElemCoords.getSecond());
 	}
 
 	public IterationStep(SimplexTable simplexTable) {

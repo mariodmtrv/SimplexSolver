@@ -87,7 +87,11 @@ public class ProblemIteration {
 		}
 		
 		queue.addMessage("Iteration.fillTable");
+		
+		// data for new step
 		IterationStep step = new IterationStep(newSimplexTable);
+		step.setKeyElemCoords(keyElementCoords);
+		
 		// set the "newKeyElemCoords" filed for the previous iteration first
 		queue.setNewKeyElementCoordsForLastIteration(keyElementCoords);
 		// then push the new step
