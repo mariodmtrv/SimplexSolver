@@ -29,8 +29,8 @@ public class IterationStep {
 	
 	public void setKeyElemCoords(Pair<Integer,Integer> keyElemCoords) {
 		this.keyElemCoords = new ArrayList<>();
-		this.keyElemCoords.set(0, keyElemCoords.getFirst());
-		this.keyElemCoords.set(1, keyElemCoords.getSecond());
+		this.keyElemCoords.add( keyElemCoords.getFirst());
+		this.keyElemCoords.add(keyElemCoords.getSecond());
 	}
 
 	public IterationStep(SimplexTable simplexTable) {
