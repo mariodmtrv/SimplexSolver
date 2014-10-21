@@ -65,11 +65,11 @@ public class LaTeXBuilder {
 			Pair<Integer, Integer> key) {
 		// StringBuilder latex = new StringBuilder();
 
-		latex.append("\\hline");
+		latex.append("\\hline\n");
 		for (int i = 0; i < simtable.getBasisSize(); i++) {
 			latex.append(simtable.getBasis().get(i).toString() + "  ");
 			latex.append("&"
-					+ simtable.getZfunctionCoefficients().get(i).toString());
+					+ simtable.getZfunctionCoefficients().get(simtable.getBasisIndeces().get(i)).toString());
 
 			for (int j = 0; j < simtable.getVarCount(); j++) {
 				if (i == key.getFirst() && j == key.getSecond()) {
@@ -110,7 +110,7 @@ public class LaTeXBuilder {
 			}
 		}
 
-		latex.append("\n\\hline");
+		latex.append("\\\\" + "\\hline\n");
 		// return latex.toString();
 	}
 
