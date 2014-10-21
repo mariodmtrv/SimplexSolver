@@ -67,7 +67,7 @@ public class LaTeXBuilder {
 
 		latex.append("\\hline\n");
 		for (int i = 0; i < simtable.getBasisSize(); i++) {
-			latex.append(simtable.getBasis().get(i).toString() + "  ");
+			latex.append(simtable.getBasis().get(i).toStringNoCoef() + "  ");
 			latex.append("&"
 					+ simtable.getZfunctionCoefficients().get(simtable.getBasisIndeces().get(i)).toString());
 
@@ -110,7 +110,7 @@ public class LaTeXBuilder {
 			}
 		}
 
-		latex.append("\\\\" + "\\hline\n");
+		latex.append("\\\\\n" + "\\hline\n");
 		// return latex.toString();
 	}
 

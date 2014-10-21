@@ -89,7 +89,18 @@ public class Variable implements Comparable {
 
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append(this.coefficient);
+		result.append(this.coefficient.toString());
+		result.append("x_" + index);
+		if (this.type == VariableType.NEGATIVE) {
+			result.append("^-");
+		} else if (this.type == VariableType.POSITIVE) {
+			result.append("^+");
+		}
+		return result.toString();
+	}
+	
+	public String toStringNoCoef() {
+		StringBuilder result = new StringBuilder();
 		result.append("x_" + index);
 		if (this.type == VariableType.NEGATIVE) {
 			result.append("^-");
