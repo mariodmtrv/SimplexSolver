@@ -66,6 +66,8 @@ public class SimplexMethodSolver {
 		latex.appendixForSimplexTable();
 		latex.endDocument();
 		
+		iterq.setNewKeyElementCoordsForLastIteration(keyElementCoords);
+		
 		// handle answers:
 		if(keyElementCoords.getFirst() == -1 && keyElementCoords.getFirst() == -1) {
 			// optimal answer found
