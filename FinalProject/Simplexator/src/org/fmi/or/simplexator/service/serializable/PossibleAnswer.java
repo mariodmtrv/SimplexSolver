@@ -6,10 +6,15 @@ import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.answerer.Answer;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
+import org.fmi.or.simplexator.algorithm.converter.Variable;
 
 public class PossibleAnswer {
 	private List<String[]> directions;
 	private List<String[]> points;
+	
+	private List<String> variables;
+	private boolean isK;
+	private boolean isM;
 
 	public List<String[]> getDirections() {
 		return directions;
@@ -30,12 +35,17 @@ public class PossibleAnswer {
 	public PossibleAnswer(PossibleAnswer answer) {
 		this.directions = answer.directions;
 		this.points = answer.points;
+		
+		this.variables = answer.variables;
+		this.isK = answer.isK;
+		this.isM = answer.isM;
 	}
 
 	public PossibleAnswer() {
 		super();
 		this.directions = new ArrayList<>();
 		this.points = new ArrayList<>();
+		this.variables = new ArrayList<>();
 	}
 
 	public PossibleAnswer(Answer problemAnswer) {
@@ -62,6 +72,16 @@ public class PossibleAnswer {
 			}
 			points.add(currentPt);
 		}
+
+		
+		this.variables = new ArrayList<>();
+		Vector<Variable> vars = problemAnswer.getVariables();
+		for (int i = 0; i < vars.size(); i++) {
+			variables.add(vars.get(i).toMathJaxString());
+		}
+		
+		this.isK = problemAnswer.isK();
+		this.isM = problemAnswer.isM();
 	}
 
 	public void addDirection(String[] direction) {

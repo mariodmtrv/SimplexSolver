@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
+import org.fmi.or.simplexator.algorithm.converter.Problem;
 
 /**
  * Performs breadth-first search (BFS) 
@@ -17,10 +18,10 @@ public class AnswerSearcher {
 	private Answer answer;
 	private Queue<SimplexTable> queue;
 	
-	public AnswerSearcher(Vector<Fraction> optimalAnswer1, SimplexTable table /*, ProblemType problemType*/) {
+	public AnswerSearcher(Vector<Fraction> optimalAnswer1, SimplexTable table, Problem problem /*, ProblemType problemType*/) {
 		this.table = table;
 		//this.problemType = problemType;
-		this.answer = new Answer(optimalAnswer1);
+		this.answer = new Answer(optimalAnswer1, problem);
 		//this.queue = new Queue<SimplexTable>(); // make Vector ?
 	}
 	

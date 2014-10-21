@@ -72,7 +72,7 @@ public class SimplexMethodSolver {
 		if(keyElementCoords.getFirst() == -1 && keyElementCoords.getFirst() == -1) {
 			// optimal answer found
 			
-			Answer mAnswer = new Answer(simtable);
+			Answer mAnswer = new Answer(simtable, mp);
 			
 			AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
 			Answer kAnswer = mtok.convertMToK(ansq);

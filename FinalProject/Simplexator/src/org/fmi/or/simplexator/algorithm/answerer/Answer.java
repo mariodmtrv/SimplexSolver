@@ -5,6 +5,8 @@ import java.util.Vector;
 import org.fmi.or.simplexator.algorithm.computation.Pair;
 import org.fmi.or.simplexator.algorithm.computation.SimplexTable;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
+import org.fmi.or.simplexator.algorithm.converter.Problem;
+import org.fmi.or.simplexator.algorithm.converter.Variable;
 
 
 public class Answer {
@@ -12,19 +14,25 @@ public class Answer {
 	private Vector<Vector<Fraction>> vertices;
 	private Vector<Vector<Fraction>> directions;
 	
-	public Answer() {
+	private Vector<Variable> variables;
+	private boolean isK;
+	private boolean isM;
+	
+	public Answer(Problem problem) {
 		super();
 		this.vertices = new Vector<Vector<Fraction>>();
 		this.directions = new Vector<Vector<Fraction>>();
+		this.setInfoForProblem(problem);
 	}
 
-	public Answer(Vector<Fraction> optimalAnswer1) {
+	public Answer(Vector<Fraction> optimalAnswer1, Problem problem) {
 		this.vertices = new Vector<Vector<Fraction>>();
 		vertices.add(optimalAnswer1);
 		this.directions = new Vector<Vector<Fraction>>();
+		this.setInfoForProblem(problem);
 	}
 	
-	public Answer(SimplexTable simtable) {
+	public Answer(SimplexTable simtable, Problem problem) {
 		this.vertices = new Vector<Vector<Fraction>>();
 		this.directions = new Vector<Vector<Fraction>>();
 		
@@ -40,6 +48,16 @@ public class Answer {
 		}
 		
 		vertices.add(optimalAnswer1);
+		this.setInfoForProblem(problem);
+	}
+	
+	private void setInfoForProblem(Problem problem) {
+		this.variables = new Vector<Variable>();
+		for(int i = 0; i < problem.getVarCount(); i++) {
+			this.variables.add(problem.getVarByIndex(i));
+		}
+		//this.isK = ;
+		//this.isM = ;
 	}
 
 	public void pushVertex(Vector<Fraction> v) {
@@ -56,6 +74,18 @@ public class Answer {
 
 	public Vector<Vector<Fraction>> getDirections() {
 		return directions;
+	}
+	
+	public Vector<Variable> getVariables() {
+		return variables;
+	}
+
+	public boolean isK() {
+		return isK;
+	}
+
+	public boolean isM() {
+		return isM;
 	}
 	
 	public boolean equals(Object obj) {

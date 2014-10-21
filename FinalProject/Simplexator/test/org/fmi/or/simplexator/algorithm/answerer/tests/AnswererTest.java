@@ -85,7 +85,7 @@ public class AnswererTest {
 		mVector.add(new Fraction(0, 1));
 		mVector.add(new Fraction(2, 1));
 		mVector.add(new Fraction(0, 1));
-		Answer mAnswer = new Answer(mVector);
+		Answer mAnswer = new Answer(mVector, mp);
 		
 		Vector<Fraction> kVector = new Vector<Fraction>();
 		kVector.add(new Fraction(0, 1));
@@ -94,13 +94,13 @@ public class AnswererTest {
 		kVector.add(new Fraction(0, 1));
 		kVector.add(new Fraction(0, 1));
 		kVector.add(new Fraction(2, 1));
-		Answer kAnswer = new Answer(kVector);
+		Answer kAnswer = new Answer(kVector, kp);
 		
 		Vector<Fraction> lVector = new Vector<Fraction>();
 		lVector.add(new Fraction(-1, 1));
 		lVector.add(new Fraction(7, 1));
 		lVector.add(new Fraction(0, 1));
-		Answer lAnswer = new Answer(lVector);
+		Answer lAnswer = new Answer(lVector, p);
 		
 		// test:
 		AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
@@ -178,7 +178,7 @@ public class AnswererTest {
 		mVector.add(new Fraction(5, 1));
 		mVector.add(new Fraction(6, 1));
 		mVector.add(new Fraction(0, 1));
-		Answer mAnswer = new Answer(mVector);
+		Answer mAnswer = new Answer(mVector, mp);
 		
 		Vector<Fraction> kVector = new Vector<Fraction>();
 		kVector.add(new Fraction(0, 1));
@@ -188,13 +188,13 @@ public class AnswererTest {
 		kVector.add(new Fraction(4, 1));
 		kVector.add(new Fraction(5, 1));
 		kVector.add(new Fraction(6, 1));
-		Answer kAnswer = new Answer(kVector);
+		Answer kAnswer = new Answer(kVector, kp);
 		
 		Vector<Fraction> lVector = new Vector<Fraction>();
 		lVector.add(new Fraction(-1, 1));
 		lVector.add(new Fraction(2, 1));
 		lVector.add(new Fraction(-1, 1));
-		Answer lAnswer = new Answer(lVector);
+		Answer lAnswer = new Answer(lVector, p);
 		
 		// test:
 		AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
@@ -270,7 +270,7 @@ public class AnswererTest {
 		mVector.add(new Fraction(0, 1));
 		mVector.add(new Fraction(2, 1));
 		mVector.add(new Fraction(5, 1)); // this is from M
-		Answer mAnswer = new Answer(mVector);
+		Answer mAnswer = new Answer(mVector, mp);
 		
 		// test:
 		AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
@@ -403,7 +403,7 @@ public class AnswererTest {
 		if(keyElementCoords.getFirst() == -1 && keyElementCoords.getFirst() == -1) {
 			// optimal answer found
 			
-			Answer mAnswer = new Answer(simtable);
+			Answer mAnswer = new Answer(simtable, mp);
 			
 			AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
 			AnswerQueue mq = new AnswerQueue(new Locale("BG", "bg"));

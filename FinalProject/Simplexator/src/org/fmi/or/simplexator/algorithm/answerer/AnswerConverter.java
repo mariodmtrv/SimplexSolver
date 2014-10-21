@@ -29,7 +29,7 @@ public class AnswerConverter {
 	}
 	
 	public Answer convertMToK(AnswerQueue queue) {
-		Answer newAnswer = new Answer();
+		Answer newAnswer = new Answer(problem);
 		queue.addMessage("Answer.MAnswer");
 		
 		// convert vertices
@@ -72,7 +72,7 @@ public class AnswerConverter {
 	}
 	
 	public Answer convertKToL(AnswerQueue queue) {
-		Answer newAnswer = new Answer();
+		Answer newAnswer = new Answer(problem);
 		queue.addMessage("Answer.KAnswer");
 		
 		
