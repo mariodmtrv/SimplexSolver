@@ -12,12 +12,6 @@ import org.fmi.or.simplexator.algorithm.converter.Restriction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 
 public class InputProblem {
-	/*
-	 * {"type":"MIN", "numVars":"3", "numRestrictions":"4",
-	 * "zfunc":["1/2","2/3","3/4"], "restrictions":[["1","2","3","GTE","4"],
-	 * ["5","6","7","LTE","8"], ["9","10","11","EQ","12"],
-	 * ["13","14","15","EQ","16"]], "isPositive":[true,false,true]}"
-	 */
 	String type;
 	String numVars;
 	String numRestrictions;

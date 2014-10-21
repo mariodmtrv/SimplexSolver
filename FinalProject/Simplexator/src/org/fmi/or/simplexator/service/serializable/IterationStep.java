@@ -10,6 +10,8 @@ import org.fmi.or.simplexator.algorithm.computation.Table;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class IterationStep {
 	List<String> basis;
 	List<String> basisCoefs;
@@ -19,6 +21,7 @@ public class IterationStep {
 	List<Integer> keyElemCoords;
 	List<Integer> newKeyElemCoords;
 	String numValue;
+	@JsonProperty("MValue")
 	String MValue;
 
 	public List<Integer> getKeyElemCoords() {

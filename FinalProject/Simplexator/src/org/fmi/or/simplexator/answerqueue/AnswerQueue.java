@@ -21,15 +21,15 @@ public class AnswerQueue extends SolvingQueue {
 	}
 
 	public void addAnswer(Answer problemAnswer) {
-		if(problemAnswer == null) {
-			//this.answers = new ArrayList<>();
+		if (problemAnswer == null) {
+			// this.answers = new ArrayList<>();
 			return;
 		}
-		
+
 		PossibleAnswer answer = new PossibleAnswer(problemAnswer);
 		answers.add(answer);
 	}
-	
+
 	public List<PossibleAnswer> getAnswers() {
 		return answers;
 	}
