@@ -18,6 +18,8 @@ public class IterationStep {
 	List<List<String>> costs;
 	List<Integer> keyElemCoords;
 	List<Integer> newKeyElemCoords;
+	String numValue;
+	String MValue;
 
 	public List<Integer> getKeyElemCoords() {
 		return keyElemCoords;
@@ -26,10 +28,10 @@ public class IterationStep {
 	public void setKeyElemCoords(List<Integer> keyElemCoords) {
 		this.keyElemCoords = keyElemCoords;
 	}
-	
-	public void setKeyElemCoords(Pair<Integer,Integer> keyElemCoords) {
+
+	public void setKeyElemCoords(Pair<Integer, Integer> keyElemCoords) {
 		this.keyElemCoords = new ArrayList<>();
-		this.keyElemCoords.add( keyElemCoords.getFirst());
+		this.keyElemCoords.add(keyElemCoords.getFirst());
 		this.keyElemCoords.add(keyElemCoords.getSecond());
 	}
 
@@ -75,6 +77,24 @@ public class IterationStep {
 		this.keyElemCoords = new ArrayList<>();
 		this.newKeyElemCoords = new ArrayList<>();
 
+		this.numValue = simplexTable.getResultNumValue().toMathJaxString();
+		this.MValue = simplexTable.getResultMValue().toMathJaxString();
+	}
+
+	public String getNumValue() {
+		return numValue;
+	}
+
+	public void setNumValue(String numValue) {
+		this.numValue = numValue;
+	}
+
+	public String getMValue() {
+		return MValue;
+	}
+
+	public void setMValue(String mValue) {
+		MValue = mValue;
 	}
 
 	public List<String> getBasis() {

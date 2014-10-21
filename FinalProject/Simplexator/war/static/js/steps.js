@@ -28,7 +28,7 @@ function printProblem()
 	$("#problemDescription").append("<div></div>");
 	var problemDiv = $("#problemDescription div:last");
 	$(problemDiv).css('margin', '5px 20px');
-
+	$(problemDiv).css('min-width', '30%');
 	var z = "\\(Z" + (currentProblem.isM ? "_M" : (currentProblem.isK ? "_K" : "")) + "\\)";
 	problemDiv.append("<span>" + currentProblem.extremum + " " + z + " = </span>");
 
