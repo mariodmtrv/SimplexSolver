@@ -20,7 +20,6 @@
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='org.fmi.or.simplexator.client.Simplexator'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
