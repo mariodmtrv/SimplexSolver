@@ -32,10 +32,6 @@ function initializeProblemManager(responseFromServer)
 			return self.answers[self.index];
 		};
 
-		this.getProblemForCurrentAnswer = function(){
-			return self.problems[self.problems.length - 1 - self.index];
-		};
-
 		// methods for iterating the response message log
 		this.msgIndex = 0;
 		this.getCurrentMessage = function(){

@@ -470,17 +470,16 @@ function findKeyElement()
 function printAnswer()
 {
 	var currentAnswer = problemManager.getCurrentAnswer();
-	var currentProblem = problemManager.getProblemForCurrentAnswer();
 
 	$("#answers").append("<div></div>");
 	var div = $("#answers div:last");
 	$(div).load("static/templates/answers_grid_template.html", function(){
-		$(div).prepend("<p>Answer to " + (currentProblem.isM ? "M-" : (currentProblem.isK ? "K-" : "original ")) + "problem</p>");
+		$(div).prepend("<p>Answer to " + (currentAnswer.isM ? "M-" : (currentAnswer.isK ? "K-" : "original ")) + "problem</p>");
 		$(div).find(".points").append("<caption>Vertices:</caption>");
 		$(div).find(".points").append("<tr></tr>");
-		for (var v in currentProblem.variables)
+		for (var v in currentAnswer.variables)
 		{
-			$(div).find(".points tr:last").append("<th>" + currentProblem.variables[v] + "</th>");
+			$(div).find(".points tr:last").append("<th>" + currentAnswer.variables[v] + "</th>");
 		};
 
 		for(var i = 0; i < currentAnswer.points.length; i++)
@@ -500,9 +499,9 @@ function printAnswer()
 		// print direction vectors (non-empty list)
 		$(div).find(".directions").append("<caption>Directions:</caption>");
 		$(div).find(".directions").append("<tr></tr>");
-		for (var v in currentProblem.variables)
+		for (var v in currentAnswer.variables)
 		{
-			$(div).find(".directions tr:last").append("<th>" + currentProblem.variables[v] + "</th>");
+			$(div).find(".directions tr:last").append("<th>" + currentAnswer.variables[v] + "</th>");
 		};
 
 		for(var i = 0; i < currentAnswer.directions.length; i++)
