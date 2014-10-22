@@ -89,6 +89,7 @@ public class InputProblem {
 					restrictionVars, EquationSign.toSign(restrictionString
 							.get(varsCount)), new Fraction(
 							restrictionString.get(varsCount + 1)));
+			restrictions.add(transformedRestriction);
 		}
 		Optimum optimum = Optimum.fromString(type);
 		Vector<Boolean> hasNegativePart = new Vector<>();
