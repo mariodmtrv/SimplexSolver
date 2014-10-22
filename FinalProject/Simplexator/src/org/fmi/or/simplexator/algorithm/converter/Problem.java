@@ -12,10 +12,14 @@ public class Problem extends AbstractProblem {
 	private Optimum optimum;
 	private Vector<Boolean> hasNegativePart;
 	protected Integer maxIndex;
+	protected boolean isK;
+	protected boolean isM;
 
 	public Problem(Problem other) {
 		this(other.zfunction, other.restrictions, other.optimum,
 				other.hasNegativePart);
+		this.isK = other.isK;
+		this.isM = other.isM;
 	}
 
 	public Problem(List<Variable> zfunction, Vector<Restriction> restrictions,
@@ -28,15 +32,22 @@ public class Problem extends AbstractProblem {
 		this.varCount = zfunction.size();
 		this.hasNegativePart = hasNegativePart;
 		this.maxIndex = zfunction.get(zfunction.size() - 1).getIndex();
+		this.isK = false;
+		this.isM = false;
 	}
 
 	public void convertToK() {
-		ProblemConversionQueue problemConversionQueue = new ProblemConversionQueue(new Locale("bg", "BG"));
+	
+		ProblemConversionQueue problemConversionQueue = new ProblemConversionQueue(
+				new Locale("bg", "BG"));
 		convertToK(problemConversionQueue);
+
 	}
 
 	public void convertToK(ProblemConversionQueue queue) {
+		
 		queue.addProblemStep(this);
+		this.isK = true;
 		queue.addMessage("ConvertToK.introduction");
 		queue.addMessage("STEP");
 		setToMinimum(queue);
@@ -47,7 +58,6 @@ public class Problem extends AbstractProblem {
 
 		setToEquations(queue);
 		queue.addMessage("ConvertToK.conclusion");
-
 	}
 
 	private void setToMinimum(ProblemConversionQueue queue) {
@@ -111,7 +121,7 @@ public class Problem extends AbstractProblem {
 		queue.addMessage("ConvertToK.processNegativeParts");
 		int varsPassed = 0;
 		Iterator<Variable> zfuncIter = zfunction.iterator();
-		//Boolean processedOne = false;
+		// Boolean processedOne = false;
 		for (Boolean hnp : hasNegativePart) {
 			Variable variable = (Variable) zfuncIter.next();
 			varsPassed++;
@@ -135,16 +145,17 @@ public class Problem extends AbstractProblem {
 					changedRestriction.bipartizeVariable(varIndex);
 					restrictions.set(restrictionIndex, changedRestriction);
 				}
-				//processedOne = true;
+				// processedOne = true;
 				queue.addMessage("STEP");
 				queue.addProblemStep(this);
 			}
 
 		}
-		/*if (processedOne == false) {
-			
-			queue.addProblemStep(this);
-		}*/
+		/*
+		 * if (processedOne == false) {
+		 * 
+		 * queue.addProblemStep(this); }
+		 */
 	}
 
 	public String toString() {
@@ -196,6 +207,22 @@ public class Problem extends AbstractProblem {
 
 	public void setHasNegativePart(Vector<Boolean> hasNegativePart) {
 		this.hasNegativePart = hasNegativePart;
+	}
+
+	public boolean isK() {
+		return isK;
+	}
+
+	public void setK(boolean isK) {
+		this.isK = isK;
+	}
+
+	public boolean isM() {
+		return isM;
+	}
+
+	public void setM(boolean isM) {
+		this.isM = isM;
 	}
 
 }

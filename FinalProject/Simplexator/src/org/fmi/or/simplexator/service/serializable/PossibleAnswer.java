@@ -8,12 +8,17 @@ import org.fmi.or.simplexator.algorithm.answerer.Answer;
 import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 public class PossibleAnswer {
 	private List<String[]> directions;
 	private List<String[]> points;
 	
+	@JsonSerialize
 	private List<String> variables;
+	@JsonSerialize
 	private boolean isK;
+	@JsonSerialize
 	private boolean isM;
 
 	public List<String[]> getDirections() {

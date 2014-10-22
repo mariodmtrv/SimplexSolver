@@ -25,9 +25,7 @@ public class ProblemIteration {
 		int indexVarOut = this.keyElementCoords.getFirst();
 		int indexVarIn = this.keyElementCoords.getSecond();
 		Variable varIn = this.problem.getVarByIndex(indexVarIn);
-		
-		// UI.printMessage("Променливата \\this.problem.getVarByIndex(indexVarOut) излиза от базиса, а на нейно място влиза \\this.problem.getVarByIndex(indexVarIn).");
-		newSimplexTable.setBasisIndecesElementAt(indexVarIn, indexVarOut);
+				newSimplexTable.setBasisIndecesElementAt(indexVarIn, indexVarOut);
 		newSimplexTable.setBasisElementAt(varIn, indexVarOut);
 	}
 	
@@ -42,7 +40,6 @@ public class ProblemIteration {
 		queue.addMessage("Iteration.fillBasisInTable");
 		
 		// fill keyElem's row
-		// UI.printMessage("Редът на ключовия елемент се преписва от старата таблица като преди това се разделя на стойността на ключовия елемент.");
 		// UI.highlightElement(keyElementCoords.getFirst(), keyElementCoords.getSecond());
 		for (int j = 0; j <= oldSimplexTable.getVarCount(); j++) {
 			Fraction value = rectangleRule(keyElementCoords,
@@ -67,8 +64,6 @@ public class ProblemIteration {
 		queue.addMessage("Iteration.fillKeyRow");
 
 		// fill rest
-		// UI.printMessage("Останалите клетки попълваме по правилото на правоъгълника.");
-		// UI.printMessage(---explain_rectangle_rule---);
 		for (int i = 0; i <= oldSimplexTable.getRestrictionsCount() + 1; i++) {
 			if (i == keyElementCoords.getFirst()) {
 				// we have already filled the keyElem's row

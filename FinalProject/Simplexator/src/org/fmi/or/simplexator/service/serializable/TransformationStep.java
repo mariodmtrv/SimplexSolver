@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.tools.ant.taskdefs.rmic.KaffeRmic;
+import org.fmi.or.simplexator.algorithm.converter.MProblem;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 
@@ -22,23 +24,23 @@ public class TransformationStep {
 			List<String> nonNegativeVars) {
 
 		this.extremum = extremum;
-		this.isK = isK;
-		this.isM = isM;
+		this.isK = false;
+		this.isM = false;
 		this.variables = variables;
 		this.zFuncCoefs = zFuncCoefs;
 		// this.restrictions = restrictions;
 		this.nonNegativeVars = nonNegativeVars;
 	}
 
-	public TransformationStep(Problem kProblem) {
-		this.extremum = kProblem.getOptimum().toString();
-		this.isK = true;
-		this.isM = false;
+	public TransformationStep(Problem problem) {
+
+		this.extremum = problem.getOptimum().toString();
+	
 		this.variables = new ArrayList<>();
-		for (int i = 0; i < kProblem.getVarCount(); i++) {
-			this.variables.add(kProblem.getVarByIndex(i).toMathJaxString());
+		for (int i = 0; i < problem.getVarCount(); i++) {
+			this.variables.add(problem.getVarByIndex(i).toMathJaxString());
 		}
-		Variable[] zFuncVariables = kProblem.getZfunctionVariables();
+		Variable[] zFuncVariables = problem.getZfunctionVariables();
 		System.out.println(zFuncVariables);
 		this.zFuncCoefs = new ArrayList<>();
 		for (Variable zFuncVar : zFuncVariables) {
@@ -48,17 +50,18 @@ public class TransformationStep {
 		}
 		// add restrictions
 		this.restrictions = new ArrayList<>();
-		for (int restrIndex = 0; restrIndex < kProblem.getRestrictionsCount(); restrIndex++) {
-			restrictions.add(new VisualRestriction(kProblem
+		for (int restrIndex = 0; restrIndex < problem.getRestrictionsCount(); restrIndex++) {
+			restrictions.add(new VisualRestriction(problem
 					.getRestriction(restrIndex)));
 		}
 		this.nonNegativeVars = new ArrayList<>();
-		Vector<Boolean> negativePartIndicators = kProblem.getHasNegativePart();
+		Vector<Boolean> negativePartIndicators = problem.getHasNegativePart();
 		for (int i = 0; i < negativePartIndicators.size(); i++) {
 			if (negativePartIndicators.get(i) == false)
-				nonNegativeVars
-						.add(kProblem.getVarByIndex(i).toMathJaxString());
+				nonNegativeVars.add(problem.getVarByIndex(i).toMathJaxString());
 		}
+		this.isK=problem.isK();
+	    this.isM=problem.isM();
 	}
 
 	public String getExtremum() {
@@ -73,8 +76,8 @@ public class TransformationStep {
 		return isK;
 	}
 
-	public void setIsK(Boolean isK) {
-		this.isK = isK;
+	public void setIsK() {
+		this.isK = true;
 	}
 
 	public Boolean getIsM() {
