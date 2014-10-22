@@ -98,7 +98,7 @@ public class Variable implements Comparable {
 		}
 		return result.toString();
 	}
-	
+
 	public String toStringNoCoef() {
 		StringBuilder result = new StringBuilder();
 		result.append("x_" + index);
@@ -109,7 +109,7 @@ public class Variable implements Comparable {
 		}
 		return result.toString();
 	}
-	
+
 	public String toMathJaxString() {
 		StringBuilder result = new StringBuilder();
 		result.append("\\(x_" + index);

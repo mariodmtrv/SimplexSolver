@@ -8,16 +8,14 @@ import org.fmi.or.simplexator.algorithm.converter.Fraction;
 import org.fmi.or.simplexator.algorithm.converter.Problem;
 import org.fmi.or.simplexator.algorithm.converter.Variable;
 
-
 public class Answer {
-	//private ProblemType problemType;
 	private Vector<Vector<Fraction>> vertices;
 	private Vector<Vector<Fraction>> directions;
-	
+
 	private Vector<Variable> variables;
 	private boolean isK;
 	private boolean isM;
-	
+
 	public Answer(Problem problem) {
 		super();
 		this.vertices = new Vector<Vector<Fraction>>();
@@ -31,39 +29,37 @@ public class Answer {
 		this.directions = new Vector<Vector<Fraction>>();
 		this.setInfoForProblem(problem);
 	}
-	
+
 	public Answer(SimplexTable simtable, Problem problem) {
 		this.vertices = new Vector<Vector<Fraction>>();
 		this.directions = new Vector<Vector<Fraction>>();
-		
+
 		Vector<Fraction> optimalAnswer1 = new Vector<Fraction>();
-		for(int i=0; i < simtable.getVarCount(); i++) {
+		for (int i = 0; i < simtable.getVarCount(); i++) {
 			optimalAnswer1.add(Fraction.ZERO);
 		}
-		
-		for(int i=0; i < simtable.getRestrictionsCount(); i++) {
+
+		for (int i = 0; i < simtable.getRestrictionsCount(); i++) {
 			Fraction value = simtable.getRightSideValue(i);
 			int index = simtable.getBasisIndeces().get(i);
 			optimalAnswer1.set(index, value);
 		}
-		
+
 		vertices.add(optimalAnswer1);
 		this.setInfoForProblem(problem);
 	}
-	
+
 	private void setInfoForProblem(Problem problem) {
 		this.variables = new Vector<Variable>();
-		for(int i = 0; i < problem.getVarCount(); i++) {
+		for (int i = 0; i < problem.getVarCount(); i++) {
 			this.variables.add(problem.getVarByIndex(i));
 		}
-		//this.isK = problem.isK();	// TODO
-		//this.isM = problem.isM();	// TODO
 	}
 
 	public void pushVertex(Vector<Fraction> v) {
 		vertices.add(v);
 	}
-	
+
 	public void pushDirection(Vector<Fraction> d) {
 		directions.add(d);
 	}
@@ -75,7 +71,7 @@ public class Answer {
 	public Vector<Vector<Fraction>> getDirections() {
 		return directions;
 	}
-	
+
 	public Vector<Variable> getVariables() {
 		return variables;
 	}
@@ -87,12 +83,13 @@ public class Answer {
 	public boolean isM() {
 		return isM;
 	}
-	
+
 	public boolean equals(Object obj) {
 		Answer other = (Answer) obj;
-	    if(this == other) { 
-	        return true;
-	    }
-	    return this.vertices.equals(other.getVertices()) && this.directions.equals(other.getDirections());
+		if (this == other) {
+			return true;
+		}
+		return this.vertices.equals(other.getVertices())
+				&& this.directions.equals(other.getDirections());
 	}
 }

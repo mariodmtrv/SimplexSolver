@@ -165,7 +165,7 @@ public class Fraction {
 		if (this.numerator == 0) {
 			return "0";
 		}
-		if(this.numerator == Fraction.M.numerator) {
+		if (this.numerator == Fraction.M.numerator) {
 			return "M";
 		}
 		if (this.denominator == 1) {
