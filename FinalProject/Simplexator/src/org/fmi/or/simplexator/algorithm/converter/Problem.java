@@ -37,7 +37,7 @@ public class Problem extends AbstractProblem {
 	}
 
 	public void convertToK() {
-
+	
 		ProblemConversionQueue problemConversionQueue = new ProblemConversionQueue(
 				new Locale("bg", "BG"));
 		convertToK(problemConversionQueue);
@@ -45,7 +45,7 @@ public class Problem extends AbstractProblem {
 	}
 
 	public void convertToK(ProblemConversionQueue queue) {
-
+		
 		queue.addProblemStep(this);
 		this.isK = true;
 		queue.addMessage("ConvertToK.introduction");

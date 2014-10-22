@@ -10,8 +10,8 @@ import org.fmi.or.simplexator.service.serializable.TransformationStep;
 public class MProblem extends Problem {
 	public MProblem(Problem other) {
 		super(other);
-		this.isK = true;
-		this.isM = false;
+		this.isK=true;
+		this.isM=false;
 	}
 
 	public void convertToMProblem() {
@@ -21,7 +21,8 @@ public class MProblem extends Problem {
 	}
 
 	public void convertToMProblem(ProblemConversionQueue queue) {
-		this.isM = true;
+		//queue.addMessage("mProblemConversion");
+	this.isM=true;
 		queue.addMessage("ConvertToM.explainBasis");
 		int uniquenessMap[] = getUniquenessMap();
 		boolean MVarNeeded[] = new boolean[restrictionsCount];
@@ -40,11 +41,11 @@ public class MProblem extends Problem {
 				break;
 			}
 		}
-
+		
 		queue.addMessage("ConvertToM.introduction");
 		if (shouldConvertToM) {
 			// should convert
-			for (int i = 0; i < MVarNeeded.length; i++) {
+				for (int i = 0; i < MVarNeeded.length; i++) {
 				if (MVarNeeded[i]) {
 					this.varCount++;
 					int newVarIndex = ++(this.maxIndex);
@@ -75,7 +76,7 @@ public class MProblem extends Problem {
 			// no convertion
 			queue.addMessage("ConvertToM.mProblemWasGiven");
 		}
-
+		
 		queue.addProblemStep(this);
 		queue.addMessage("ConvertToM.conclusion");
 		queue.addMessage("STEP");
