@@ -497,6 +497,7 @@ function printAnswer()
 			}
 		}
 
+		$("#log #scrollable").prepend("<p>" + problemManager.getCurrentMessage() + "</p>");
 		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 
 		if(currentAnswer.directions.length == 0)

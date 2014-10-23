@@ -64,6 +64,10 @@ public class MProblem extends Problem {
 					}
 					
 					queue.addMessage("STEP");
+					this.hasNegativePart.clear();
+				    for (int varInd = 0; varInd < varCount; varInd++) {
+						this.hasNegativePart.add(false);
+					}
 					queue.addProblemStep(this);
 					queue.addMessage("ConvertToM.explainAddingMVars");
 
@@ -76,6 +80,7 @@ public class MProblem extends Problem {
 			// no convertion
 			queue.addMessage("ConvertToM.mProblemWasGiven");
 		}
+		
 		this.hasNegativePart.clear();
 	    for (int varInd = 0; varInd < varCount; varInd++) {
 			this.hasNegativePart.add(false);

@@ -73,6 +73,7 @@ public class SimplexMethodSolver {
 			// optimal answer found
 			
 			Answer mAnswer = new Answer(simtable, mp);
+			ansq.addAnswer(mAnswer);
 			
 			AnswerConverter mtok = new AnswerConverter(kp, mAnswer);
 			Answer kAnswer = mtok.convertMToK(ansq);

@@ -162,19 +162,21 @@ public class Problem extends AbstractProblem {
 					restrictions.set(restrictionIndex, changedRestriction);
 				}
 				// processedOne = true;
-				queue.addMessage("STEP");
+				/*queue.addMessage("STEP");
 				this.hasNegativePart = new Vector<>();
 				for (int varInd = 0; varInd < this.varCount; varInd++) {
 					this.hasNegativePart.add(false);
 				}
-				queue.addProblemStep(this);
+				queue.addProblemStep(this);*/
 			}
 
 		}
-		/*this.hasNegativePart = new Vector<>();
+		queue.addMessage("STEP");
+		this.hasNegativePart = new Vector<>();
 		for (int varInd = 0; varInd < this.varCount; varInd++) {
 			this.hasNegativePart.add(false);
-		}*/
+		}
+		queue.addProblemStep(this);
 		
 		/*
 		 * if (processedOne == false) {
