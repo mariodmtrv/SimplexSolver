@@ -117,6 +117,10 @@ public class Problem extends AbstractProblem {
 					}
 				}
 				queue.addMessage("STEP");
+				this.hasNegativePart = new Vector<>();
+				for (int varInd = 0; varInd < this.varCount; varInd++) {
+					this.hasNegativePart.add(false);
+				}
 				queue.addProblemStep(this);
 			}
 		}
@@ -159,15 +163,19 @@ public class Problem extends AbstractProblem {
 				}
 				// processedOne = true;
 				queue.addMessage("STEP");
-
+				this.hasNegativePart = new Vector<>();
+				for (int varInd = 0; varInd < this.varCount; varInd++) {
+					this.hasNegativePart.add(false);
+				}
 				queue.addProblemStep(this);
 			}
 
 		}
-		this.hasNegativePart = new Vector<>();
+		/*this.hasNegativePart = new Vector<>();
 		for (int varInd = 0; varInd < this.varCount; varInd++) {
 			this.hasNegativePart.add(false);
-		}
+		}*/
+		
 		/*
 		 * if (processedOne == false) {
 		 * 

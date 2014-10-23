@@ -73,7 +73,7 @@ function printProblem()
 	}
 
 	// print xi >= 0
-	if(currentProblem.nonNegativeVars.indexOf(true) != -1)
+	if(currentProblem.nonNegativeVars.length > 0)
 	{
 		problemDiv.append("<span>" + currentProblem.nonNegativeVars.join(", ") + " \\(\\geq\\) 0</span>");
 	}

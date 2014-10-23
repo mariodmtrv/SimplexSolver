@@ -57,10 +57,12 @@ public class TransformationStep {
 		}
 		this.nonNegativeVars = new ArrayList<>();
 		Vector<Boolean> negativePartIndicators = problem.getHasNegativePart();
+		//System.out.println("NONNEG: " + problem.getHasNegativePart().size());
 		for (int i = 0; i < negativePartIndicators.size(); i++) {
 			if (negativePartIndicators.get(i) == false)
 				nonNegativeVars.add(problem.getVarByIndex(i).toMathJaxString());
 		}
+		//System.out.println("NONNEG - json: " + this.nonNegativeVars.size());
 		this.isK=problem.isK();
 	    this.isM=problem.isM();
 	}
