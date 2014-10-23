@@ -54,6 +54,8 @@ public class Answer {
 		for (int i = 0; i < problem.getVarCount(); i++) {
 			this.variables.add(problem.getVarByIndex(i));
 		}
+		this.isK = problem.isK();
+		this.isM = problem.isM();
 	}
 
 	public void pushVertex(Vector<Fraction> v) {

@@ -24,8 +24,8 @@ public class TransformationStep {
 			List<String> nonNegativeVars) {
 
 		this.extremum = extremum;
-		this.isK = false;
-		this.isM = false;
+		this.isK = isK;
+		this.isM = isM;
 		this.variables = variables;
 		this.zFuncCoefs = zFuncCoefs;
 		// this.restrictions = restrictions;
@@ -41,16 +41,17 @@ public class TransformationStep {
 			this.variables.add(problem.getVarByIndex(i).toMathJaxString());
 		}
 		Variable[] zFuncVariables = problem.getZfunctionVariables();
-		System.out.println(zFuncVariables);
+		//System.out.println(zFuncVariables);
 		this.zFuncCoefs = new ArrayList<>();
 		for (Variable zFuncVar : zFuncVariables) {
 			String zFuncCoef = zFuncVar.getCoefficient().toMathJaxString();
-			System.out.println(zFuncCoef);
+			//System.out.println(zFuncCoef);
 			this.zFuncCoefs.add(zFuncCoef);
 		}
 		// add restrictions
 		this.restrictions = new ArrayList<>();
 		for (int restrIndex = 0; restrIndex < problem.getRestrictionsCount(); restrIndex++) {
+			//System.out.println("RESTR: " + problem.getRestriction(restrIndex).getVariables().length);
 			restrictions.add(new VisualRestriction(problem
 					.getRestriction(restrIndex)));
 		}

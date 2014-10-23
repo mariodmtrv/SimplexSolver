@@ -40,8 +40,8 @@ public class SolutionResponse {
 
 		List<Problem> steps = pcq.getProblemSteps();
 		for (Problem problem : steps) {
-			System.out.println("VAR "
-					+ problem.getVarByIndex(1));
+//			System.out.println("VAR "
+//					+ problem.getVarByIndex(1));
 			serializableProblemSteps.add(new TransformationStep(problem));
 		}
 		this.messageLog.addAll(pcq.localizeMessages());

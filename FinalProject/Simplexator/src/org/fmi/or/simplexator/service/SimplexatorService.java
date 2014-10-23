@@ -29,13 +29,13 @@ public class SimplexatorService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public SolutionResponse test(InputProblem inputProblem) {
-		System.out.println(inputProblem);
+		//System.out.println(inputProblem);
 		Problem problem = inputProblem.getProblem();
-		System.out.println(problem);
-		System.out.println(problem.getRestriction(0).getRightSide());
-		System.out.println("GENERATED PROBLEM");
+		//System.out.println(problem);
+		//System.out.println(problem.getRestriction(0).getRightSide());
+		//System.out.println("GENERATED PROBLEM");
 		SolutionResponse response = new SolutionResponse(problem);
-		System.out.println("Solve");
+		//System.out.println("Solve");
 		response.solve();
 		return response;
 	}

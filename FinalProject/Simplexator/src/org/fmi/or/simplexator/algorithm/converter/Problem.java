@@ -111,13 +111,13 @@ public class Problem extends AbstractProblem {
 				// we add with zero to keep table shape consistency
 				for (int i = 0; i < restrictions.size(); i++) {
 					if (restrictions.get(i).getVarCount() < zfunction.size()) {
-						queue.addMessage("STEP");
-						queue.addProblemStep(this);
 						addVarToRestriction(i, toAdd);
 					} else {
 						// we are at the restriction already set to equation
 					}
 				}
+				queue.addMessage("STEP");
+				queue.addProblemStep(this);
 			}
 		}
 	}
