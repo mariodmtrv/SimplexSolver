@@ -1,8 +1,8 @@
 // pretty print the coefficient
 function printCoef(c, isFirst)
 {
-	 var sign = c[2] == "-" ? "" : (isFirst ? "" : "+");
-	 var value = (c == "\\(1\\)" || c == "\\(0\\)") ? "" : c;
+	 var sign = (c[2] == "-") ? "" : (isFirst ? "" : "+");
+	 var value = (c == "\\(1\\)") ? "" : c;
 	 return sign + value;
 }
 
@@ -48,7 +48,7 @@ function printProblem()
 		$(restrictionsTable).append("<tr></tr>");
 		var row = $(restrictionsTable).find("tr:last");
 
-		if(currentProblem.restrictions[r].coefs[0] != 0)
+		if(currentProblem.restrictions[r].coefs[0] != "\\(0\\)")
 		{
 			row.append("<td>" + printCoef(currentProblem.restrictions[r].coefs[0], true) + " " + currentProblem.variables[0] + "</td>");
 		}
@@ -59,7 +59,7 @@ function printProblem()
 
 		for (var i = 1; i < currentProblem.variables.length; i++)
 		{
-			if(currentProblem.restrictions[r].coefs[i] != 0)
+			if(currentProblem.restrictions[r].coefs[i] != "\\(0\\)")
 			{
 				row.append("<td>" + printCoef(currentProblem.restrictions[r].coefs[i], false) + " " + currentProblem.variables[i] + "</td>");
 			}
@@ -73,7 +73,10 @@ function printProblem()
 	}
 
 	// print xi >= 0
-	problemDiv.append("<span>" + currentProblem.nonNegativeVars.join(", ") + " \\(\\geq\\) 0</span>");
+	if(currentProblem.nonNegativeVars.indexOf(true) != -1)
+	{
+		problemDiv.append("<span>" + currentProblem.nonNegativeVars.join(", ") + " \\(\\geq\\) 0</span>");
+	}
 
 	// print all messages related to this problem conversion step
 	var currentMessage = problemManager.getCurrentMessage();
@@ -470,6 +473,9 @@ function findKeyElement()
 function printAnswer()
 {
 	var currentAnswer = problemManager.getCurrentAnswer();
+
+	if(!currentAnswer)
+		return;
 
 	$("#answers").append("<div></div>");
 	var div = $("#answers div:last");
