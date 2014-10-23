@@ -158,31 +158,32 @@ public class Problem extends AbstractProblem {
 		 */
 	}
 
-	public String toString() {
-		StringBuilder pretty = new StringBuilder();
-		pretty.append(getExtremal());
-		pretty.append(zfunction.get(0).toString());
-		for (int index = 1; index < zfunction.size(); index++) {
-			if (zfunction.get(index).getCoefficient()
-					.isEqualOrHigher(Fraction.ZERO)) {
-				pretty.append("+");
-			}
-			pretty.append(zfunction.get(index).toString());
-
-		}
-		pretty.append("\\cr\\cr");
-
-		for (Restriction restr : restrictions) {
-			pretty.append(restr.toString());
-		}
-		return pretty.toString();
-	}
-
+	/*
+	 * public String toString() { StringBuilder pretty = new StringBuilder();
+	 * pretty.append(getExtremal()); pretty.append(zfunction.get(0).toString());
+	 * for (int index = 1; index < zfunction.size(); index++) { if
+	 * (zfunction.get(index).getCoefficient() .isEqualOrHigher(Fraction.ZERO)) {
+	 * pretty.append("+"); } pretty.append(zfunction.get(index).toString());
+	 * 
+	 * } pretty.append("\\cr\\cr");
+	 * 
+	 * for (Restriction restr : restrictions) { pretty.append(restr.toString());
+	 * } return pretty.toString(); }
+	 */
 	private String getExtremal() {
 		if (optimum == Optimum.MINIMUM) {
 			return "{\\bf min {\\it z}}=";
 		}
 		return "{\\bf max {\\it z}}=";
+	}
+
+	@Override
+	public String toString() {
+		return "Problem [optimum=" + optimum + ", hasNegativePart="
+				+ hasNegativePart + ", maxIndex=" + maxIndex + ", isK=" + isK
+				+ ", isM=" + isM + ", varCount=" + varCount
+				+ ", restrictionsCount=" + restrictionsCount + ", zfunction="
+				+ zfunction + ", restrictions=" + restrictions + "]";
 	}
 
 	public Vector<Boolean> getHasNegativePart() {
