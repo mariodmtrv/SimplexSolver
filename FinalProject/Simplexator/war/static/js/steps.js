@@ -419,7 +419,7 @@ function checkOptimalityCriterion()
 		return;
 	}
 
-	highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 1 + 2);
+	highlightColumn("costsTable", "lime", currentIteration.newKeyElemCoords[1] + 1 + 2);
 
 	$("#log #scrollable").prepend("<p>" + problemManager.getCurrentMessage() + "</p>");
 }
@@ -444,8 +444,8 @@ function checkUnboundednessCriterion()
 		return;
 	}
 
-	//highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 1 + 2);
-	highlightColumn("mainTable", "green", currentIteration.newKeyElemCoords[1] + 1);
+	//highlightColumn("costsTable", "lime", currentIteration.newKeyElemCoords[1] + 1 + 2);
+	highlightColumn("mainTable", "lime", currentIteration.newKeyElemCoords[1] + 1);
 	highlightAll("rightSideTable", "cyan");
 
 	$("#log #scrollable").prepend("<p>" + problemManager.getCurrentMessage() + "</p>");
@@ -461,11 +461,11 @@ function findKeyElement()
 
 	var currentIteration = problemManager.getCurrentIteration();
 
-	highlightColumn("mainTable", "green", currentIteration.newKeyElemCoords[1] + 1);
-	highlightColumn("costsTable", "green", currentIteration.newKeyElemCoords[1] + 1 + 2);
-	highlightRow("basisTable", "green", currentIteration.newKeyElemCoords[0] + 1);
-	highlightRow("mainTable", "green", currentIteration.newKeyElemCoords[0] + 1);
-	highlightRow("rightSideTable", "green", currentIteration.newKeyElemCoords[0] + 1);
+	highlightColumn("mainTable", "lime", currentIteration.newKeyElemCoords[1] + 1);
+	highlightColumn("costsTable", "lime", currentIteration.newKeyElemCoords[1] + 1 + 2);
+	highlightRow("basisTable", "lime", currentIteration.newKeyElemCoords[0] + 1);
+	highlightRow("mainTable", "lime", currentIteration.newKeyElemCoords[0] + 1);
+	highlightRow("rightSideTable", "lime", currentIteration.newKeyElemCoords[0] + 1);
 }
 
 
