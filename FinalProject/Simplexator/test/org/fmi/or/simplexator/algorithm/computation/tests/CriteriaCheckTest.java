@@ -17,7 +17,7 @@ import org.junit.Test;
 public class CriteriaCheckTest {
 	
 	@Test
-	public void testGoToNextIteration1(IterationQueue queue) {
+	public void testGoToNextIteration1() {
 		SimplexTable simtable = new SimplexTable(7, 3);
 		
 		// set basis

@@ -26,12 +26,11 @@ public class ProblemIterationTest {
 		
 		ProblemInitialization mProblemInit = 
 				new ProblemInitialization(mProblem);
-		IterationQueue queue= new IterationQueue(new Locale("BG", "bg"));
-		SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
+		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
+		SimplexTable simtable = mProblemInit.makeFirstIteration(q);
 		
 		// now test...
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
-		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
 		Pair<Integer,Integer> keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(q);
 		while(keyElementCoords.getFirst() != -1) {
 			ProblemIteration mProblemIter = new ProblemIteration(mProblem, simtable, keyElementCoords);
@@ -41,7 +40,7 @@ public class ProblemIterationTest {
 		}
 	}
 	
-	//@Test
+	@Test
 	public void testMakeIterationMaximum() {
 		MProblemConversionTest t=new MProblemConversionTest();
 		Problem p=t.testCanonicalProblemMaximum();
@@ -50,13 +49,12 @@ public class ProblemIterationTest {
 		
 		ProblemInitialization mProblemInit = 
 				new ProblemInitialization(mProblem);
-		IterationQueue queue= new IterationQueue(new Locale("BG", "bg"));
+		IterationQueue q= new IterationQueue(new Locale("BG", "bg"));
 		
-		SimplexTable simtable = mProblemInit.makeFirstIteration(queue);
+		SimplexTable simtable = mProblemInit.makeFirstIteration(q);
 		
 		// now test..
 		CriteriaCheck critCheck = new CriteriaCheck(simtable);
-		IterationQueue q = new IterationQueue(new Locale("BG", "bg"));
 		Pair<Integer,Integer> keyElementCoords = critCheck.checkCriteriaAndFindNewBasis(q);
 		while(keyElementCoords.getFirst() != -1) {
 			ProblemIteration mProblemIter = new ProblemIteration(mProblem, simtable, keyElementCoords);

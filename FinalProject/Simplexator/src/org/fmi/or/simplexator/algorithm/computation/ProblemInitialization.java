@@ -120,17 +120,37 @@ public class ProblemInitialization {
 		return vars;
 
 	}
+	
+	private Vector<Variable> setBasisFromProgramLogic() {
+		Vector<Variable> vars = new Vector<>();
+		int[] uniquenessMap = problem.getUniquenessMap();
+		
+		int[] indicesOfBasisVars = new int[problem.getRestrictionsCount()];
+		for(int j = 0; j < uniquenessMap.length; j++) {
+			if(uniquenessMap[j] != -1) {
+				indicesOfBasisVars[uniquenessMap[j]] = j;
+			}
+		}
+		
+		for(int i = 0; i < indicesOfBasisVars.length; i++) {
+			vars.add(problem.getVarByIndex(indicesOfBasisVars[i]));
+		}
+		return vars;
+	}
 
 	private Vector<Variable> getInitialBasis() {
-		// TODO Gets the initial basis from the UI
-		// Ui.getInitialVariables();
-		/*
-		 * This is hardcoded to simulate basis from UI extraction
-		 */
-		List<Variable> basisFromUI = setBasisFromUI();
-
-		Collections.sort(basisFromUI);
-		return (Vector<Variable>) basisFromUI;
+//		// TODO Gets the initial basis from the UI
+//		// Ui.getInitialVariables();
+//		/*
+//		 * This is hardcoded to simulate basis from UI extraction
+//		 */
+//		List<Variable> basisFromUI = setBasisFromUI();
+//
+//		Collections.sort(basisFromUI);
+//		return (Vector<Variable>) basisFromUI;
+		List<Variable> basisFromProgramLogic = setBasisFromProgramLogic();
+		Collections.sort(basisFromProgramLogic);
+		return (Vector<Variable>) basisFromProgramLogic;
 	}
 
 	public ProblemInitialization(MProblem problem) {
