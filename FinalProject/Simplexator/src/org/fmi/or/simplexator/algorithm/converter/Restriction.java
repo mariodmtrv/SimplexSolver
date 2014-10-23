@@ -1,5 +1,6 @@
 package org.fmi.or.simplexator.algorithm.converter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -7,6 +8,15 @@ public class Restriction {
 	private List<Variable> variables;
 	private EquationSign sign;
 	private Fraction rightSide;
+
+	public Restriction(Restriction other) {
+		this.sign = other.sign;
+		this.rightSide = other.rightSide;
+		this.variables = new ArrayList<>();
+		for (int i = 0; i < other.variables.size(); i++) {
+			this.variables.add(new Variable(other.variables.get(i)));
+		}
+	}
 
 	public EquationSign getSign() {
 		return sign;
@@ -81,7 +91,7 @@ public class Restriction {
 	public void addVariable(Variable var) {
 		variables.add(var);
 	}
-
+/*
 	public String toString() {
 		StringBuilder pretty = new StringBuilder();
 		pretty.append(variables.get(0).toString());
@@ -98,7 +108,7 @@ public class Restriction {
 		return pretty.toString();
 
 	}
-
+*/
 	private String getEquationSign() {
 		if (sign == EquationSign.EQ) {
 			return "=";

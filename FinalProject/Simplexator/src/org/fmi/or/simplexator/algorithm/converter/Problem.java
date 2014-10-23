@@ -1,5 +1,6 @@
 package org.fmi.or.simplexator.algorithm.converter;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -10,7 +11,7 @@ import org.fmi.or.simplexator.answerqueue.ProblemConversionQueue;
 public class Problem extends AbstractProblem {
 
 	private Optimum optimum;
-	private Vector<Boolean> hasNegativePart;
+	protected Vector<Boolean> hasNegativePart;
 	protected Integer maxIndex;
 	protected boolean isK;
 	protected boolean isM;
@@ -22,15 +23,25 @@ public class Problem extends AbstractProblem {
 		this.isM = other.isM;
 	}
 
-	public Problem(List<Variable> zfunction, Vector<Restriction> restrictions,
-			Optimum optimum, Vector<Boolean> hasNegativePart) {
-		// this.uiController = new UIController();
+	public Problem(List<Variable> zfunction,
+			Vector<Restriction> otherRestrictions, Optimum optimum,
+			Vector<Boolean> hasNegativePart) {
 		this.optimum = optimum;
-		this.zfunction = zfunction;
-		this.restrictions = restrictions;
-		this.restrictionsCount = restrictions.size();
+		this.restrictionsCount = otherRestrictions.size();
 		this.varCount = zfunction.size();
-		this.hasNegativePart = hasNegativePart;
+		this.zfunction = new ArrayList<>();
+		for (int i = 0; i < zfunction.size(); i++) {
+			this.zfunction.add(zfunction.get(i));
+		}
+		this.restrictions = new Vector<>();
+		for (int i = 0; i < otherRestrictions.size(); i++) {
+			this.restrictions.add(new Restriction(otherRestrictions.get(i)));
+		}
+
+		this.hasNegativePart = new Vector<>();
+		for (int i = 0; i < hasNegativePart.size(); i++) {
+			this.hasNegativePart.add(hasNegativePart.get(i));
+		}
 		this.maxIndex = zfunction.get(zfunction.size() - 1).getIndex();
 		this.isK = false;
 		this.isM = false;
@@ -58,6 +69,7 @@ public class Problem extends AbstractProblem {
 
 		setToEquations(queue);
 		queue.addMessage("ConvertToK.conclusion");
+
 	}
 
 	private void setToMinimum(ProblemConversionQueue queue) {
@@ -147,9 +159,14 @@ public class Problem extends AbstractProblem {
 				}
 				// processedOne = true;
 				queue.addMessage("STEP");
+
 				queue.addProblemStep(this);
 			}
 
+		}
+		this.hasNegativePart = new Vector<>();
+		for (int varInd = 0; varInd < this.varCount; varInd++) {
+			this.hasNegativePart.add(false);
 		}
 		/*
 		 * if (processedOne == false) {
@@ -158,18 +175,6 @@ public class Problem extends AbstractProblem {
 		 */
 	}
 
-	/*
-	 * public String toString() { StringBuilder pretty = new StringBuilder();
-	 * pretty.append(getExtremal()); pretty.append(zfunction.get(0).toString());
-	 * for (int index = 1; index < zfunction.size(); index++) { if
-	 * (zfunction.get(index).getCoefficient() .isEqualOrHigher(Fraction.ZERO)) {
-	 * pretty.append("+"); } pretty.append(zfunction.get(index).toString());
-	 * 
-	 * } pretty.append("\\cr\\cr");
-	 * 
-	 * for (Restriction restr : restrictions) { pretty.append(restr.toString());
-	 * } return pretty.toString(); }
-	 */
 	private String getExtremal() {
 		if (optimum == Optimum.MINIMUM) {
 			return "{\\bf min {\\it z}}=";

@@ -17,6 +17,7 @@ public class ProblemConversionQueue extends SolvingQueue {
 
 	public void addProblemStep(Problem problem) {
 		Problem converted = new Problem(problem);
+
 		problemSteps.add(converted);
 	}
 

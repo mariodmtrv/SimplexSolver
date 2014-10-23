@@ -37,15 +37,16 @@ public class SolutionResponse {
 		AnswerQueue ansq = new AnswerQueue(locale);
 		LaTeXBuilder builder = new LaTeXBuilder();
 		solver.solveProblem(problem, pcq, iterq, ansq, builder);
-		
 
 		List<Problem> steps = pcq.getProblemSteps();
 		for (Problem problem : steps) {
+			System.out.println("VAR "
+					+ problem.getVarByIndex(1));
 			serializableProblemSteps.add(new TransformationStep(problem));
 		}
 		this.messageLog.addAll(pcq.localizeMessages());
 		this.iterations = iterq.getProblemSteps();
-		
+
 		this.messageLog.addAll(iterq.localizeMessages());
 
 		this.answers = ansq.getAnswers();

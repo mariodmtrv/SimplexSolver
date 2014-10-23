@@ -16,6 +16,12 @@ public class Variable implements Comparable {
 		this.type = type;
 	}
 
+	public Variable(Variable other) {
+		this.coefficient = other.coefficient;
+		this.index = other.index;
+		this.type = other.type;
+	}
+
 	public VariableType getType() {
 		return type;
 	}
