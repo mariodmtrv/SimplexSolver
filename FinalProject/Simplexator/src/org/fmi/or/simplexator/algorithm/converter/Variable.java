@@ -17,7 +17,7 @@ public class Variable implements Comparable {
 	}
 
 	public Variable(Variable other) {
-		this.coefficient = other.coefficient;
+		this.coefficient = new Fraction(other.coefficient);
 		this.index = other.index;
 		this.type = other.type;
 	}

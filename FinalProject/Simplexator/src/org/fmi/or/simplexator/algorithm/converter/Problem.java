@@ -31,7 +31,7 @@ public class Problem extends AbstractProblem {
 		this.varCount = zfunction.size();
 		this.zfunction = new ArrayList<>();
 		for (int i = 0; i < zfunction.size(); i++) {
-			this.zfunction.add(zfunction.get(i));
+			this.zfunction.add(new Variable(zfunction.get(i)));
 		}
 		this.restrictions = new Vector<>();
 		for (int i = 0; i < otherRestrictions.size(); i++) {
