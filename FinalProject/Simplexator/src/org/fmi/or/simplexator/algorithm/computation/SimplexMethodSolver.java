@@ -69,7 +69,7 @@ public class SimplexMethodSolver {
 		iterq.setNewKeyElementCoordsForLastIteration(keyElementCoords);
 		
 		// handle answers:
-		if(keyElementCoords.getFirst() == -1 && keyElementCoords.getFirst() == -1) {
+		if(keyElementCoords.getFirst() == -1 && keyElementCoords.getSecond() == -1) {
 			// optimal answer found
 			
 			Answer mAnswer = new Answer(simtable, mp);

@@ -2,7 +2,7 @@
 function printCoef(c, isFirst)
 {
 	 var sign = (c[2] == "-") ? "" : (isFirst ? "" : "+");
-	 var value = (c == "\\(1\\)") ? "" : c;
+	 var value = (c == "\\(1\\)" || c == "\\(-1\\)") ? (c == "\\(-1\\)" ? "\\(-\\)" : "") : c;
 	 return sign + value;
 }
 
