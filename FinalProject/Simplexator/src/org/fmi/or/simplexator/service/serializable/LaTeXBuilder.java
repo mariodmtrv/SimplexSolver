@@ -38,7 +38,7 @@ public class LaTeXBuilder {
 
 		latex.append("\\hline\n &  ");
 		for (int j = 0; j < problem.getVarCount(); j++) {
-			latex.append("&" + problem.getVarByIndex(j).toString() + " ");
+			latex.append("&" + problem.getVarByIndex(j).toStringNoCoef() + " ");
 		}
 
 		latex.append("&\\overline{\\mathbf{x}}_B\\\\\n"
@@ -47,7 +47,7 @@ public class LaTeXBuilder {
 				+ "}\n"
 				+ "\\raisebox{6pt}[0pt][0pt]{$\\mathbf{B}$}&\\raisebox{6pt}[0pt][0pt]{$\\mathbf{c}_B$}");
 		for (int i = 0; i < problem.getVarCount(); i++) {
-			latex.append("&" + problem.getZfunctionVariables()[i].toString()
+			latex.append("&" + problem.getZfunctionVariables()[i].getCoefficient().toString()
 					+ " ");
 		}
 		latex.append("& 0 \\\\\n");
